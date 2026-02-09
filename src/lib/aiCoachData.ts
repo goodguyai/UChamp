@@ -1,3 +1,5 @@
+import { AVATARS } from './avatars';
+
 // AI Coach mock data - simulated conversation responses and analysis
 
 export interface ChatMessage {
@@ -80,7 +82,7 @@ export const PRO_COMPARISONS: ProComparison[] = [
     name: 'Patrick Mahomes',
     position: 'QB',
     college: 'Texas Tech',
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mahomes',
+    photoUrl: AVATARS.mahomes,
     stats: {
       fortyYardDash: 4.80,
       bench: 225,
@@ -98,7 +100,7 @@ export const PRO_COMPARISONS: ProComparison[] = [
     name: 'Josh Allen',
     position: 'QB',
     college: 'Wyoming',
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Allen',
+    photoUrl: AVATARS.allen,
     stats: {
       fortyYardDash: 4.75,
       bench: 245,
@@ -116,7 +118,7 @@ export const PRO_COMPARISONS: ProComparison[] = [
     name: 'Lamar Jackson',
     position: 'QB',
     college: 'Louisville',
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Lamar',
+    photoUrl: AVATARS.lamar,
     stats: {
       fortyYardDash: 4.34,
       bench: 205,

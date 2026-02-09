@@ -1,3 +1,5 @@
+import { AVATARS } from './avatars';
+
 export interface Athlete {
   id: string;
   name: string;
@@ -43,7 +45,7 @@ export const ATHLETES: Athlete[] = [
     gradYear: 2026,
     height: '6\'2"',
     weight: 195,
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus',
+    photoUrl: AVATARS.marcus,
     reliabilityScore: 92,
     reliabilityBreakdown: {
       consistency: 95,
@@ -104,7 +106,7 @@ export const ATHLETES: Athlete[] = [
     gradYear: 2026,
     height: '5\'11"',
     weight: 180,
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jamal',
+    photoUrl: AVATARS.jamal,
     reliabilityScore: 88,
     reliabilityBreakdown: {
       consistency: 90,
@@ -163,7 +165,7 @@ export const ATHLETES: Athlete[] = [
     gradYear: 2027,
     height: '6\'5"',
     weight: 285,
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=DeAndre',
+    photoUrl: AVATARS.deandre,
     reliabilityScore: 85,
     reliabilityBreakdown: {
       consistency: 88,
@@ -221,7 +223,7 @@ export const ATHLETES: Athlete[] = [
     gradYear: 2026,
     height: '6\'1"',
     weight: 185,
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Terrell',
+    photoUrl: AVATARS.terrell,
     reliabilityScore: 90,
     reliabilityBreakdown: {
       consistency: 92,
@@ -287,14 +289,14 @@ export const TRAINERS: Trainer[] = [
     email: 'coach.davis@uchamp.com',
     phone: '(404) 555-0123',
     athletes: ['ath-1', 'ath-2', 'ath-3'],
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mike',
+    photoUrl: AVATARS.mike,
   },
   {
     id: 'trainer-2',
     name: 'Coach Sarah Johnson',
     email: 'coach.johnson@uchamp.com',
     athletes: ['ath-4'],
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah',
+    photoUrl: AVATARS.sarah,
   },
 ];
 
@@ -314,7 +316,7 @@ export const RECRUITERS: Recruiter[] = [
     school: 'Georgia Tech',
     email: 'jsmith@gatech.edu',
     watchlist: ['ath-1', 'ath-4'],
-    photoUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
+    photoUrl: AVATARS.john,
   },
 ];
 

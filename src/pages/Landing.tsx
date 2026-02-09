@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, Shield, Search, Heart } from 'lucide-react';
+import { TrendingUp, Shield, Search, Heart, LogIn } from 'lucide-react';
 import GoldShimmerText from '../components/ui/GoldShimmerText';
 
 const roles = [
@@ -42,6 +42,17 @@ export default function Landing() {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 py-20">
+        {/* Top bar */}
+        <div className="flex justify-end mb-8">
+          <button
+            onClick={() => navigate('/login')}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-800 bg-black-card/50 text-gray-400 hover:border-gold-primary/50 hover:text-gold-primary transition-all cursor-pointer backdrop-blur-sm"
+          >
+            <LogIn size={16} />
+            <span className="text-sm font-semibold uppercase tracking-wider">Sign In</span>
+          </button>
+        </div>
+
         {/* Logo */}
         <div className="text-center mb-8">
           <GoldShimmerText as="h1" className="text-6xl md:text-8xl font-black tracking-tight">

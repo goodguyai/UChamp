@@ -24,6 +24,8 @@ import ReportsPage from './pages/recruiter/ReportsPage';
 import RecruiterSettingsPage from './pages/recruiter/RecruiterSettingsPage';
 // Parent
 import ParentPortal from './pages/ParentPortal';
+// 404
+import NotFound from './pages/NotFound';
 
 export default function App() {
   return (
@@ -57,6 +59,8 @@ export default function App() {
             <Route path="/recruiter/*" element={<RecruiterPortal />} />
             {/* Parent portal */}
             <Route path="/parent" element={<ParentPortal />} />
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </AppProvider>
