@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Dumbbell, Bot } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ATHLETES } from '../lib/mockData';
 import PageLayout from '../components/layout/PageLayout';
 import ProfileHeader from '../components/athlete/ProfileHeader';
 import ReliabilityHero from '../components/athlete/ReliabilityHero';
+import RetentionScore from '../components/athlete/RetentionScore';
 import StatsGrid from '../components/athlete/StatsGrid';
 import TrendChart from '../components/athlete/TrendChart';
 import WorkoutList from '../components/athlete/WorkoutList';
@@ -13,6 +15,7 @@ import Button from '../components/ui/Button';
 export default function AthleteDashboard() {
   const athlete = ATHLETES[0]; // Marcus Johnson
   const [showWorkoutLog, setShowWorkoutLog] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -24,7 +27,7 @@ export default function AthleteDashboard() {
       notificationCount={3}
       headerActions={
         <div className="flex items-center gap-2">
-          <Button variant="secondary" size="sm">
+          <Button variant="secondary" size="sm" onClick={() => navigate('/athlete/ai-coach')}>
             <span className="flex items-center gap-2">
               <Bot size={16} />
               <span className="hidden sm:inline">AI Coach</span>
@@ -84,6 +87,11 @@ export default function AthleteDashboard() {
           <StatsGrid athlete={athlete} />
           <TrendChart athlete={athlete} />
         </div>
+      </div>
+
+      {/* Retention Score */}
+      <div className="mt-8">
+        <RetentionScore athlete={athlete} />
       </div>
 
       {/* Workouts section */}

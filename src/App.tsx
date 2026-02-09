@@ -4,6 +4,8 @@ import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import AthleteDashboard from './pages/AthleteDashboard';
+import AICoachPage from './pages/athlete/AICoachPage';
+import ProgressPage from './pages/athlete/ProgressPage';
 import TrainerDashboard from './pages/TrainerDashboard';
 import RecruiterPortal from './pages/RecruiterPortal';
 
@@ -16,6 +18,8 @@ export default function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/athlete" element={<AthleteDashboard />} />
+            <Route path="/athlete/ai-coach" element={<AICoachPage />} />
+            <Route path="/athlete/progress" element={<ProgressPage />} />
             <Route path="/athlete/*" element={<AthleteDashboard />} />
             <Route path="/trainer" element={<TrainerDashboard />} />
             <Route path="/trainer/*" element={<TrainerDashboard />} />
