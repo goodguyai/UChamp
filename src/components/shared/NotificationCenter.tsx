@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { X, Bell, Eye, Trophy, TrendingUp, AlertTriangle, MessageSquare } from 'lucide-react';
+import { X, Bell, Eye, Trophy, TrendingUp, AlertTriangle, MessageSquare, Film } from 'lucide-react';
 
 interface Notification {
   id: string;
-  type: 'scout_alert' | 'verification' | 'plateau' | 'achievement' | 'message';
+  type: 'scout_alert' | 'verification' | 'plateau' | 'achievement' | 'message' | 'video';
   title: string;
   message: string;
   time: string;
@@ -25,6 +25,14 @@ const MOCK_NOTIFICATIONS: Notification[] = [
   },
   {
     id: '2',
+    type: 'video',
+    title: 'Film Analysis Complete',
+    message: 'Your Speed & Agility video scored 87/100. View the full breakdown in Film Room.',
+    time: '3 hours ago',
+    read: false,
+  },
+  {
+    id: '2b',
     type: 'achievement',
     title: 'Personal Record!',
     message: 'New PR on 40-yard dash: 4.65s',
@@ -63,6 +71,7 @@ const TYPE_ICONS = {
   plateau: AlertTriangle,
   achievement: TrendingUp,
   message: MessageSquare,
+  video: Film,
 };
 
 const TYPE_COLORS = {
@@ -71,6 +80,7 @@ const TYPE_COLORS = {
   plateau: 'text-gold-bronze bg-gold-bronze/10',
   achievement: 'text-gold-bright bg-gold-bright/10',
   message: 'text-gray-400 bg-gray-700/30',
+  video: 'text-gold-primary bg-gold-primary/10',
 };
 
 export default function NotificationCenter({ onClose }: NotificationCenterProps) {

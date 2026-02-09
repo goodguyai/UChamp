@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, CheckCircle2, XCircle, Clock, FileText, Video } from 'lucide-react';
+import { X, CheckCircle2, XCircle, Clock, FileText, Video, Sparkles } from 'lucide-react';
 import type { Athlete } from '../../lib/mockData';
 import Button from '../ui/Button';
 
@@ -71,11 +71,33 @@ export default function VerificationModal({ athlete, workout, onClose, onVerify 
                 <p className="text-white text-sm font-mono">{workout.duration} min</p>
               </div>
               <div className="flex items-center gap-1.5">
-                <Video size={12} className="text-gray-500" />
-                <p className="text-gray-500 text-sm">No video attached</p>
+                <Video size={12} className={workout.id === 'w1' || workout.id === 'w4' ? 'text-gold-primary' : 'text-gray-500'} />
+                {workout.id === 'w1' || workout.id === 'w4' ? (
+                  <p className="text-gold-primary text-sm font-medium">Video attached</p>
+                ) : (
+                  <p className="text-gray-500 text-sm">No video</p>
+                )}
               </div>
             </div>
           </div>
+
+          {/* AI Analysis badge (when video is present) */}
+          {(workout.id === 'w1' || workout.id === 'w4') && (
+            <div className="bg-gold-primary/[0.05] border border-gold-primary/20 rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0">
+                  <Sparkles size={14} className="text-gold-primary" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <p className="text-gold-primary text-xs font-bold uppercase tracking-wider">AI Form Analysis</p>
+                    <span className="text-gold-primary/60 font-mono text-xs">Score: 87/100</span>
+                  </div>
+                  <p className="text-gray-500 text-[10px]">Strong acceleration, good hip drive. Minor heel braking detected on deceleration phase.</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Notes */}
           <div>

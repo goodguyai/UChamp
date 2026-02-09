@@ -34,6 +34,8 @@ const COACH_RESPONSES: Record<string, string> = {
   speed: "Your 40-yard dash improved from 4.82s to 4.65s over 5 months — that's elite-level improvement. To break into the 4.5s, focus on:\n\n1. **Start mechanics** — Your first 10 yards need work. Film analysis shows you're standing up too early.\n2. **Hip flexor mobility** — Add dynamic stretching pre-workout\n3. **Resisted sprints** — 2x per week with sled pulls at 15% body weight\n\nAt your current trajectory, you could hit 4.55s by summer combine season.",
   recovery: "Based on your workout logs and soreness data, your recovery pattern needs adjustment:\n\n**Current concern:** You logged 8/10 soreness after Tuesday's upper body session, but trained upper body again Thursday. That's not enough recovery time.\n\n**My recommendation:**\n- Space upper body sessions 72 hours apart minimum\n- Add 15 min foam rolling post-workout\n- Your sleep quality dips on training days — try cutting caffeine after 2pm\n- Current nutrition window looks good, but increase protein to 1g per lb bodyweight",
   gameday: "Based on your reliability score of 92 and recent performance data, here's your game-day readiness assessment:\n\n**Physical Readiness: 89/100**\n- Strength metrics are peaking\n- Speed is in top 5% range for QBs\n- Minor fatigue from Wednesday's session (monitor)\n\n**Mental Readiness: 94/100**\n- Consistency score is at all-time high\n- 12-day workout streak shows elite discipline\n- Verified workouts building recruiter confidence\n\n**Key Focus:** Stay hydrated, get 8+ hours tonight, and trust your preparation. The data says you're ready.",
+  film: "I reviewed your latest Film Room upload. Here's what the AI vision analysis found:\n\n**Overall Form Score: 87/100** — Strong work.\n\n**Top strengths:**\n- Your first-step explosion rated in the **top 5% for your position**\n- Hip drive during acceleration is textbook — this is elite-level\n- Change of direction cuts are sharp with 0.32s transition time\n\n**Areas to improve:**\n- **Deceleration mechanics** — The AI detected heel-first ground contact. Switch to forefoot braking for faster stops\n- **Stride frequency** — Good stride length, but turnover could be faster\n\nHead to the **Film Room** to see the full breakdown with timestamps, pro comparisons, and drill recommendations. Film don't lie.",
+  nutrition: "Let's talk fuel, champ. Based on your training load and body metrics:\n\n**Daily targets:**\n- **Protein:** 195g (1g per lb bodyweight)\n- **Carbs:** 290g (fuel for your training intensity)\n- **Calories:** ~2,800-3,000 per day\n\n**Timing matters:**\n- Pre-workout (2hrs before): Complex carbs + lean protein\n- Post-workout (within 30 min): 40g protein + fast carbs\n- Before bed: Casein protein or cottage cheese for overnight recovery\n\n**Current issue:** Your soreness data suggests you might be under-fueling on training days. Track your intake for a week and let's compare.",
 };
 
 export function getCoachResponse(input: string): string {
@@ -42,6 +44,8 @@ export function getCoachResponse(input: string): string {
   if (lower.includes('speed') || lower.includes('40') || lower.includes('faster') || lower.includes('sprint')) return COACH_RESPONSES.speed;
   if (lower.includes('recovery') || lower.includes('sore') || lower.includes('rest') || lower.includes('sleep')) return COACH_RESPONSES.recovery;
   if (lower.includes('game') || lower.includes('ready') || lower.includes('combine') || lower.includes('prepared')) return COACH_RESPONSES.gameday;
+  if (lower.includes('film') || lower.includes('video') || lower.includes('form') || lower.includes('technique')) return COACH_RESPONSES.film;
+  if (lower.includes('nutrition') || lower.includes('diet') || lower.includes('eat') || lower.includes('food') || lower.includes('protein')) return COACH_RESPONSES.nutrition;
   return COACH_RESPONSES.default;
 }
 
@@ -74,6 +78,13 @@ export const INITIAL_INSIGHTS: CoachInsight[] = [
     title: 'Overtraining Risk',
     message: 'You\'ve trained upper body 3 times in 5 days. Consider more spacing for optimal recovery.',
     action: 'Ask me about recovery scheduling',
+  },
+  {
+    id: 'ins-5',
+    category: 'suggestion',
+    title: 'Film Room Available',
+    message: 'Upload your workout videos for AI form analysis. Get scored, compared to D1 athletes, and coached up.',
+    action: 'Ask me about film review',
   },
 ];
 
@@ -137,6 +148,8 @@ export const PRO_COMPARISONS: ProComparison[] = [
 export const QUICK_PROMPTS = [
   { label: 'Break my plateau', icon: 'TrendingUp' },
   { label: 'Speed training plan', icon: 'Zap' },
+  { label: 'Review my film', icon: 'Film' },
   { label: 'Recovery advice', icon: 'Heart' },
+  { label: 'Nutrition plan', icon: 'Apple' },
   { label: 'Game day readiness', icon: 'Trophy' },
 ];

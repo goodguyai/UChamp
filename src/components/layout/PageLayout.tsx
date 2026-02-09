@@ -5,7 +5,7 @@ import MobileNav from './MobileNav';
 import NotificationCenter from '../shared/NotificationCenter';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard, Dumbbell, TrendingUp, Bot, Settings, Users,
+  LayoutDashboard, Dumbbell, TrendingUp, Bot, Film, Settings, Users,
   CheckCircle2, Trophy, Search, Star, Bell, FileText, LogOut, X,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ const MOBILE_MENU_ITEMS: Record<Role, { label: string; path: string; icon: typeo
   athlete: [
     { label: 'Dashboard', path: '/athlete', icon: LayoutDashboard },
     { label: 'Workouts', path: '/athlete/workouts', icon: Dumbbell },
+    { label: 'Film Room', path: '/athlete/film-room', icon: Film },
     { label: 'Progress', path: '/athlete/progress', icon: TrendingUp },
     { label: 'AI Coach', path: '/athlete/ai-coach', icon: Bot },
     { label: 'Settings', path: '/athlete/settings', icon: Settings },

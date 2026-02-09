@@ -4,6 +4,7 @@ import {
   Dumbbell,
   TrendingUp,
   Bot,
+  Film,
   Settings,
   Users,
   CheckCircle2,
@@ -28,6 +29,7 @@ const NAV_ITEMS: Record<Role, { label: string; path: string; icon: typeof Layout
   athlete: [
     { label: 'Dashboard', path: '/athlete', icon: LayoutDashboard },
     { label: 'Workouts', path: '/athlete/workouts', icon: Dumbbell },
+    { label: 'Film Room', path: '/athlete/film-room', icon: Film },
     { label: 'Progress', path: '/athlete/progress', icon: TrendingUp },
     { label: 'AI Coach', path: '/athlete/ai-coach', icon: Bot },
     { label: 'Settings', path: '/athlete/settings', icon: Settings },

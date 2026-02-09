@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dumbbell, CheckCircle2, Clock, Filter, Calendar, AlertCircle } from 'lucide-react';
+import { Dumbbell, CheckCircle2, Clock, Filter, Calendar, AlertCircle, Film } from 'lucide-react';
 import { ATHLETES } from '../../lib/mockData';
 import PageLayout from '../../components/layout/PageLayout';
 import WorkoutLogModal from '../../components/athlete/WorkoutLogModal';
@@ -113,7 +113,14 @@ export default function WorkoutsPage() {
                   }
                 </div>
                 <div>
-                  <p className="text-white font-medium">{workout.type}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-white font-medium">{workout.type}</p>
+                    {(workout.id === 'w1' || workout.id === 'w4') && (
+                      <span className="flex items-center gap-1 text-[10px] bg-gold-primary/10 text-gold-primary px-1.5 py-0.5 rounded-full font-bold">
+                        <Film size={8} /> AI Analyzed
+                      </span>
+                    )}
+                  </div>
                   <div className="flex items-center gap-3 mt-0.5 text-xs text-gray-500">
                     <span className="flex items-center gap-1">
                       <Calendar size={11} />

@@ -9,6 +9,7 @@ import AICoachPage from './pages/athlete/AICoachPage';
 import ProgressPage from './pages/athlete/ProgressPage';
 import WorkoutsPage from './pages/athlete/WorkoutsPage';
 import AthleteSettingsPage from './pages/athlete/AthleteSettingsPage';
+import FilmRoomPage from './pages/athlete/FilmRoomPage';
 // Trainer
 import TrainerDashboard from './pages/TrainerDashboard';
 import AthletesPage from './pages/trainer/AthletesPage';
@@ -40,6 +41,7 @@ export default function App() {
             <Route path="/athlete/workouts" element={<WorkoutsPage />} />
             <Route path="/athlete/progress" element={<ProgressPage />} />
             <Route path="/athlete/ai-coach" element={<AICoachPage />} />
+            <Route path="/athlete/film-room" element={<FilmRoomPage />} />
             <Route path="/athlete/settings" element={<AthleteSettingsPage />} />
             <Route path="/athlete/*" element={<AthleteDashboard />} />
             {/* Trainer routes */}

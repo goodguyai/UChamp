@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Dumbbell, Clock, FileText, Moon, Activity } from 'lucide-react';
+import { X, Dumbbell, Clock, FileText, Moon, Activity, Video } from 'lucide-react';
 import Button from '../ui/Button';
 
 interface WorkoutLogModalProps {
@@ -13,6 +13,7 @@ export interface WorkoutFormData {
   notes: string;
   soreness: number;
   sleep: number;
+  hasVideo: boolean;
   metrics: Record<string, string>;
 }
 
@@ -35,11 +36,12 @@ export default function WorkoutLogModal({ onClose, onSubmit }: WorkoutLogModalPr
   const [notes, setNotes] = useState('');
   const [soreness, setSoreness] = useState(3);
   const [sleep, setSleep] = useState(7);
+  const [hasVideo, setHasVideo] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!type) return;
-    onSubmit({ type, duration, notes, soreness, sleep, metrics: {} });
+    onSubmit({ type, duration, notes, soreness, sleep, hasVideo, metrics: {} });
   };
 
   return (
@@ -167,6 +169,30 @@ export default function WorkoutLogModal({ onClose, onSubmit }: WorkoutLogModalPr
               rows={3}
               className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-gold-primary focus:shadow-gold transition-all resize-none text-sm"
             />
+          </div>
+
+          {/* Video attachment */}
+          <div>
+            <button
+              type="button"
+              onClick={() => setHasVideo(!hasVideo)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg border transition-all cursor-pointer ${
+                hasVideo
+                  ? 'bg-gold-primary/10 border-gold-primary text-gold-primary'
+                  : 'bg-black-elevated border-gray-700 text-gray-400 hover:border-gray-600'
+              }`}
+            >
+              <Video size={16} />
+              <div className="flex-1 text-left">
+                <p className="text-xs font-medium">{hasVideo ? 'Video will be attached' : 'Attach workout video'}</p>
+                <p className="text-[10px] text-gray-500">Get AI form analysis in the Film Room</p>
+              </div>
+              {hasVideo && (
+                <span className="text-[10px] bg-gold-primary/20 text-gold-primary px-2 py-0.5 rounded-full font-bold uppercase">
+                  Ready
+                </span>
+              )}
+            </button>
           </div>
 
           {/* Submit */}

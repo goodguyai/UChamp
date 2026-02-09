@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dumbbell, Bot } from 'lucide-react';
+import { Dumbbell, Bot, Film } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ATHLETES } from '../lib/mockData';
 import PageLayout from '../components/layout/PageLayout';
@@ -87,6 +87,30 @@ export default function AthleteDashboard() {
           <StatsGrid athlete={athlete} />
           <TrendChart athlete={athlete} />
         </div>
+      </div>
+
+      {/* Film Room CTA */}
+      <div className="mt-8">
+        <button
+          onClick={() => navigate('/athlete/film-room')}
+          className="w-full bg-gradient-to-r from-gold-primary/[0.08] to-transparent border border-gold-primary/20 rounded-xl p-5 text-left hover:border-gold-primary/40 transition-all cursor-pointer group"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0 group-hover:bg-gold-primary/20 transition-colors">
+              <Film size={22} className="text-gold-primary" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-0.5">
+                <h3 className="text-white font-bold text-sm">Film Room</h3>
+                <span className="text-[9px] bg-gold-primary/20 text-gold-primary px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                  AI Powered
+                </span>
+              </div>
+              <p className="text-gray-500 text-xs">Upload workout videos for AI form analysis, technique scoring, and pro comparisons</p>
+            </div>
+            <span className="text-gold-primary text-lg opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+          </div>
+        </button>
       </div>
 
       {/* Retention Score */}

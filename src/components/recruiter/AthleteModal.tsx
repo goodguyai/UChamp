@@ -1,4 +1,4 @@
-import { X, MapPin, GraduationCap, Ruler, Weight } from 'lucide-react';
+import { X, MapPin, GraduationCap, Ruler, Weight, Film, CheckCircle2, Target } from 'lucide-react';
 import {
   LineChart,
   Line,
@@ -124,6 +124,40 @@ export default function AthleteModal({ athlete, onClose, onWatchlist, onToggleWa
               <Line type="monotone" dataKey="value" stroke="#D4AF37" strokeWidth={2} dot={{ fill: '#FFD700', r: 4, stroke: '#0A0A0A', strokeWidth: 2 }} />
             </LineChart>
           </ResponsiveContainer>
+        </div>
+
+        {/* Video Analysis Summary (for recruiter) */}
+        <div className="p-8 pb-6 border-b border-gray-800">
+          <div className="flex items-center gap-2 mb-4">
+            <Film size={14} className="text-gold-primary" />
+            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
+              AI Video Analysis
+            </h3>
+          </div>
+          <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="bg-black-elevated rounded-lg p-4 text-center">
+              <Target size={16} className="text-gold-primary mx-auto mb-2" />
+              <p className="text-gold-primary font-mono text-2xl font-bold">87</p>
+              <p className="text-gray-500 text-[10px] uppercase tracking-wider">Form Score</p>
+            </div>
+            <div className="bg-black-elevated rounded-lg p-4 text-center">
+              <Film size={16} className="text-gold-bright mx-auto mb-2" />
+              <p className="text-white font-mono text-2xl font-bold">3</p>
+              <p className="text-gray-500 text-[10px] uppercase tracking-wider">Videos</p>
+            </div>
+            <div className="bg-black-elevated rounded-lg p-4 text-center">
+              <CheckCircle2 size={16} className="text-gold-bronze mx-auto mb-2" />
+              <p className="text-white font-mono text-2xl font-bold">7</p>
+              <p className="text-gray-500 text-[10px] uppercase tracking-wider">Highlights</p>
+            </div>
+          </div>
+          <div className="bg-gold-primary/[0.03] border border-gold-primary/10 rounded-lg p-3">
+            <p className="text-gray-400 text-xs leading-relaxed">
+              <span className="text-gold-primary font-medium">AI Summary:</span>{' '}
+              Strong acceleration and first-step explosion. Position drills show elite-level pocket movement.
+              Deceleration mechanics flagged for improvement. Form trending upward over last 3 uploads.
+            </p>
+          </div>
         </div>
 
         {/* Footer */}

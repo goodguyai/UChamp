@@ -3,7 +3,7 @@ import {
   LayoutDashboard,
   Dumbbell,
   TrendingUp,
-  Bot,
+  Film,
   Users,
   CheckCircle2,
   Search,
@@ -21,8 +21,8 @@ const MOBILE_NAV: Record<Role, { label: string; path: string; icon: typeof Layou
   athlete: [
     { label: 'Home', path: '/athlete', icon: LayoutDashboard },
     { label: 'Workouts', path: '/athlete/workouts', icon: Dumbbell },
+    { label: 'Film Room', path: '/athlete/film-room', icon: Film },
     { label: 'Progress', path: '/athlete/progress', icon: TrendingUp },
-    { label: 'AI Coach', path: '/athlete/ai-coach', icon: Bot },
   ],
   trainer: [
     { label: 'Home', path: '/trainer', icon: LayoutDashboard },
