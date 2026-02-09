@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Users, CheckCircle2, Clock, Trophy } from 'lucide-react';
 import { ATHLETES, TRAINERS } from '../lib/mockData';
+import type { Athlete } from '../lib/mockData';
 import PageLayout from '../components/layout/PageLayout';
 import AthleteCard from '../components/trainer/AthleteCard';
+import VerificationModal from '../components/trainer/VerificationModal';
 
 export default function TrainerDashboard() {
   const trainer = TRAINERS[0];
   const athletes = ATHLETES.filter(a => trainer.athletes.includes(a.id));
   const [verifiedIds, setVerifiedIds] = useState<Set<string>>(new Set());
+  const [verifyingAthlete, setVerifyingAthlete] = useState<Athlete | null>(null);
 
   const totalPending = athletes.reduce((sum, a) => {
     if (verifiedIds.has(a.id)) return sum;
@@ -17,10 +20,19 @@ export default function TrainerDashboard() {
   const avgScore = Math.round(athletes.reduce((sum, a) => sum + a.reliabilityScore, 0) / athletes.length);
 
   const handleVerify = (athleteId: string) => {
-    setVerifiedIds(prev => new Set([...prev, athleteId]));
+    const athlete = athletes.find(a => a.id === athleteId);
+    if (athlete) setVerifyingAthlete(athlete);
+  };
+
+  const handleVerificationComplete = (approved: boolean, _notes: string) => {
+    if (verifyingAthlete && approved) {
+      setVerifiedIds(prev => new Set([...prev, verifyingAthlete.id]));
+    }
+    setVerifyingAthlete(null);
   };
 
   return (
+    <>
     <PageLayout
       role="trainer"
       title="Dashboard"
@@ -102,5 +114,21 @@ export default function TrainerDashboard() {
         </p>
       </div>
     </PageLayout>
+
+    {/* Verification modal */}
+    {verifyingAthlete && (
+      <VerificationModal
+        athlete={verifyingAthlete}
+        workout={{
+          id: `pending-${verifyingAthlete.id}`,
+          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          type: verifyingAthlete.recentWorkouts.find(w => !w.verified)?.type || 'General Training',
+          duration: verifyingAthlete.recentWorkouts.find(w => !w.verified)?.duration || 60,
+        }}
+        onClose={() => setVerifyingAthlete(null)}
+        onVerify={handleVerificationComplete}
+      />
+    )}
+    </>
   );
 }

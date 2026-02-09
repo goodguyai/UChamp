@@ -8,6 +8,7 @@ interface HeaderProps {
   userPhoto: string;
   notificationCount?: number;
   onMenuToggle?: () => void;
+  onNotificationClick?: () => void;
   menuOpen?: boolean;
   actions?: React.ReactNode;
 }
@@ -18,6 +19,7 @@ export default function Header({
   userPhoto,
   notificationCount = 0,
   onMenuToggle,
+  onNotificationClick,
   menuOpen,
   actions,
 }: HeaderProps) {
@@ -53,7 +55,7 @@ export default function Header({
           {actions}
 
           {/* Notifications */}
-          <button className="relative text-gray-400 hover:text-gold-primary transition-colors cursor-pointer">
+          <button onClick={onNotificationClick} className="relative text-gray-400 hover:text-gold-primary transition-colors cursor-pointer">
             <Bell size={20} />
             {notificationCount > 0 && (
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold-primary text-black-pure text-[10px] font-bold rounded-full flex items-center justify-center">

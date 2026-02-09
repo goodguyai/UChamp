@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import MobileNav from './MobileNav';
+import NotificationCenter from '../shared/NotificationCenter';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, Dumbbell, TrendingUp, Bot, Settings, Users,
@@ -57,6 +58,7 @@ export default function PageLayout({
   children,
 }: PageLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -132,6 +134,7 @@ export default function PageLayout({
           userPhoto={userPhoto}
           notificationCount={notificationCount}
           onMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onNotificationClick={() => setNotificationsOpen(true)}
           menuOpen={mobileMenuOpen}
           actions={headerActions}
         />
@@ -146,6 +149,11 @@ export default function PageLayout({
 
       {/* Mobile bottom nav */}
       <MobileNav role={role} />
+
+      {/* Notification center */}
+      {notificationsOpen && (
+        <NotificationCenter onClose={() => setNotificationsOpen(false)} />
+      )}
     </div>
   );
 }

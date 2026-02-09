@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Dumbbell, Bot } from 'lucide-react';
 import { ATHLETES } from '../lib/mockData';
 import PageLayout from '../components/layout/PageLayout';
@@ -6,12 +7,15 @@ import ReliabilityHero from '../components/athlete/ReliabilityHero';
 import StatsGrid from '../components/athlete/StatsGrid';
 import TrendChart from '../components/athlete/TrendChart';
 import WorkoutList from '../components/athlete/WorkoutList';
+import WorkoutLogModal from '../components/athlete/WorkoutLogModal';
 import Button from '../components/ui/Button';
 
 export default function AthleteDashboard() {
   const athlete = ATHLETES[0]; // Marcus Johnson
+  const [showWorkoutLog, setShowWorkoutLog] = useState(false);
 
   return (
+    <>
     <PageLayout
       role="athlete"
       title="Dashboard"
@@ -26,7 +30,7 @@ export default function AthleteDashboard() {
               <span className="hidden sm:inline">AI Coach</span>
             </span>
           </Button>
-          <Button size="sm">
+          <Button size="sm" onClick={() => setShowWorkoutLog(true)}>
             <span className="flex items-center gap-2">
               <Dumbbell size={16} />
               <span className="hidden sm:inline">Log the Grind</span>
@@ -94,5 +98,14 @@ export default function AthleteDashboard() {
         </p>
       </div>
     </PageLayout>
+
+    {/* Workout log modal */}
+    {showWorkoutLog && (
+      <WorkoutLogModal
+        onClose={() => setShowWorkoutLog(false)}
+        onSubmit={() => setShowWorkoutLog(false)}
+      />
+    )}
+    </>
   );
 }
