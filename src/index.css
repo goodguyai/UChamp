@@ -49,6 +49,12 @@
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
+  *:focus-visible {
+    outline: 2px solid #D4AF37;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
   }
