@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, Shield, Search } from 'lucide-react';
+import { TrendingUp, Shield, Search, Heart } from 'lucide-react';
 import GoldShimmerText from '../components/ui/GoldShimmerText';
 
 const roles = [
@@ -107,8 +107,20 @@ export default function Landing() {
           ))}
         </div>
 
+        {/* Parent portal link */}
+        <div className="text-center mt-16">
+          <button
+            onClick={() => navigate('/parent')}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-800 bg-black-card text-gray-400 hover:border-gold-primary/50 hover:text-gold-primary transition-all cursor-pointer"
+          >
+            <Heart size={16} />
+            <span className="text-sm font-medium">Parent Portal</span>
+            <span className="text-xs text-gray-600">— Track your child's progress</span>
+          </button>
+        </div>
+
         {/* Bottom section */}
-        <div className="text-center mt-20">
+        <div className="text-center mt-12">
           <p className="text-gray-600 text-xs uppercase tracking-[0.3em]">
             Pilot Program — Lithonia, GA
           </p>
