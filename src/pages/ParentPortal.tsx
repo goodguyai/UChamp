@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Shield, TrendingUp, CheckCircle2, Calendar, Clock, Eye, Bell, ChevronDown, ChevronUp } from 'lucide-react';
+import { Shield, TrendingUp, CheckCircle2, Calendar, Clock, Eye, Bell, ChevronDown, ChevronUp, Target, MapPin, Flag } from 'lucide-react';
 import { ATHLETES, getReliabilityColor, getReliabilityLabel, STAT_LABELS, STAT_UNITS } from '../lib/mockData';
+import { UPCOMING_EVENTS, COMBINE_BENCHMARKS, getEventTypeColor, getEventTypeLabel } from '../lib/combineData';
 import Badge from '../components/ui/Badge';
 import GoldShimmerText from '../components/ui/GoldShimmerText';
 
@@ -25,7 +26,7 @@ export default function ParentPortal() {
     <div className="min-h-screen bg-black-surface">
       {/* Header */}
       <header className="border-b border-gray-800 bg-black-card/80 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
           <GoldShimmerText as="span" className="text-xl font-black tracking-tight">
             UCHAMP
           </GoldShimmerText>
@@ -44,7 +45,7 @@ export default function ParentPortal() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-6 md:px-6 md:py-8">
         {/* Welcome */}
         <div className="mb-8">
           <h1 className="text-2xl font-black text-white uppercase tracking-tight mb-1">
@@ -56,9 +57,9 @@ export default function ParentPortal() {
         </div>
 
         {/* Athlete overview card */}
-        <div className="bg-black-card border border-gray-800 rounded-xl p-6 mb-6">
-          <div className="flex items-center gap-5">
-            <div className="w-20 h-20 rounded-full border-2 overflow-hidden bg-black-elevated shrink-0" style={{ borderColor: color }}>
+        <div className="bg-black-card border border-gray-800 rounded-xl p-4 md:p-6 mb-6">
+          <div className="flex items-center gap-4 md:gap-5">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 overflow-hidden bg-black-elevated shrink-0" style={{ borderColor: color }}>
               <img src={athlete.photoUrl} alt={athlete.name} className="w-full h-full object-cover" />
             </div>
             <div className="flex-1">
@@ -72,8 +73,8 @@ export default function ParentPortal() {
           </div>
 
           {/* Trust indicators */}
-          <div className="grid grid-cols-3 gap-4 mt-6">
-            <div className="bg-black-elevated rounded-lg p-4 text-center">
+          <div className="grid grid-cols-3 gap-2 md:gap-4 mt-6">
+            <div className="bg-black-elevated rounded-lg p-3 md:p-4 text-center">
               <Shield size={20} className="text-gold-primary mx-auto mb-2" />
               <p className="text-gold-primary font-mono text-xl font-bold">{athlete.reliabilityScore}</p>
               <p className="text-gray-500 text-xs uppercase tracking-wider">Reliability</p>
@@ -81,13 +82,13 @@ export default function ParentPortal() {
                 {getReliabilityLabel(athlete.reliabilityScore)}
               </p>
             </div>
-            <div className="bg-black-elevated rounded-lg p-4 text-center">
+            <div className="bg-black-elevated rounded-lg p-3 md:p-4 text-center">
               <CheckCircle2 size={20} className="text-gold-bright mx-auto mb-2" />
               <p className="text-white font-mono text-xl font-bold">{verifiedCount}/{totalWorkouts}</p>
               <p className="text-gray-500 text-xs uppercase tracking-wider">Verified</p>
               <p className="text-gray-600 text-[10px] mt-0.5">This month</p>
             </div>
-            <div className="bg-black-elevated rounded-lg p-4 text-center">
+            <div className="bg-black-elevated rounded-lg p-3 md:p-4 text-center">
               <TrendingUp size={20} className="text-gold-bronze mx-auto mb-2" />
               <p className="text-white font-mono text-xl font-bold">12</p>
               <p className="text-gray-500 text-xs uppercase tracking-wider">Day Streak</p>
@@ -179,9 +180,9 @@ export default function ParentPortal() {
           expanded={expandedSections.has('stats')}
           onToggle={toggleSection}
         >
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
             {Object.entries(athlete.stats).map(([key, value]) => (
-              <div key={key} className="bg-black-elevated rounded-lg p-3">
+              <div key={key} className="bg-black-elevated rounded-lg p-2.5 md:p-3">
                 <p className="text-gray-500 text-xs uppercase tracking-wider">{STAT_LABELS[key] || key}</p>
                 <p className="text-white font-mono text-lg font-bold mt-1">
                   {value}<span className="text-gray-500 text-sm ml-1">{STAT_UNITS[key]}</span>
@@ -216,6 +217,94 @@ export default function ParentPortal() {
               <p className="text-gray-400 text-xs leading-relaxed">
                 <span className="text-gold-primary font-medium">Privacy note:</span>{' '}
                 All recruiter activity is anonymized. You can see how many recruiters viewed the profile, but not their identities. Your child's personal information is never shared without consent.
+              </p>
+            </div>
+          </div>
+        </SectionCard>
+
+        {/* Combine Prep */}
+        <SectionCard
+          id="combine"
+          title="Combine Prep"
+          icon={Target}
+          expanded={expandedSections.has('combine')}
+          onToggle={toggleSection}
+        >
+          <div className="space-y-4">
+            {/* Next event */}
+            <div className="bg-gold-primary/[0.03] border border-gold-primary/10 rounded-lg p-3 md:p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-500 text-[10px] uppercase tracking-wider mb-0.5">Next Event</p>
+                  <p className="text-white font-bold text-sm">{UPCOMING_EVENTS[0].name}</p>
+                  <div className="flex items-center gap-3 mt-1 text-gray-500 text-xs">
+                    <span className="flex items-center gap-1"><MapPin size={10} />{UPCOMING_EVENTS[0].location}</span>
+                    <span className="flex items-center gap-1">
+                      <Calendar size={10} />
+                      {new Date(UPCOMING_EVENTS[0].date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-gold-primary font-mono text-2xl font-black">{UPCOMING_EVENTS[0].daysUntil}</p>
+                  <p className="text-gray-500 text-[10px] uppercase tracking-wider">Days</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Key benchmarks */}
+            <div>
+              <p className="text-gray-400 text-xs uppercase tracking-wider mb-2">Key Benchmarks</p>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {COMBINE_BENCHMARKS.slice(0, 3).map(bench => (
+                  <div key={bench.metric} className="bg-black-elevated rounded-lg p-2.5">
+                    <p className="text-gray-500 text-[10px] uppercase tracking-wider">{bench.metric}</p>
+                    <p className="text-gold-primary font-mono text-lg font-bold">{bench.current}{bench.unit}</p>
+                    <div className="flex items-center gap-1 mt-1">
+                      <div className="flex-1 h-1 bg-gray-800 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gold-primary"
+                          style={{ width: `${bench.percentToTarget}%` }}
+                        />
+                      </div>
+                      <span className="text-gray-600 text-[9px] font-mono">{bench.percentToTarget}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Upcoming events list */}
+            <div>
+              <p className="text-gray-400 text-xs uppercase tracking-wider mb-2">All Upcoming Events</p>
+              <div className="space-y-2">
+                {UPCOMING_EVENTS.map(event => (
+                  <div key={event.id} className="flex items-center justify-between py-2 border-b border-gray-800/50 last:border-0">
+                    <div className="flex items-center gap-3">
+                      <span
+                        className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                        style={{
+                          color: getEventTypeColor(event.type),
+                          backgroundColor: `${getEventTypeColor(event.type)}15`,
+                        }}
+                      >
+                        {getEventTypeLabel(event.type)}
+                      </span>
+                      <span className="text-white text-sm">{event.name}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Flag size={10} className="text-gold-primary" />
+                      <span className="text-gold-primary font-mono text-xs font-bold">{event.daysUntil}d</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="p-3 bg-gold-primary/[0.03] border border-gold-primary/10 rounded-lg">
+              <p className="text-gray-400 text-xs leading-relaxed">
+                <span className="text-gold-primary font-medium">About Combine Prep:</span>{' '}
+                Your child is actively preparing for upcoming combines and showcases. Benchmarks track their progress toward target performance levels used by college recruiters.
               </p>
             </div>
           </div>

@@ -30,16 +30,16 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-black-surface flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-black-surface flex items-center justify-center p-4 md:p-6 relative overflow-hidden">
       {/* Background */}
       <div className="grain absolute inset-0" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gold-primary/5 rounded-full blur-3xl" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] max-w-full bg-gold-primary/5 rounded-full blur-3xl" />
 
       <div className="relative z-10 w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
           <Link to="/">
-            <GoldShimmerText as="h1" className="text-5xl font-black tracking-tight">
+            <GoldShimmerText as="h1" className="text-4xl md:text-5xl font-black tracking-tight">
               UCHAMP
             </GoldShimmerText>
           </Link>
@@ -47,7 +47,7 @@ export default function Login() {
         </div>
 
         {/* Login form */}
-        <form onSubmit={handleSubmit} className="bg-black-card border border-gray-800 rounded-xl p-8 space-y-5">
+        <form onSubmit={handleSubmit} className="bg-black-card border border-gray-800 rounded-xl p-5 md:p-8 space-y-5">
           <h2 className="text-xl font-bold text-white uppercase tracking-wide mb-2">Sign In</h2>
 
           {error && (

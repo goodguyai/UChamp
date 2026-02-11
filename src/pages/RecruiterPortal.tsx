@@ -46,7 +46,7 @@ export default function RecruiterPortal() {
     >
       {/* Title */}
       <div className="mb-8">
-        <h2 className="text-3xl font-black text-white uppercase tracking-tight mb-2">
+        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight mb-2">
           Scout the Best
         </h2>
         <p className="text-gray-500">Verified talent. Trusted data. Elite athletes only.</p>
@@ -77,7 +77,7 @@ export default function RecruiterPortal() {
         </div>
 
         {showFilters && (
-          <div className="bg-black-card border border-gray-800 rounded-lg p-6 space-y-5">
+          <div className="bg-black-card border border-gray-800 rounded-lg p-4 md:p-6 space-y-5">
             <div>
               <p className="text-gray-400 text-xs uppercase tracking-wider mb-3">Position</p>
               <div className="flex flex-wrap gap-2">
@@ -123,7 +123,7 @@ export default function RecruiterPortal() {
         {filtered.length} athlete{filtered.length !== 1 ? 's' : ''} found
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         {filtered.map(athlete => {
           const color = getReliabilityColor(athlete.reliabilityScore);
           const isWatched = watchlist.has(athlete.id);
@@ -131,7 +131,7 @@ export default function RecruiterPortal() {
           return (
             <div
               key={athlete.id}
-              className="bg-black-card border border-gray-800 rounded-lg p-6 hover:border-gold-primary transition-all duration-300 hover:shadow-gold"
+              className="bg-black-card border border-gray-800 rounded-lg p-4 md:p-6 hover:border-gold-primary transition-all duration-300 hover:shadow-gold"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4">
@@ -147,7 +147,7 @@ export default function RecruiterPortal() {
                 <Badge score={athlete.reliabilityScore} size="md" />
               </div>
 
-              <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4">
                 <div className="bg-black-elevated rounded-lg p-3 text-center">
                   <p className="text-gray-500 text-xs uppercase">40-Yard</p>
                   <p className="text-white font-mono font-bold">{athlete.stats.fortyYardDash}s</p>
@@ -162,7 +162,7 @@ export default function RecruiterPortal() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 text-gray-500 text-xs mb-4">
+              <div className="flex items-center gap-4 text-gray-500 text-xs mb-4 flex-wrap">
                 <span>{athlete.height}</span>
                 <span>{athlete.weight} lbs</span>
                 <span>{athlete.city}, {athlete.state}</span>

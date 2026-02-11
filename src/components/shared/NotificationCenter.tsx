@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { X, Bell, Eye, Trophy, TrendingUp, AlertTriangle, MessageSquare, Film } from 'lucide-react';
+import { X, Bell, Eye, Trophy, TrendingUp, AlertTriangle, MessageSquare, Film, Target } from 'lucide-react';
 
 interface Notification {
   id: string;
-  type: 'scout_alert' | 'verification' | 'plateau' | 'achievement' | 'message' | 'video';
+  type: 'scout_alert' | 'verification' | 'plateau' | 'achievement' | 'message' | 'video' | 'combine';
   title: string;
   message: string;
   time: string;
@@ -29,6 +29,14 @@ const MOCK_NOTIFICATIONS: Notification[] = [
     title: 'Film Analysis Complete',
     message: 'Your Speed & Agility video scored 87/100. View the full breakdown in Film Room.',
     time: '3 hours ago',
+    read: false,
+  },
+  {
+    id: '2a',
+    type: 'combine',
+    title: 'Combine in 34 Days',
+    message: 'Georgia Elite Combine is approaching. Your benchmark readiness is at 78%. Keep grinding.',
+    time: '4 hours ago',
     read: false,
   },
   {
@@ -72,6 +80,7 @@ const TYPE_ICONS = {
   achievement: TrendingUp,
   message: MessageSquare,
   video: Film,
+  combine: Target,
 };
 
 const TYPE_COLORS = {
@@ -81,6 +90,7 @@ const TYPE_COLORS = {
   achievement: 'text-gold-bright bg-gold-bright/10',
   message: 'text-gray-400 bg-gray-700/30',
   video: 'text-gold-primary bg-gold-primary/10',
+  combine: 'text-gold-bronze bg-gold-bronze/10',
 };
 
 export default function NotificationCenter({ onClose }: NotificationCenterProps) {

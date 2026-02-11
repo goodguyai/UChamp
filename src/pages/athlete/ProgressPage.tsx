@@ -16,8 +16,8 @@ export default function ProgressPage() {
       userPhoto={athlete.photoUrl}
       notificationCount={3}
     >
-      <div className="mb-8">
-        <h2 className="text-2xl font-black text-white uppercase tracking-tight mb-1">
+      <div className="mb-6 md:mb-8">
+        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight mb-1">
           Your Progress
         </h2>
         <p className="text-gray-500 text-sm">
@@ -26,20 +26,20 @@ export default function ProgressPage() {
       </div>
 
       {/* Retention + Stats row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
         <RetentionScore athlete={athlete} />
-        <div className="bg-black-card border border-gray-800 rounded-xl p-5">
+        <div className="bg-black-card border border-gray-800 rounded-xl p-4 md:p-5">
           <StatsGrid athlete={athlete} />
         </div>
       </div>
 
       {/* Trend chart full width */}
-      <div className="mb-8">
+      <div className="mb-6 md:mb-8">
         <TrendChart athlete={athlete} />
       </div>
 
       {/* Shadow Mode */}
-      <div className="mb-8">
+      <div className="mb-6 md:mb-8">
         <ShadowMode athlete={athlete} />
       </div>
 

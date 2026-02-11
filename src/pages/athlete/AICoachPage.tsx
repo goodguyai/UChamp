@@ -15,7 +15,7 @@ export default function AICoachPage() {
       notificationCount={3}
     >
       <div className="mb-6">
-        <h2 className="text-2xl font-black text-white uppercase tracking-tight mb-1">
+        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight mb-1">
           AI Performance Coach
         </h2>
         <p className="text-gray-500 text-sm">
@@ -23,16 +23,16 @@ export default function AICoachPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6">
         {/* Chat - takes 2 columns */}
-        <div className="lg:col-span-2">
-          <div className="bg-black-card border border-gray-800 rounded-xl overflow-hidden h-[600px] flex flex-col">
+        <div className="md:col-span-2 lg:col-span-2">
+          <div className="bg-black-card border border-gray-800 rounded-xl overflow-hidden h-[calc(100vh-200px)] md:h-[500px] lg:h-[600px] flex flex-col">
             <AICoachChat athleteName={athlete.name} />
           </div>
         </div>
 
         {/* Insights sidebar */}
-        <div className="lg:col-span-1">
+        <div className="md:col-span-1 lg:col-span-1">
           <CoachInsightsPanel />
         </div>
       </div>

@@ -53,11 +53,11 @@ export default function AlertsPage() {
       notificationCount={unreadCount}
     >
       <div className="mb-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-3 mb-1">
+            <div className="flex items-center gap-3 mb-1 flex-wrap">
               <Bell size={24} className="text-gold-primary" />
-              <h2 className="text-2xl font-black text-white uppercase tracking-tight">
+              <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">
                 Scout Alerts
               </h2>
               {unreadCount > 0 && (
@@ -120,7 +120,7 @@ export default function AlertsPage() {
             <div
               key={alert.id}
               onClick={() => markRead(alert.id)}
-              className={`bg-black-card border border-gray-800 border-l-4 ${priorityBorder} rounded-lg p-5 hover:bg-black-elevated/50 transition-all cursor-pointer ${
+              className={`bg-black-card border border-gray-800 border-l-4 ${priorityBorder} rounded-lg p-3 md:p-5 hover:bg-black-elevated/50 transition-all cursor-pointer ${
                 !alert.read ? 'bg-gold-primary/[0.02]' : ''
               }`}
             >
@@ -167,7 +167,7 @@ export default function AlertsPage() {
       )}
 
       {/* Alert preferences */}
-      <div className="mt-8 bg-black-card border border-gray-800 rounded-xl p-6">
+      <div className="mt-8 bg-black-card border border-gray-800 rounded-xl p-4 md:p-6">
         <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Alert Preferences</h3>
         <div className="space-y-3">
           {[

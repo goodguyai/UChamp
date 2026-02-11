@@ -88,13 +88,13 @@ export default function FilmRoomPage() {
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-1">
             <Film size={24} className="text-gold-primary" />
-            <h2 className="text-2xl font-black text-white uppercase tracking-tight">Film Room</h2>
+            <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight">Film Room</h2>
           </div>
           <p className="text-gray-500 text-sm">Upload workout videos for AI-powered form analysis and feedback.</p>
         </div>
 
         {/* Feature callout */}
-        <div className="bg-gradient-to-r from-gold-primary/[0.08] to-transparent border border-gold-primary/20 rounded-xl p-5 mb-8">
+        <div className="bg-gradient-to-r from-gold-primary/[0.08] to-transparent border border-gold-primary/20 rounded-xl p-4 md:p-5 mb-6 md:mb-8">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0">
               <Sparkles size={20} className="text-gold-primary" />
@@ -105,7 +105,7 @@ export default function FilmRoomPage() {
                 Our AI analyzes your workout videos frame-by-frame, detecting body landmarks, movement patterns,
                 and form breakdowns. Get instant feedback on technique, speed metrics, and comparison to D1 athletes.
               </p>
-              <div className="flex items-center gap-4 mt-3">
+              <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-3">
                 <span className="flex items-center gap-1.5 text-gold-primary text-[10px] font-bold uppercase tracking-wider">
                   <Target size={10} /> Form scoring
                 </span>
@@ -121,9 +121,9 @@ export default function FilmRoomPage() {
         </div>
 
         {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {/* Left: Upload section */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="md:col-span-1 lg:col-span-2 space-y-4 md:space-y-6">
             {/* Category selector */}
             <div>
               <label className="block text-gray-400 text-xs uppercase tracking-wider mb-3 font-medium">
@@ -154,7 +154,7 @@ export default function FilmRoomPage() {
             />
 
             {/* How it works */}
-            <div className="bg-black-card border border-gray-800 rounded-xl p-5">
+            <div className="bg-black-card border border-gray-800 rounded-xl p-4 md:p-5">
               <h4 className="text-white text-xs font-bold uppercase tracking-wider mb-4">How It Works</h4>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="text-center">

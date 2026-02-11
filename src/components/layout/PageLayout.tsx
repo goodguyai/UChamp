@@ -5,7 +5,7 @@ import MobileNav from './MobileNav';
 import NotificationCenter from '../shared/NotificationCenter';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard, Dumbbell, TrendingUp, Bot, Film, Settings, Users,
+  LayoutDashboard, Dumbbell, TrendingUp, Bot, Film, Target, Settings, Users,
   CheckCircle2, Trophy, Search, Star, Bell, FileText, LogOut, X,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +28,7 @@ const MOBILE_MENU_ITEMS: Record<Role, { label: string; path: string; icon: typeo
     { label: 'Dashboard', path: '/athlete', icon: LayoutDashboard },
     { label: 'Workouts', path: '/athlete/workouts', icon: Dumbbell },
     { label: 'Film Room', path: '/athlete/film-room', icon: Film },
+    { label: 'Combine Prep', path: '/athlete/combine-prep', icon: Target },
     { label: 'Progress', path: '/athlete/progress', icon: TrendingUp },
     { label: 'AI Coach', path: '/athlete/ai-coach', icon: Bot },
     { label: 'Settings', path: '/athlete/settings', icon: Settings },
@@ -63,7 +64,7 @@ export default function PageLayout({
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-black-surface flex">
+    <div className="min-h-screen bg-black-surface flex overflow-x-hidden">
       {/* Desktop sidebar */}
       <Sidebar role={role} userName={userName} userPhoto={userPhoto} />
 
@@ -141,8 +142,8 @@ export default function PageLayout({
         />
 
         {/* Page content */}
-        <main className="flex-1 p-6 pb-24 lg:pb-6 overflow-y-auto">
-          <div className="max-w-6xl mx-auto">
+        <main className="flex-1 px-4 py-4 md:px-6 md:py-6 pb-24 lg:pb-6 overflow-y-auto overflow-x-hidden">
+          <div className="max-w-6xl mx-auto w-full">
             {children}
           </div>
         </main>

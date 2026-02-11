@@ -101,7 +101,7 @@ export default function SearchPage() {
 
         {/* Expanded filters */}
         {showFilters && (
-          <div className="bg-black-card border border-gray-800 rounded-lg p-6 space-y-5">
+          <div className="bg-black-card border border-gray-800 rounded-lg p-4 md:p-6 space-y-5">
             {/* Position */}
             <div>
               <p className="text-gray-400 text-xs uppercase tracking-wider mb-3">Position</p>
@@ -203,7 +203,7 @@ export default function SearchPage() {
       {viewMode === 'table' ? (
         <div className="bg-black-card border border-gray-800 rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[700px]">
               <thead>
                 <tr className="border-b border-gray-800">
                   <th className="text-left text-gray-500 text-xs uppercase tracking-wider px-4 py-3">Athlete</th>
@@ -262,13 +262,13 @@ export default function SearchPage() {
         </div>
       ) : (
         /* Grid view */
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {filtered.map(athlete => {
             const color = getReliabilityColor(athlete.reliabilityScore);
             const isWatched = watchlist.has(athlete.id);
 
             return (
-              <div key={athlete.id} className="bg-black-card border border-gray-800 rounded-lg p-6 hover:border-gold-primary transition-all duration-300 hover:shadow-gold">
+              <div key={athlete.id} className="bg-black-card border border-gray-800 rounded-lg p-4 md:p-6 hover:border-gold-primary transition-all duration-300 hover:shadow-gold">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-full border-2 overflow-hidden bg-black-elevated" style={{ borderColor: color }}>
@@ -283,7 +283,7 @@ export default function SearchPage() {
                   <Badge score={athlete.reliabilityScore} size="md" />
                 </div>
 
-                <div className="grid grid-cols-3 gap-3 mb-4">
+                <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4">
                   <div className="bg-black-elevated rounded-lg p-3 text-center">
                     <p className="text-gray-500 text-xs uppercase">40-Yard</p>
                     <p className="text-white font-mono font-bold">{athlete.stats.fortyYardDash}s</p>

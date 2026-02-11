@@ -40,38 +40,38 @@ export default function WorkoutsPage() {
       }
     >
       <div className="mb-6">
-        <h2 className="text-2xl font-black text-white uppercase tracking-tight mb-1">
+        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-tight mb-1">
           Workout Log
         </h2>
         <p className="text-gray-500 text-sm">Every rep tracked. Every session counted.</p>
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-black-card border border-gray-800 rounded-lg p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gold-primary/10 flex items-center justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-6">
+        <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-4 flex items-center gap-3">
+          <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0">
             <Dumbbell size={18} className="text-gold-primary" />
           </div>
           <div>
-            <p className="text-white font-mono text-xl font-bold">{allWorkouts.length}</p>
+            <p className="text-white font-mono text-lg md:text-xl font-bold">{allWorkouts.length}</p>
             <p className="text-gray-500 text-xs uppercase tracking-wider">Total</p>
           </div>
         </div>
-        <div className="bg-black-card border border-gray-800 rounded-lg p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gold-bright/10 flex items-center justify-center">
+        <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-4 flex items-center gap-3">
+          <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-gold-bright/10 flex items-center justify-center shrink-0">
             <CheckCircle2 size={18} className="text-gold-bright" />
           </div>
           <div>
-            <p className="text-gold-primary font-mono text-xl font-bold">{verifiedCount}</p>
+            <p className="text-gold-primary font-mono text-lg md:text-xl font-bold">{verifiedCount}</p>
             <p className="text-gray-500 text-xs uppercase tracking-wider">Verified</p>
           </div>
         </div>
-        <div className="bg-black-card border border-gray-800 rounded-lg p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gold-bronze/10 flex items-center justify-center">
+        <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-4 flex items-center gap-3">
+          <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-gold-bronze/10 flex items-center justify-center shrink-0">
             <Clock size={18} className="text-gold-bronze" />
           </div>
           <div>
-            <p className="text-gold-bronze font-mono text-xl font-bold">{pendingCount}</p>
+            <p className="text-gold-bronze font-mono text-lg md:text-xl font-bold">{pendingCount}</p>
             <p className="text-gray-500 text-xs uppercase tracking-wider">Pending</p>
           </div>
         </div>
@@ -100,11 +100,11 @@ export default function WorkoutsPage() {
         {filtered.map(workout => (
           <div
             key={workout.id}
-            className="bg-black-card border border-gray-800 rounded-lg p-5 hover:border-gray-700 transition-all"
+            className="bg-black-card border border-gray-800 rounded-lg p-4 md:p-5 hover:border-gray-700 transition-all"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 md:gap-4 min-w-0">
+                <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 ${
                   workout.verified ? 'bg-gold-primary/10' : 'bg-gold-bronze/10'
                 }`}>
                   {workout.verified

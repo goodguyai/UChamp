@@ -21,7 +21,7 @@ const MOBILE_NAV: Record<Role, { label: string; path: string; icon: typeof Layou
   athlete: [
     { label: 'Home', path: '/athlete', icon: LayoutDashboard },
     { label: 'Workouts', path: '/athlete/workouts', icon: Dumbbell },
-    { label: 'Film Room', path: '/athlete/film-room', icon: Film },
+    { label: 'Film', path: '/athlete/film-room', icon: Film },
     { label: 'Progress', path: '/athlete/progress', icon: TrendingUp },
   ],
   trainer: [
@@ -41,23 +41,23 @@ export default function MobileNav({ role }: MobileNavProps) {
   const items = MOBILE_NAV[role];
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-black-card border-t border-gray-800 backdrop-blur-md">
-      <div className="flex items-center justify-around py-2 px-2">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-black-card/95 border-t border-gray-800 backdrop-blur-md" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+      <div className="flex items-center justify-around py-1.5 px-1">
         {items.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             end={item.path === `/${role}`}
             className={({ isActive }) =>
-              `flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all ${
+              `flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] px-2 py-1.5 rounded-lg transition-all ${
                 isActive
                   ? 'text-gold-primary'
-                  : 'text-gray-500 hover:text-gray-300'
+                  : 'text-gray-500 active:text-gray-300'
               }`
             }
           >
             <item.icon size={20} />
-            <span className="text-[10px] font-medium uppercase tracking-wider">{item.label}</span>
+            <span className="text-[9px] font-medium uppercase tracking-wider leading-none">{item.label}</span>
           </NavLink>
         ))}
       </div>

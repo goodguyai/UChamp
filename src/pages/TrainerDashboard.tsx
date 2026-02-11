@@ -42,7 +42,7 @@ export default function TrainerDashboard() {
     >
       {/* Hero tagline */}
       <div className="mb-8">
-        <h2 className="text-3xl font-black text-white uppercase tracking-tight mb-2">
+        <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight mb-2">
           Iron Sharpens Iron
         </h2>
         <p className="text-gray-500">Building champions, one verified rep at a time.</p>
@@ -50,43 +50,43 @@ export default function TrainerDashboard() {
 
       {/* Stats bar */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-black-card border border-gray-800 rounded-lg p-5 flex items-center gap-4">
+        <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-5 flex items-center gap-3 md:gap-4">
           <div className="w-10 h-10 rounded-full bg-gold-primary/10 flex items-center justify-center">
             <Users className="text-gold-primary" size={20} />
           </div>
           <div>
             <p className="text-gray-500 text-xs uppercase tracking-wider">Athletes</p>
-            <p className="text-white font-mono text-2xl font-bold">{athletes.length}</p>
+            <p className="text-white font-mono text-xl md:text-2xl font-bold">{athletes.length}</p>
           </div>
         </div>
 
-        <div className="bg-black-card border border-gray-800 rounded-lg p-5 flex items-center gap-4">
+        <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-5 flex items-center gap-3 md:gap-4">
           <div className="w-10 h-10 rounded-full bg-gold-bronze/10 flex items-center justify-center">
             <Clock className="text-gold-bronze" size={20} />
           </div>
           <div>
             <p className="text-gray-500 text-xs uppercase tracking-wider">Pending</p>
-            <p className="text-gold-bronze font-mono text-2xl font-bold">{totalPending}</p>
+            <p className="text-gold-bronze font-mono text-xl md:text-2xl font-bold">{totalPending}</p>
           </div>
         </div>
 
-        <div className="bg-black-card border border-gray-800 rounded-lg p-5 flex items-center gap-4">
+        <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-5 flex items-center gap-3 md:gap-4">
           <div className="w-10 h-10 rounded-full bg-gold-primary/10 flex items-center justify-center">
             <CheckCircle2 className="text-gold-primary" size={20} />
           </div>
           <div>
             <p className="text-gray-500 text-xs uppercase tracking-wider">Verified Today</p>
-            <p className="text-gold-primary font-mono text-2xl font-bold">{verifiedIds.size + 4}</p>
+            <p className="text-gold-primary font-mono text-xl md:text-2xl font-bold">{verifiedIds.size + 4}</p>
           </div>
         </div>
 
-        <div className="bg-black-card border border-gray-800 rounded-lg p-5 flex items-center gap-4">
+        <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-5 flex items-center gap-3 md:gap-4">
           <div className="w-10 h-10 rounded-full bg-gold-bright/10 flex items-center justify-center">
             <Trophy className="text-gold-bright" size={20} />
           </div>
           <div>
             <p className="text-gray-500 text-xs uppercase tracking-wider">Avg Score</p>
-            <p className="text-gold-bright font-mono text-2xl font-bold">{avgScore}</p>
+            <p className="text-gold-bright font-mono text-xl md:text-2xl font-bold">{avgScore}</p>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ export default function TrainerDashboard() {
         <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">
           Your Roster
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
           {athletes.map(athlete => (
             <AthleteCard
               key={athlete.id}

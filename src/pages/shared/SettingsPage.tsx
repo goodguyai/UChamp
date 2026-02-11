@@ -76,14 +76,14 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
       </div>
 
       {/* Tab bar */}
-      <div className="flex gap-1 mb-8 overflow-x-auto pb-1">
+      <div className="flex gap-1 mb-6 md:mb-8 overflow-x-auto pb-1 -mx-1 px-1">
         {TABS.map(tab => {
           const Icon = tab.icon;
           return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 ${
                 activeTab === tab.id
                   ? 'bg-gold-primary/10 text-gold-primary border border-gold-primary/30'
                   : 'text-gray-400 hover:text-white hover:bg-black-elevated'
@@ -99,10 +99,10 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
       {/* Profile tab */}
       {activeTab === 'profile' && (
         <div className="space-y-6">
-          <div className="bg-black-card border border-gray-800 rounded-xl p-6">
+          <div className="bg-black-card border border-gray-800 rounded-xl p-4 md:p-6">
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Profile Information</h3>
-            <div className="flex items-center gap-6 mb-6">
-              <div className="w-20 h-20 rounded-full border-2 border-gold-primary/50 overflow-hidden bg-black-elevated">
+            <div className="flex items-center gap-4 md:gap-6 mb-6">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-gold-primary/50 overflow-hidden bg-black-elevated shrink-0">
                 <img src={userPhoto} alt={userName} className="w-full h-full object-cover" />
               </div>
               <div>
@@ -155,10 +155,10 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
           </div>
 
           {/* Danger zone */}
-          <div className="bg-black-card border border-red-500/20 rounded-xl p-6">
+          <div className="bg-black-card border border-red-500/20 rounded-xl p-4 md:p-6">
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-red-400 mb-2">Danger Zone</h3>
             <p className="text-gray-500 text-xs mb-4">These actions are irreversible. Proceed with caution.</p>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => navigate('/')}
                 className="flex items-center gap-2 px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider bg-black-elevated text-gray-400 border border-gray-700 hover:border-red-500/50 hover:text-red-400 transition-all cursor-pointer"

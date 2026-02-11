@@ -41,12 +41,21 @@
 @layer base {
   * {
     border-color: #262626;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
   }
 
   body {
     @apply bg-black-surface text-white antialiased;
     margin: 0;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    overflow-x: hidden;
+    /* Safe area for notched devices */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   *:focus-visible {
@@ -107,18 +116,20 @@
   }
 
   .btn-primary {
-    @apply bg-gold-primary text-black-pure font-bold px-6 py-3 rounded-md;
+    @apply bg-gold-primary text-black-pure font-bold px-4 py-2.5 md:px-6 md:py-3 rounded-md;
     @apply hover:bg-gold-bright hover:shadow-gold-strong;
     @apply active:scale-95 transition-all duration-200;
     @apply uppercase tracking-wide text-sm cursor-pointer;
+    min-height: 44px; /* Touch target */
   }
 
   .btn-secondary {
     @apply bg-transparent border-2 border-gold-primary text-gold-primary;
-    @apply font-bold px-6 py-3 rounded-md;
+    @apply font-bold px-4 py-2.5 md:px-6 md:py-3 rounded-md;
     @apply hover:bg-gold-primary/10 hover:shadow-gold;
     @apply active:scale-95 transition-all duration-200;
     @apply uppercase tracking-wide text-sm cursor-pointer;
+    min-height: 44px; /* Touch target */
   }
 
   .stat-number {

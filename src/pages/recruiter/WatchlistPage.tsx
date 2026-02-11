@@ -69,7 +69,7 @@ export default function WatchlistPage() {
             return (
               <div key={athlete.id} className="bg-black-card border border-gray-800 rounded-xl overflow-hidden hover:border-gray-700 transition-all">
                 {/* Top section */}
-                <div className="p-6">
+                <div className="p-4 md:p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 rounded-full border-2 overflow-hidden bg-black-elevated" style={{ borderColor: color }}>
@@ -85,7 +85,7 @@ export default function WatchlistPage() {
                   </div>
 
                   {/* Quick stats */}
-                  <div className="grid grid-cols-5 gap-3 mb-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 md:gap-3 mb-4">
                     <div className="bg-black-elevated rounded-lg p-3 text-center">
                       <p className="text-gray-600 text-[10px] uppercase tracking-wider">40-Yard</p>
                       <p className="text-white font-mono font-bold text-sm">{athlete.stats.fortyYardDash}s</p>
@@ -123,7 +123,7 @@ export default function WatchlistPage() {
                   </div>
 
                   {/* Scout notes */}
-                  <div className="bg-black-elevated border border-gray-800 rounded-lg p-4">
+                  <div className="bg-black-elevated border border-gray-800 rounded-lg p-3 md:p-4">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-gray-400 text-xs uppercase tracking-wider flex items-center gap-1.5">
                         <FileText size={12} />
@@ -164,7 +164,7 @@ export default function WatchlistPage() {
                 </div>
 
                 {/* Action bar */}
-                <div className="flex items-center gap-3 px-6 py-4 border-t border-gray-800 bg-black-elevated/30">
+                <div className="flex items-center gap-3 px-4 md:px-6 py-3 md:py-4 border-t border-gray-800 bg-black-elevated/30">
                   <button
                     onClick={() => setSelectedAthlete(athlete)}
                     className="flex-1 flex items-center justify-center gap-2 bg-gold-primary text-black-pure px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider hover:bg-gold-bright transition-colors cursor-pointer"
