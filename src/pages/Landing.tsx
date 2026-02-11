@@ -81,12 +81,12 @@ export default function Landing() {
         </p>
 
         {/* Role cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
           {roles.map((role) => (
             <button
               key={role.path}
               onClick={() => navigate(role.path)}
-              className="group relative overflow-hidden bg-black-card border-2 border-gray-800 rounded-xl p-5 md:p-8 text-left hover:border-gold-primary hover:shadow-gold-strong transition-all duration-300 active:scale-95 cursor-pointer"
+              className="group relative overflow-hidden bg-black-card border-2 border-gray-800 rounded-xl p-5 md:p-8 text-left hover:border-gold-primary hover:shadow-gold-strong transition-all duration-300 active:scale-[0.98] cursor-pointer"
             >
               {/* Gold accent line */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gold-primary transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
@@ -101,11 +101,11 @@ export default function Landing() {
                 </span>
 
                 {/* Icon */}
-                <div className="w-16 h-16 rounded-full bg-gold-primary/10 flex items-center justify-center mt-4 mb-6 group-hover:bg-gold-primary/20 transition-colors duration-300">
-                  <role.icon className="text-gold-primary" size={32} />
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-gold-primary/10 flex items-center justify-center mt-3 md:mt-4 mb-4 md:mb-6 group-hover:bg-gold-primary/20 transition-colors duration-300">
+                  <role.icon className="text-gold-primary" size={24} />
                 </div>
 
-                <h2 className="text-2xl font-bold mb-3 text-white">{role.title}</h2>
+                <h2 className="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-white">{role.title}</h2>
                 <p className="text-gray-400 leading-relaxed">{role.desc}</p>
 
                 {/* CTA */}

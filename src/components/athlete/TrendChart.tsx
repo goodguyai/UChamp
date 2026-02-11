@@ -15,9 +15,9 @@ interface TrendChartProps {
 }
 
 const METRICS = [
-  { key: 'fortyYardDash', label: '40-Yard Dash', unit: 's', invert: true },
-  { key: 'bench', label: 'Bench Press', unit: 'lbs', invert: false },
-  { key: 'vertical', label: 'Vertical Jump', unit: '"', invert: false },
+  { key: 'fortyYardDash', label: '40-Yard', labelFull: '40-Yard Dash', unit: 's', invert: true },
+  { key: 'bench', label: 'Bench', labelFull: 'Bench Press', unit: 'lbs', invert: false },
+  { key: 'vertical', label: 'Vertical', labelFull: 'Vertical Jump', unit: '"', invert: false },
 ] as const;
 
 export default function TrendChart({ athlete }: TrendChartProps) {
@@ -28,30 +28,31 @@ export default function TrendChart({ athlete }: TrendChartProps) {
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-        <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 md:gap-3 mb-3 md:mb-4">
+        <h3 className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
           Progress Trend
         </h3>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1.5 md:gap-2 flex-wrap">
           {METRICS.map((m) => (
             <button
               key={m.key}
               onClick={() => setActiveMetric(m.key)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+              className={`px-2.5 md:px-3 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 activeMetric === m.key
                   ? 'bg-gold-primary text-black-pure'
                   : 'bg-black-elevated text-gray-400 hover:text-gold-primary border border-gray-700'
               }`}
             >
-              {m.label}
+              <span className="md:hidden">{m.label}</span>
+              <span className="hidden md:inline">{m.labelFull}</span>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="bg-black-elevated border border-gray-800 rounded-lg p-4">
-        <ResponsiveContainer width="100%" height={280}>
+      <div className="bg-black-elevated border border-gray-800 rounded-lg p-2 md:p-4">
+        <ResponsiveContainer width="100%" height={220}>
           <LineChart data={data}>
             <CartesianGrid
               strokeDasharray="3 3"
@@ -61,13 +62,15 @@ export default function TrendChart({ athlete }: TrendChartProps) {
             <XAxis
               dataKey="date"
               stroke="#737373"
-              style={{ fontSize: '12px', fontFamily: 'monospace' }}
+              style={{ fontSize: '10px', fontFamily: 'monospace' }}
               tickLine={false}
+              tick={{ fontSize: 10 }}
             />
             <YAxis
               stroke="#737373"
-              style={{ fontSize: '12px', fontFamily: 'monospace' }}
+              style={{ fontSize: '10px', fontFamily: 'monospace' }}
               tickLine={false}
+              width={35}
               domain={metric.invert ? ['dataMax + 0.1', 'dataMin - 0.1'] : ['dataMin - 5', 'dataMax + 5']}
               reversed={metric.invert}
             />

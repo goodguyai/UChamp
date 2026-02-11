@@ -94,25 +94,25 @@ export default function RetentionScore({ athlete }: RetentionScoreProps) {
       {/* Header with score */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full p-5 hover:bg-black-elevated/50 transition-colors cursor-pointer"
+        className="w-full p-3.5 md:p-5 hover:bg-black-elevated/50 transition-colors cursor-pointer"
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gold-primary/10 flex items-center justify-center">
-              <Shield size={20} className="text-gold-primary" />
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5 md:gap-3 min-w-0">
+            <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0">
+              <Shield size={18} className="text-gold-primary" />
             </div>
-            <div className="text-left">
-              <h3 className="text-white font-bold text-sm uppercase tracking-wide">Retention Score</h3>
-              <p className="text-gray-500 text-xs">How likely you are to stay on the grind</p>
+            <div className="text-left min-w-0">
+              <h3 className="text-white font-bold text-xs md:text-sm uppercase tracking-wide">Retention Score</h3>
+              <p className="text-gray-500 text-[10px] md:text-xs truncate">How likely you are to stay on the grind</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
             <div className="text-right">
-              <p className="text-white font-mono text-2xl font-black">{score}</p>
-              <p className={`text-xs font-bold uppercase tracking-wider ${color}`}>{label}</p>
+              <p className="text-white font-mono text-xl md:text-2xl font-black">{score}</p>
+              <p className={`text-[10px] md:text-xs font-bold uppercase tracking-wider ${color}`}>{label}</p>
             </div>
-            {expanded ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
+            {expanded ? <ChevronUp size={16} className="text-gray-500" /> : <ChevronDown size={16} className="text-gray-500" />}
           </div>
         </div>
 

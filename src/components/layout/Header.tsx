@@ -27,8 +27,8 @@ export default function Header({
 
   return (
     <header className="border-b border-gray-800 bg-black-card/80 backdrop-blur-md sticky top-0 z-40">
-      <div className="px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="px-4 md:px-6 py-3 md:py-4 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-3 md:gap-4 min-w-0">
           {/* Mobile menu toggle */}
           <button
             onClick={onMenuToggle}
@@ -50,7 +50,7 @@ export default function Header({
           </h1>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4 shrink-0">
           {/* Action buttons */}
           {actions}
 

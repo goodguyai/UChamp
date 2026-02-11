@@ -53,51 +53,51 @@ export default function AthleteDashboard() {
       </div>
 
       {/* Main grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8">
-        {/* Left: Reliability Score (2 cols) */}
-        <div className="md:col-span-1 lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-6">
+        {/* Left: Reliability Score */}
+        <div className="lg:col-span-2">
           <ReliabilityHero athlete={athlete} />
 
           {/* Quick stats below reliability */}
           <div className="mt-4 md:mt-6 grid grid-cols-3 gap-2 md:gap-3">
-            <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-4 text-center">
+            <div className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center">
               <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-1">Workouts</p>
-              <p className="text-white font-mono text-xl md:text-2xl font-bold">
+              <p className="text-white font-mono text-lg md:text-2xl font-bold">
                 {athlete.recentWorkouts.length}
               </p>
               <p className="text-gray-600 text-[10px] md:text-xs">This month</p>
             </div>
-            <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-4 text-center">
+            <div className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center">
               <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-1">Verified</p>
-              <p className="text-gold-primary font-mono text-xl md:text-2xl font-bold">
+              <p className="text-gold-primary font-mono text-lg md:text-2xl font-bold">
                 {athlete.recentWorkouts.filter(w => w.verified).length}
               </p>
               <p className="text-gray-600 text-[10px] md:text-xs">Confirmed</p>
             </div>
-            <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-4 text-center">
+            <div className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center">
               <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-1">Streak</p>
-              <p className="text-gold-bright font-mono text-xl md:text-2xl font-bold">12</p>
+              <p className="text-gold-bright font-mono text-lg md:text-2xl font-bold">12</p>
               <p className="text-gray-600 text-[10px] md:text-xs">Days</p>
             </div>
           </div>
         </div>
 
-        {/* Right: Stats & Trends (3 cols) */}
-        <div className="md:col-span-2 lg:col-span-3 space-y-4 md:space-y-6 lg:space-y-8">
+        {/* Right: Stats & Trends */}
+        <div className="lg:col-span-3 space-y-4 md:space-y-6">
           <StatsGrid athlete={athlete} />
           <TrendChart athlete={athlete} />
         </div>
       </div>
 
       {/* Film Room CTA */}
-      <div className="mt-8">
+      <div className="mt-6 md:mt-8">
         <button
           onClick={() => navigate('/athlete/film-room')}
-          className="w-full bg-gradient-to-r from-gold-primary/[0.08] to-transparent border border-gold-primary/20 rounded-xl p-4 md:p-5 text-left hover:border-gold-primary/40 transition-all cursor-pointer group"
+          className="w-full bg-gradient-to-r from-gold-primary/[0.08] to-transparent border border-gold-primary/20 rounded-xl p-3.5 md:p-5 text-left hover:border-gold-primary/40 transition-all cursor-pointer group"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0 group-hover:bg-gold-primary/20 transition-colors">
-              <Film size={22} className="text-gold-primary" />
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0 group-hover:bg-gold-primary/20 transition-colors">
+              <Film size={20} className="text-gold-primary" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-0.5">
@@ -114,14 +114,14 @@ export default function AthleteDashboard() {
       </div>
 
       {/* Combine Prep CTA */}
-      <div className="mt-4">
+      <div className="mt-3 md:mt-4">
         <button
           onClick={() => navigate('/athlete/combine-prep')}
-          className="w-full bg-gradient-to-r from-gold-bronze/[0.08] to-transparent border border-gold-bronze/20 rounded-xl p-4 md:p-5 text-left hover:border-gold-bronze/40 transition-all cursor-pointer group"
+          className="w-full bg-gradient-to-r from-gold-bronze/[0.08] to-transparent border border-gold-bronze/20 rounded-xl p-3.5 md:p-5 text-left hover:border-gold-bronze/40 transition-all cursor-pointer group"
         >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-gold-bronze/10 flex items-center justify-center shrink-0 group-hover:bg-gold-bronze/20 transition-colors">
-              <Target size={22} className="text-gold-bronze" />
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gold-bronze/10 flex items-center justify-center shrink-0 group-hover:bg-gold-bronze/20 transition-colors">
+              <Target size={20} className="text-gold-bronze" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-0.5">
@@ -138,14 +138,14 @@ export default function AthleteDashboard() {
       </div>
 
       {/* Workout Streak Calendar */}
-      <div className="mt-8">
-        <div className="bg-black-card border border-gray-800 rounded-xl p-4 md:p-5">
-          <div className="flex items-center justify-between mb-4">
+      <div className="mt-6 md:mt-8">
+        <div className="bg-black-card border border-gray-800 rounded-xl p-3.5 md:p-5">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
             <div className="flex items-center gap-2">
-              <Calendar size={16} className="text-gold-primary" />
-              <h3 className="text-white font-bold text-sm uppercase tracking-wide">Workout Streak</h3>
+              <Calendar size={14} className="text-gold-primary" />
+              <h3 className="text-white font-bold text-xs md:text-sm uppercase tracking-wide">Workout Streak</h3>
             </div>
-            <span className="text-gold-primary font-mono text-sm font-bold">12 Day Streak</span>
+            <span className="text-gold-primary font-mono text-xs md:text-sm font-bold">12 Days</span>
           </div>
           <div className="grid grid-cols-7 gap-1.5">
             {/* Day labels */}
@@ -189,17 +189,17 @@ export default function AthleteDashboard() {
       </div>
 
       {/* Retention Score */}
-      <div className="mt-8">
+      <div className="mt-6 md:mt-8">
         <RetentionScore athlete={athlete} />
       </div>
 
       {/* Workouts section */}
-      <div className="mt-8">
+      <div className="mt-6 md:mt-8">
         <WorkoutList athlete={athlete} />
       </div>
 
       {/* Bottom motivational */}
-      <div className="mt-12 mb-8 text-center">
+      <div className="mt-8 md:mt-12 mb-6 md:mb-8 text-center">
         <p className="text-gray-700 text-sm uppercase tracking-[0.3em]">
           Championship mindset. Every rep counts.
         </p>

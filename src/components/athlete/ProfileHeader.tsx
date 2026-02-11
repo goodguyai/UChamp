@@ -8,10 +8,10 @@ interface ProfileHeaderProps {
 
 export default function ProfileHeader({ athlete }: ProfileHeaderProps) {
   return (
-    <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+    <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
       {/* Avatar */}
-      <div className="relative">
-        <div className="w-20 h-20 rounded-full border-2 border-gold-primary overflow-hidden bg-black-elevated shadow-gold">
+      <div className="relative shrink-0">
+        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border-2 border-gold-primary overflow-hidden bg-black-elevated shadow-gold">
           <img src={athlete.photoUrl} alt={athlete.name} className="w-full h-full object-cover" />
         </div>
         {athlete.verified && (
@@ -24,15 +24,15 @@ export default function ProfileHeader({ athlete }: ProfileHeaderProps) {
       </div>
 
       {/* Info */}
-      <div className="flex-1">
-        <div className="flex flex-col md:flex-row md:items-center gap-3 mb-2">
-          <h1 className="text-3xl font-black text-white uppercase tracking-tight">
+      <div className="flex-1 min-w-0">
+        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 mb-2">
+          <h1 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight truncate">
             {athlete.name}
           </h1>
           <Badge score={athlete.reliabilityScore} size="sm" />
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm">
+        <div className="flex flex-wrap items-center gap-2 md:gap-4 text-gray-400 text-xs md:text-sm">
           <span className="inline-flex items-center gap-1.5 bg-gold-primary/10 text-gold-primary px-3 py-1 rounded-full font-bold text-xs">
             {athlete.position}
           </span>

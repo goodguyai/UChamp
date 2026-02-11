@@ -121,9 +121,9 @@ export default function FilmRoomPage() {
         </div>
 
         {/* Main grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
           {/* Left: Upload section */}
-          <div className="md:col-span-1 lg:col-span-2 space-y-4 md:space-y-6">
+          <div className="lg:col-span-2 space-y-4 md:space-y-6">
             {/* Category selector */}
             <div>
               <label className="block text-gray-400 text-xs uppercase tracking-wider mb-3 font-medium">

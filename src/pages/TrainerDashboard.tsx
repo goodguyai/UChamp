@@ -49,9 +49,9 @@ export default function TrainerDashboard() {
       </div>
 
       {/* Stats bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-6 md:mb-8">
         <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-5 flex items-center gap-3 md:gap-4">
-          <div className="w-10 h-10 rounded-full bg-gold-primary/10 flex items-center justify-center">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0">
             <Users className="text-gold-primary" size={20} />
           </div>
           <div>
@@ -61,7 +61,7 @@ export default function TrainerDashboard() {
         </div>
 
         <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-5 flex items-center gap-3 md:gap-4">
-          <div className="w-10 h-10 rounded-full bg-gold-bronze/10 flex items-center justify-center">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold-bronze/10 flex items-center justify-center shrink-0">
             <Clock className="text-gold-bronze" size={20} />
           </div>
           <div>
@@ -71,7 +71,7 @@ export default function TrainerDashboard() {
         </div>
 
         <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-5 flex items-center gap-3 md:gap-4">
-          <div className="w-10 h-10 rounded-full bg-gold-primary/10 flex items-center justify-center">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold-primary/10 flex items-center justify-center shrink-0">
             <CheckCircle2 className="text-gold-primary" size={20} />
           </div>
           <div>
@@ -81,7 +81,7 @@ export default function TrainerDashboard() {
         </div>
 
         <div className="bg-black-card border border-gray-800 rounded-lg p-3 md:p-5 flex items-center gap-3 md:gap-4">
-          <div className="w-10 h-10 rounded-full bg-gold-bright/10 flex items-center justify-center">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold-bright/10 flex items-center justify-center shrink-0">
             <Trophy className="text-gold-bright" size={20} />
           </div>
           <div>
