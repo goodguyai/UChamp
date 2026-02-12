@@ -27,6 +27,8 @@ import AlertsPage from './pages/recruiter/AlertsPage';
 import ReportsPage from './pages/recruiter/ReportsPage';
 import RecruiterSettingsPage from './pages/recruiter/RecruiterSettingsPage';
 import ComparePage from './pages/recruiter/ComparePage';
+import AthleteProfilePage from './pages/recruiter/AthleteProfilePage';
+import AthleteDetailPage from './pages/trainer/AthleteDetailPage';
 // Parent
 import ParentPortal from './pages/ParentPortal';
 // 404
@@ -56,12 +58,14 @@ export default function App() {
             <Route path="/trainer/verification" element={<VerificationPage />} />
             <Route path="/trainer/portfolio" element={<PortfolioPage />} />
             <Route path="/trainer/messages" element={<TrainerMessagesPage />} />
+            <Route path="/trainer/athlete/:id" element={<AthleteDetailPage />} />
             <Route path="/trainer/settings" element={<TrainerSettingsPage />} />
             <Route path="/trainer/*" element={<TrainerDashboard />} />
             {/* Recruiter routes */}
             <Route path="/recruiter" element={<RecruiterPortal />} />
             <Route path="/recruiter/search" element={<SearchPage />} />
             <Route path="/recruiter/compare" element={<ComparePage />} />
+            <Route path="/recruiter/athlete/:id" element={<AthleteProfilePage />} />
             <Route path="/recruiter/watchlist" element={<WatchlistPage />} />
             <Route path="/recruiter/alerts" element={<AlertsPage />} />
             <Route path="/recruiter/reports" element={<ReportsPage />} />

@@ -1,11 +1,10 @@
 import { useState, useMemo } from 'react';
 import { Search, SlidersHorizontal, Eye, Star, StarOff, ArrowUpDown, Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ATHLETES, RECRUITERS } from '../../lib/mockData';
 import { getReliabilityColor } from '../../lib/mockData';
 import Badge from '../../components/ui/Badge';
 import PageLayout from '../../components/layout/PageLayout';
-import AthleteModal from '../../components/recruiter/AthleteModal';
-import type { Athlete } from '../../lib/mockData';
 
 const POSITIONS = ['ALL', 'QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'DB'] as const;
 const GRAD_YEARS = [2025, 2026, 2027, 2028] as const;
@@ -19,8 +18,8 @@ export default function SearchPage() {
   const [gradYear, setGradYear] = useState<number | null>(null);
   const [sortBy, setSortBy] = useState<SortKey>('reliability');
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const navigate = useNavigate();
   const [watchlist, setWatchlist] = useState<Set<string>>(new Set(['ath-1', 'ath-4']));
-  const [selectedAthlete, setSelectedAthlete] = useState<Athlete | null>(null);
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
@@ -245,7 +244,7 @@ export default function SearchPage() {
                       <td className="px-4 py-3 text-center text-gray-400 text-sm">{athlete.gradYear}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-2">
-                          <button onClick={() => setSelectedAthlete(athlete)} className="text-gold-primary hover:text-gold-bright transition-colors cursor-pointer" title="View Profile">
+                          <button onClick={() => navigate(`/recruiter/athlete/${athlete.id}`)} className="text-gold-primary hover:text-gold-bright transition-colors cursor-pointer" title="View Profile">
                             <Eye size={16} />
                           </button>
                           <button onClick={() => toggleWatchlist(athlete.id)} className={`transition-colors cursor-pointer ${isWatched ? 'text-gold-primary' : 'text-gray-600 hover:text-gold-primary'}`} title={isWatched ? 'Remove from Watchlist' : 'Add to Watchlist'}>
@@ -300,7 +299,7 @@ export default function SearchPage() {
 
                 <div className="flex items-center gap-3 pt-4 border-t border-gray-800">
                   <button
-                    onClick={() => setSelectedAthlete(athlete)}
+                    onClick={() => navigate(`/recruiter/athlete/${athlete.id}`)}
                     className="flex-1 flex items-center justify-center gap-2 bg-gold-primary text-black-pure px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider hover:bg-gold-bright transition-colors cursor-pointer"
                   >
                     <Eye size={14} />
@@ -337,14 +336,6 @@ export default function SearchPage() {
         </p>
       </div>
 
-      {selectedAthlete && (
-        <AthleteModal
-          athlete={selectedAthlete}
-          onClose={() => setSelectedAthlete(null)}
-          onWatchlist={watchlist.has(selectedAthlete.id)}
-          onToggleWatchlist={() => toggleWatchlist(selectedAthlete.id)}
-        />
-      )}
     </PageLayout>
   );
 }

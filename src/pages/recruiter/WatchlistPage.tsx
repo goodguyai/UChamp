@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { Star, Eye, Trash2, FileText, TrendingUp, AlertCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ATHLETES, RECRUITERS, getReliabilityColor, getReliabilityLabel } from '../../lib/mockData';
 import { WATCHLIST_NOTES } from '../../lib/recruiterData';
-import type { Athlete } from '../../lib/mockData';
 import PageLayout from '../../components/layout/PageLayout';
 import Badge from '../../components/ui/Badge';
-import AthleteModal from '../../components/recruiter/AthleteModal';
 
 export default function WatchlistPage() {
   const recruiter = RECRUITERS[0];
+  const navigate = useNavigate();
   const [watchlistIds, setWatchlistIds] = useState<Set<string>>(new Set(['ath-1', 'ath-4']));
-  const [selectedAthlete, setSelectedAthlete] = useState<Athlete | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>(
     Object.fromEntries(WATCHLIST_NOTES.map(n => [n.athleteId, n.note]))
   );
@@ -166,7 +165,7 @@ export default function WatchlistPage() {
                 {/* Action bar */}
                 <div className="flex items-center gap-3 px-4 md:px-6 py-3 md:py-4 border-t border-gray-800 bg-black-elevated/30">
                   <button
-                    onClick={() => setSelectedAthlete(athlete)}
+                    onClick={() => navigate(`/recruiter/athlete/${athlete.id}`)}
                     className="flex-1 flex items-center justify-center gap-2 bg-gold-primary text-black-pure px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider hover:bg-gold-bright transition-colors cursor-pointer"
                   >
                     <Eye size={14} />
@@ -192,22 +191,6 @@ export default function WatchlistPage() {
         </p>
       </div>
 
-      {selectedAthlete && (
-        <AthleteModal
-          athlete={selectedAthlete}
-          onClose={() => setSelectedAthlete(null)}
-          onWatchlist={watchlistIds.has(selectedAthlete.id)}
-          onToggleWatchlist={() => {
-            const id = selectedAthlete.id;
-            setWatchlistIds(prev => {
-              const next = new Set(prev);
-              if (next.has(id)) next.delete(id);
-              else next.add(id);
-              return next;
-            });
-          }}
-        />
-      )}
     </PageLayout>
   );
 }

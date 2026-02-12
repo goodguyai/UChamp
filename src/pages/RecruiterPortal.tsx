@@ -1,11 +1,10 @@
 import { useState, useMemo } from 'react';
 import { Search, SlidersHorizontal, Eye, Star, StarOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { ATHLETES, RECRUITERS } from '../lib/mockData';
 import { getReliabilityColor, getReliabilityLabel } from '../lib/mockData';
 import Badge from '../components/ui/Badge';
 import PageLayout from '../components/layout/PageLayout';
-import AthleteModal from '../components/recruiter/AthleteModal';
-import type { Athlete } from '../lib/mockData';
 
 const POSITIONS = ['ALL', 'QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'DB'] as const;
 
@@ -14,8 +13,8 @@ export default function RecruiterPortal() {
   const [search, setSearch] = useState('');
   const [minScore, setMinScore] = useState(0);
   const [position, setPosition] = useState<string>('ALL');
+  const navigate = useNavigate();
   const [watchlist, setWatchlist] = useState<Set<string>>(new Set(['ath-1', 'ath-4']));
-  const [selectedAthlete, setSelectedAthlete] = useState<Athlete | null>(null);
   const [showFilters, setShowFilters] = useState(false);
 
   const filtered = useMemo(() => {
@@ -131,7 +130,8 @@ export default function RecruiterPortal() {
           return (
             <div
               key={athlete.id}
-              className="bg-black-card border border-gray-800 rounded-lg p-4 md:p-6 hover:border-gold-primary transition-all duration-300 hover:shadow-gold"
+              onClick={() => navigate(`/recruiter/athlete/${athlete.id}`)}
+              className="bg-black-card border border-gray-800 rounded-lg p-4 md:p-6 hover:border-gold-primary transition-all duration-300 hover:shadow-gold cursor-pointer"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4">
@@ -173,14 +173,14 @@ export default function RecruiterPortal() {
 
               <div className="flex items-center gap-3 pt-4 border-t border-gray-800">
                 <button
-                  onClick={() => setSelectedAthlete(athlete)}
+                  onClick={(e) => { e.stopPropagation(); navigate(`/recruiter/athlete/${athlete.id}`); }}
                   className="flex-1 flex items-center justify-center gap-2 bg-gold-primary text-black-pure px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider hover:bg-gold-bright transition-colors cursor-pointer"
                 >
                   <Eye size={14} />
                   View Full Profile
                 </button>
                 <button
-                  onClick={() => toggleWatchlist(athlete.id)}
+                  onClick={(e) => { e.stopPropagation(); toggleWatchlist(athlete.id); }}
                   className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     isWatched
                       ? 'bg-gold-primary/10 text-gold-primary border border-gold-primary'
@@ -209,14 +209,6 @@ export default function RecruiterPortal() {
         </p>
       </div>
 
-      {selectedAthlete && (
-        <AthleteModal
-          athlete={selectedAthlete}
-          onClose={() => setSelectedAthlete(null)}
-          onWatchlist={watchlist.has(selectedAthlete.id)}
-          onToggleWatchlist={() => toggleWatchlist(selectedAthlete.id)}
-        />
-      )}
     </PageLayout>
   );
 }

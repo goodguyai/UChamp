@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Bell, Eye, Check, Filter } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { RECRUITERS } from '../../lib/mockData';
 import { SCOUT_ALERTS, ALERT_TYPE_CONFIG } from '../../lib/recruiterData';
 import type { ScoutAlert } from '../../lib/recruiterData';
@@ -18,9 +19,17 @@ const FILTER_OPTIONS: { value: FilterType; label: string }[] = [
 
 export default function AlertsPage() {
   const recruiter = RECRUITERS[0];
+  const navigate = useNavigate();
   const [alerts, setAlerts] = useState(SCOUT_ALERTS);
   const [filter, setFilter] = useState<FilterType>('all');
   const [showFilterBar, setShowFilterBar] = useState(false);
+  const [alertPrefs, setAlertPrefs] = useState<Record<string, boolean>>({
+    score_changes: true,
+    breakout: true,
+    verifications: false,
+    profile_updates: true,
+    combine_ready: true,
+  });
 
   const unreadCount = alerts.filter(a => !a.read).length;
 
@@ -119,7 +128,7 @@ export default function AlertsPage() {
           return (
             <div
               key={alert.id}
-              onClick={() => markRead(alert.id)}
+              onClick={() => { markRead(alert.id); navigate(`/recruiter/athlete/${alert.athleteId}`); }}
               className={`bg-black-card border border-gray-800 border-l-4 ${priorityBorder} rounded-lg p-3 md:p-5 hover:bg-black-elevated/50 transition-all cursor-pointer ${
                 !alert.read ? 'bg-gold-primary/[0.02]' : ''
               }`}
@@ -149,7 +158,11 @@ export default function AlertsPage() {
                     <span className="text-gold-primary/70 text-[10px] font-medium">{alert.athleteName}</span>
                   </div>
                 </div>
-                <button className="text-gray-600 hover:text-gold-primary transition-colors shrink-0 mt-1 cursor-pointer" title="View athlete">
+                <button
+                  onClick={(e) => { e.stopPropagation(); navigate(`/recruiter/athlete/${alert.athleteId}`); }}
+                  className="text-gray-600 hover:text-gold-primary transition-colors shrink-0 mt-1 cursor-pointer"
+                  title="View athlete"
+                >
                   <Eye size={16} />
                 </button>
               </div>
@@ -171,20 +184,23 @@ export default function AlertsPage() {
         <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Alert Preferences</h3>
         <div className="space-y-3">
           {[
-            { label: 'Reliability score changes', desc: 'When a watched athlete\'s score changes by 3+ points', enabled: true },
-            { label: 'Breakout performances', desc: 'When an athlete posts a new personal record', enabled: true },
-            { label: 'Workout verifications', desc: 'When watched athletes get workouts verified', enabled: false },
-            { label: 'Profile updates', desc: 'When athletes update their stats or add footage', enabled: true },
-            { label: 'Combine readiness', desc: 'AI assessment that an athlete is combine-ready', enabled: true },
+            { id: 'score_changes', label: 'Reliability score changes', desc: 'When a watched athlete\'s score changes by 3+ points' },
+            { id: 'breakout', label: 'Breakout performances', desc: 'When an athlete posts a new personal record' },
+            { id: 'verifications', label: 'Workout verifications', desc: 'When watched athletes get workouts verified' },
+            { id: 'profile_updates', label: 'Profile updates', desc: 'When athletes update their stats or add footage' },
+            { id: 'combine_ready', label: 'Combine readiness', desc: 'AI assessment that an athlete is combine-ready' },
           ].map(pref => (
-            <div key={pref.label} className="flex items-center justify-between py-2">
+            <div key={pref.id} className="flex items-center justify-between py-2">
               <div>
                 <p className="text-gray-300 text-sm">{pref.label}</p>
                 <p className="text-gray-600 text-xs">{pref.desc}</p>
               </div>
-              <div className={`w-10 h-6 rounded-full relative cursor-pointer transition-colors ${pref.enabled ? 'bg-gold-primary' : 'bg-gray-700'}`}>
-                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${pref.enabled ? 'left-5' : 'left-1'}`} />
-              </div>
+              <button
+                onClick={() => setAlertPrefs(prev => ({ ...prev, [pref.id]: !prev[pref.id] }))}
+                className={`w-10 h-6 rounded-full relative cursor-pointer transition-colors ${alertPrefs[pref.id] ? 'bg-gold-primary' : 'bg-gray-700'}`}
+              >
+                <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${alertPrefs[pref.id] ? 'left-5' : 'left-1'}`} />
+              </button>
             </div>
           ))}
         </div>

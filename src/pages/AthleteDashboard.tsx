@@ -60,21 +60,30 @@ export default function AthleteDashboard() {
 
           {/* Quick stats below reliability */}
           <div className="mt-4 md:mt-6 grid grid-cols-3 gap-2 md:gap-3">
-            <div className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center">
+            <div
+              onClick={() => navigate('/athlete/progress')}
+              className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center hover:border-gold-primary/50 transition-all cursor-pointer"
+            >
               <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-1">Workouts</p>
               <p className="text-white font-mono text-lg md:text-2xl font-bold">
                 {athlete.recentWorkouts.length}
               </p>
               <p className="text-gray-600 text-[10px] md:text-xs">This month</p>
             </div>
-            <div className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center">
+            <div
+              onClick={() => navigate('/athlete/progress')}
+              className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center hover:border-gold-primary/50 transition-all cursor-pointer"
+            >
               <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-1">Verified</p>
               <p className="text-gold-primary font-mono text-lg md:text-2xl font-bold">
                 {athlete.recentWorkouts.filter(w => w.verified).length}
               </p>
               <p className="text-gray-600 text-[10px] md:text-xs">Confirmed</p>
             </div>
-            <div className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center">
+            <div
+              onClick={() => navigate('/athlete/progress')}
+              className="bg-black-card border border-gray-800 rounded-lg p-2.5 md:p-4 text-center hover:border-gold-primary/50 transition-all cursor-pointer"
+            >
               <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-1">Streak</p>
               <p className="text-gold-bright font-mono text-lg md:text-2xl font-bold">12</p>
               <p className="text-gray-600 text-[10px] md:text-xs">Days</p>

@@ -1,4 +1,5 @@
 import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import type { Athlete } from '../../lib/mockData';
 import { getReliabilityColor } from '../../lib/mockData';
 import Badge from '../ui/Badge';
@@ -11,9 +12,13 @@ interface AthleteCardProps {
 export default function AthleteCard({ athlete, onVerify }: AthleteCardProps) {
   const color = getReliabilityColor(athlete.reliabilityScore);
   const pendingCount = athlete.recentWorkouts.filter(w => !w.verified).length;
+  const navigate = useNavigate();
 
   return (
-    <div className="bg-black-card border border-gray-800 rounded-lg p-6 hover:border-gold-primary transition-all duration-300 hover:shadow-gold">
+    <div
+      onClick={() => navigate(`/trainer/athlete/${athlete.id}`)}
+      className="bg-black-card border border-gray-800 rounded-lg p-6 hover:border-gold-primary transition-all duration-300 hover:shadow-gold cursor-pointer"
+    >
       {/* Top row */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -52,7 +57,7 @@ export default function AthleteCard({ athlete, onVerify }: AthleteCardProps) {
             <span className="text-sm font-medium">{pendingCount} pending verification{pendingCount > 1 ? 's' : ''}</span>
           </div>
           <button
-            onClick={onVerify}
+            onClick={(e) => { e.stopPropagation(); onVerify?.(); }}
             className="flex items-center gap-1.5 bg-gold-primary text-black-pure px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider hover:bg-gold-bright transition-colors cursor-pointer"
           >
             <CheckCircle2 size={14} />
