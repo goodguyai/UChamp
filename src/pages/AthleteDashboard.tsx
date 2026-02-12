@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dumbbell, Bot, Film, Target, Calendar } from 'lucide-react';
+import { Dumbbell, Bot, Film, Target, Calendar, Eye, TrendingUp, CheckCircle2, XCircle, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ATHLETES } from '../lib/mockData';
 import PageLayout from '../components/layout/PageLayout';
@@ -193,6 +193,93 @@ export default function AthleteDashboard() {
               </div>
             </div>
             <span>Today</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Recruiting Activity */}
+      <div className="mt-6 md:mt-8">
+        <div className="bg-black-card border border-gray-800 rounded-xl p-3.5 md:p-5">
+          {/* Section Header */}
+          <div className="flex items-center gap-2 mb-4 md:mb-5">
+            <Eye size={14} className="text-gold-primary" />
+            <h3 className="text-white font-bold text-xs md:text-sm uppercase tracking-wide">Recruiting Activity</h3>
+          </div>
+
+          {/* Top Stats Row: Profile Views + Schools Watching */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-5">
+            {/* Profile Views */}
+            <div className="bg-black/40 border border-gray-800 rounded-lg p-3 md:p-4">
+              <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-2">Profile Views</p>
+              <div className="flex items-end gap-3">
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-white font-mono text-xl md:text-2xl font-bold">7</span>
+                    <TrendingUp size={14} className="text-green-400" />
+                  </div>
+                  <p className="text-gray-600 text-[10px] md:text-xs">This week</p>
+                </div>
+                <div className="border-l border-gray-800 pl-3">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-white font-mono text-xl md:text-2xl font-bold">23</span>
+                    <TrendingUp size={14} className="text-green-400" />
+                  </div>
+                  <p className="text-gray-600 text-[10px] md:text-xs">This month</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Schools Watching */}
+            <div className="bg-black/40 border border-gray-800 rounded-lg p-3 md:p-4">
+              <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mb-2">Schools Watching</p>
+              <div className="flex items-center gap-2 mb-1.5">
+                <Users size={16} className="text-gold-primary" />
+                <span className="text-white font-mono text-xl md:text-2xl font-bold">4</span>
+              </div>
+              <p className="text-gold-bronze text-[10px] md:text-xs font-medium">2 D1 &middot; 1 D2 &middot; 1 NAIA</p>
+            </div>
+          </div>
+
+          {/* Profile Strength Score */}
+          <div className="mb-4 md:mb-5">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider">Profile Strength</p>
+              <span className="text-gold-bright font-mono text-sm md:text-base font-bold">82%</span>
+            </div>
+            <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-gold-primary to-gold-bright rounded-full transition-all"
+                style={{ width: '82%' }}
+              />
+            </div>
+          </div>
+
+          {/* Profile Strength Breakdown */}
+          <div className="space-y-2 mb-4 md:mb-5">
+            {[
+              { label: 'Video uploads', completed: true },
+              { label: 'Verified workouts', completed: true },
+              { label: 'GPA entered', completed: true },
+              { label: 'Combine results', completed: true },
+              { label: 'Coach endorsements', completed: false },
+            ].map((item) => (
+              <div key={item.label} className="flex items-center justify-between">
+                <span className={`text-xs ${item.completed ? 'text-gray-300' : 'text-gray-600'}`}>{item.label}</span>
+                {item.completed ? (
+                  <CheckCircle2 size={14} className="text-green-400" />
+                ) : (
+                  <XCircle size={14} className="text-gray-600" />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Tip */}
+          <div className="bg-gold-primary/[0.06] border border-gold-primary/15 rounded-lg p-2.5 md:p-3">
+            <p className="text-gold-primary text-[10px] md:text-xs leading-relaxed">
+              <span className="font-bold uppercase tracking-wider">Tip:</span>{' '}
+              Add a highlight video to increase recruiter interest by 3x
+            </p>
           </div>
         </div>
       </div>

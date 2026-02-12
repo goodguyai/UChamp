@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Shield, TrendingUp, CheckCircle2, Calendar, Clock, Eye, Bell, ChevronDown, ChevronUp, Target, MapPin, Flag } from 'lucide-react';
+import { Shield, TrendingUp, CheckCircle2, Calendar, Clock, Eye, Bell, ChevronDown, ChevronUp, Target, MapPin, Flag, MessageCircle, BarChart3, Send, ArrowUpRight } from 'lucide-react';
 import { ATHLETES, getReliabilityColor, getReliabilityLabel, STAT_LABELS, STAT_UNITS } from '../lib/mockData';
 import { UPCOMING_EVENTS, COMBINE_BENCHMARKS, getEventTypeColor, getEventTypeLabel } from '../lib/combineData';
 import Badge from '../components/ui/Badge';
@@ -8,6 +8,8 @@ import GoldShimmerText from '../components/ui/GoldShimmerText';
 export default function ParentPortal() {
   const athlete = ATHLETES[0]; // Marcus Johnson - parent viewing their child
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['overview', 'workouts']));
+  const [selectedMessage, setSelectedMessage] = useState<string>('');
+  const [customMessage, setCustomMessage] = useState<string>('');
   const color = getReliabilityColor(athlete.reliabilityScore);
 
   const toggleSection = (id: string) => {
@@ -306,6 +308,145 @@ export default function ParentPortal() {
                 <span className="text-gold-primary font-medium">About Combine Prep:</span>{' '}
                 Your child is actively preparing for upcoming combines and showcases. Benchmarks track their progress toward target performance levels used by college recruiters.
               </p>
+            </div>
+          </div>
+        </SectionCard>
+
+        {/* Contact Trainer */}
+        <SectionCard
+          id="trainer"
+          title="Contact Trainer"
+          icon={MessageCircle}
+          expanded={expandedSections.has('trainer')}
+          onToggle={toggleSection}
+        >
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gold-primary/10 flex items-center justify-center">
+                <MessageCircle size={18} className="text-gold-primary" />
+              </div>
+              <div>
+                <p className="text-white font-bold text-sm">Coach Mike Thompson</p>
+                <p className="text-gray-500 text-xs">Head Trainer</p>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-gray-400 text-xs uppercase tracking-wider mb-2">Quick Messages</p>
+              <div className="flex flex-col gap-2">
+                {[
+                  `How is ${athlete.name} progressing?`,
+                  'Can we schedule a meeting?',
+                  'What areas need improvement?',
+                ].map(msg => (
+                  <button
+                    key={msg}
+                    onClick={() => { setSelectedMessage(msg); setCustomMessage(msg); }}
+                    className={`text-left px-3 py-2 rounded-lg border text-sm transition-colors cursor-pointer ${
+                      selectedMessage === msg
+                        ? 'border-gold-primary bg-gold-primary/10 text-gold-primary'
+                        : 'border-gray-800 bg-black-elevated text-gray-300 hover:border-gray-700'
+                    }`}
+                  >
+                    {msg}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-gray-400 text-xs uppercase tracking-wider mb-2">Custom Message</p>
+              <textarea
+                value={customMessage}
+                onChange={e => setCustomMessage(e.target.value)}
+                placeholder="Type your message to Coach Thompson..."
+                rows={3}
+                className="w-full bg-black-elevated border border-gray-800 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-gold-primary/50 resize-none"
+              />
+            </div>
+
+            <button className="w-full flex items-center justify-center gap-2 bg-gold-primary text-black-pure font-bold text-sm uppercase tracking-wider py-3 rounded-lg hover:bg-gold-bright transition-colors cursor-pointer">
+              <Send size={14} />
+              Send Message
+            </button>
+
+            <p className="text-gray-600 text-xs text-center">
+              Messages are reviewed within 24 hours
+            </p>
+          </div>
+        </SectionCard>
+
+        {/* Weekly Summary */}
+        <SectionCard
+          id="weekly"
+          title="Weekly Summary"
+          icon={BarChart3}
+          expanded={expandedSections.has('weekly')}
+          onToggle={toggleSection}
+        >
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+              <div className="bg-black-elevated rounded-lg p-3 text-center">
+                <p className="text-gray-500 text-xs uppercase tracking-wider">Workouts</p>
+                <p className="text-white font-mono text-xl font-bold mt-1">4</p>
+                <p className="text-gray-600 text-[10px] mt-0.5">This week</p>
+              </div>
+              <div className="bg-black-elevated rounded-lg p-3 text-center">
+                <p className="text-gray-500 text-xs uppercase tracking-wider">Hours</p>
+                <p className="text-white font-mono text-xl font-bold mt-1">5.2</p>
+                <p className="text-gray-600 text-[10px] mt-0.5">Trained</p>
+              </div>
+              <div className="bg-black-elevated rounded-lg p-3 text-center">
+                <p className="text-gray-500 text-xs uppercase tracking-wider">Verified</p>
+                <p className="text-gold-primary font-mono text-xl font-bold mt-1">80%</p>
+                <p className="text-gray-600 text-[10px] mt-0.5">Rate</p>
+              </div>
+              <div className="bg-black-elevated rounded-lg p-3 text-center">
+                <p className="text-gray-500 text-xs uppercase tracking-wider">Trend</p>
+                <div className="flex items-center justify-center gap-1 mt-1">
+                  <p className="text-gold-bright font-mono text-xl font-bold">Up</p>
+                  <ArrowUpRight size={16} className="text-gold-bright" />
+                </div>
+                <p className="text-gray-600 text-[10px] mt-0.5">Improving</p>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-gray-400 text-xs uppercase tracking-wider mb-3">Daily Activity</p>
+              <div className="flex items-end gap-2">
+                {[
+                  { day: 'M', active: true },
+                  { day: 'T', active: true },
+                  { day: 'W', active: false },
+                  { day: 'T', active: true },
+                  { day: 'F', active: true },
+                  { day: 'S', active: false },
+                  { day: 'Su', active: false },
+                ].map((d, i) => (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
+                    <div
+                      className={`w-full rounded-md transition-all ${
+                        d.active
+                          ? 'bg-gold-primary h-10'
+                          : 'bg-gray-800 h-4'
+                      }`}
+                    />
+                    <span className={`text-[10px] font-mono uppercase tracking-wider ${
+                      d.active ? 'text-gold-primary' : 'text-gray-600'
+                    }`}>
+                      {d.day}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-gray-600 text-[10px] flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-sm bg-gold-primary inline-block" /> Active
+                </span>
+                <span className="text-gray-600 text-[10px] flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-sm bg-gray-800 inline-block" /> Rest
+                </span>
+              </div>
             </div>
           </div>
         </SectionCard>

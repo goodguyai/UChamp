@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, SlidersHorizontal, Eye, Star, StarOff } from 'lucide-react';
+import { Search, SlidersHorizontal, Eye, Star, StarOff, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ATHLETES, RECRUITERS } from '../lib/mockData';
 import { getReliabilityColor, getReliabilityLabel } from '../lib/mockData';
@@ -50,6 +50,49 @@ export default function RecruiterPortal() {
         </h2>
         <p className="text-gray-500">Verified talent. Trusted data. Elite athletes only.</p>
       </div>
+
+      {/* Top Prospects Leaderboard */}
+      {(() => {
+        const topProspects = [...ATHLETES]
+          .sort((a, b) => b.reliabilityScore - a.reliabilityScore)
+          .slice(0, 5);
+        const borderColors = ['border-gold-primary', 'border-gray-400', 'border-gold-bronze', 'border-gray-700', 'border-gray-700'];
+        const rankColors = ['text-gold-bright', 'text-gray-400', 'text-gold-bronze', 'text-gray-500', 'text-gray-500'];
+        return (
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Trophy className="text-gold-primary" size={20} />
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-gold-primary">
+                Top Prospects
+              </h3>
+            </div>
+            <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
+              {topProspects.map((athlete, index) => (
+                <div
+                  key={athlete.id}
+                  onClick={() => navigate(`/recruiter/athlete/${athlete.id}`)}
+                  className={`flex-shrink-0 w-44 bg-black-card border ${borderColors[index]} rounded-xl p-3 hover:shadow-gold transition-all duration-300 cursor-pointer`}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className={`font-mono font-black text-lg ${rankColors[index]}`}>
+                      #{index + 1}
+                    </span>
+                    <div className="w-9 h-9 rounded-full border-2 overflow-hidden bg-black-elevated" style={{ borderColor: getReliabilityColor(athlete.reliabilityScore) }}>
+                      <img src={athlete.photoUrl} alt={athlete.name} className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                  <p className="text-white font-bold text-sm truncate">{athlete.name}</p>
+                  <p className="text-gray-500 text-xs truncate">{athlete.position} · {athlete.school}</p>
+                  <div className="flex items-center justify-between mt-2">
+                    <Badge score={athlete.reliabilityScore} size="sm" />
+                    <span className="text-gray-400 font-mono text-xs">{athlete.stats.fortyYardDash}s</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Search & Filters */}
       <div className="mb-8 space-y-4">
