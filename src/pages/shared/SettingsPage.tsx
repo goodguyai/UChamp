@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { Settings, User, Bell, Shield, Palette, LogOut } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Settings, User, Bell, Shield, Palette, LogOut, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PageLayout from '../../components/layout/PageLayout';
 import Button from '../../components/ui/Button';
+import { getSettings, saveSettings, type UserSettings } from '../../lib/storage';
 
 type Role = 'athlete' | 'trainer' | 'recruiter';
 
@@ -13,44 +14,60 @@ interface SettingsPageProps {
   userEmail?: string;
 }
 
-interface SettingToggle {
-  id: string;
-  label: string;
-  description: string;
-  enabled: boolean;
-}
-
 export default function SettingsPage({ role, userName, userPhoto, userEmail = 'user@uchamp.com' }: SettingsPageProps) {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'profile' | 'notifications' | 'privacy' | 'appearance'>('profile');
+  const [saved, setSaved] = useState(false);
 
-  const [notificationSettings, setNotificationSettings] = useState<SettingToggle[]>([
-    { id: 'email_alerts', label: 'Email Alerts', description: 'Receive important updates via email', enabled: true },
-    { id: 'push_notifications', label: 'Push Notifications', description: 'Browser push notifications for real-time alerts', enabled: true },
-    { id: 'workout_reminders', label: 'Workout Reminders', description: 'Daily reminders to log your workouts', enabled: role === 'athlete' },
-    { id: 'score_updates', label: 'Score Updates', description: 'Notifications when reliability score changes', enabled: true },
-    { id: 'scout_alerts', label: 'Scout Activity', description: 'Know when recruiters view your profile', enabled: role === 'athlete' },
-    { id: 'verification_alerts', label: 'Verification Alerts', description: 'Notifications for pending verifications', enabled: role === 'trainer' },
-  ].filter(s => {
-    if (s.id === 'workout_reminders' && role !== 'athlete') return false;
-    if (s.id === 'scout_alerts' && role !== 'athlete') return false;
-    if (s.id === 'verification_alerts' && role !== 'trainer') return false;
-    return true;
-  }));
+  // Load from localStorage
+  const stored = getSettings(role);
+  const [settings, setSettings] = useState<UserSettings>({
+    ...stored,
+    name: stored.name || userName,
+    email: stored.email || userEmail,
+  });
 
-  const [privacySettings, setPrivacySettings] = useState<SettingToggle[]>([
-    { id: 'profile_visible', label: 'Profile Visible to Recruiters', description: 'Allow recruiters to find and view your profile', enabled: true },
-    { id: 'show_stats', label: 'Show Performance Stats', description: 'Display your stats on your public profile', enabled: true },
-    { id: 'show_workouts', label: 'Show Workout History', description: 'Allow others to see your workout log', enabled: false },
-    { id: 'show_score', label: 'Show Reliability Score', description: 'Display your reliability score publicly', enabled: true },
-  ]);
+  const handleSave = useCallback(() => {
+    saveSettings(role, settings);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }, [role, settings]);
+
+  // Auto-save on notification/privacy toggle
+  useEffect(() => {
+    const timer = setTimeout(() => saveSettings(role, settings), 500);
+    return () => clearTimeout(timer);
+  }, [settings.notifications, settings.privacy, settings.theme, settings.accentColor, role, settings]);
+
+  const NOTIFICATION_DEFS = [
+    { id: 'email_alerts', label: 'Email Alerts', description: 'Receive important updates via email', roles: ['athlete', 'trainer', 'recruiter'] },
+    { id: 'push_notifications', label: 'Push Notifications', description: 'Browser push notifications for real-time alerts', roles: ['athlete', 'trainer', 'recruiter'] },
+    { id: 'workout_reminders', label: 'Workout Reminders', description: 'Daily reminders to log your workouts', roles: ['athlete'] },
+    { id: 'score_updates', label: 'Score Updates', description: 'Notifications when reliability score changes', roles: ['athlete', 'trainer', 'recruiter'] },
+    { id: 'scout_alerts', label: 'Scout Activity', description: 'Know when recruiters view your profile', roles: ['athlete'] },
+    { id: 'verification_alerts', label: 'Verification Alerts', description: 'Notifications for pending verifications', roles: ['trainer'] },
+    { id: 'message_notifications', label: 'Message Notifications', description: 'Get notified when you receive a new message', roles: ['athlete', 'trainer'] },
+  ].filter(s => s.roles.includes(role));
+
+  const PRIVACY_DEFS = [
+    { id: 'profile_visible', label: 'Profile Visible to Recruiters', description: 'Allow recruiters to find and view your profile' },
+    { id: 'show_stats', label: 'Show Performance Stats', description: 'Display your stats on your public profile' },
+    { id: 'show_workouts', label: 'Show Workout History', description: 'Allow others to see your workout log' },
+    { id: 'show_score', label: 'Show Reliability Score', description: 'Display your reliability score publicly' },
+  ];
 
   const toggleNotification = (id: string) => {
-    setNotificationSettings(prev => prev.map(s => s.id === id ? { ...s, enabled: !s.enabled } : s));
+    setSettings(prev => ({
+      ...prev,
+      notifications: { ...prev.notifications, [id]: !prev.notifications[id] },
+    }));
   };
 
   const togglePrivacy = (id: string) => {
-    setPrivacySettings(prev => prev.map(s => s.id === id ? { ...s, enabled: !s.enabled } : s));
+    setSettings(prev => ({
+      ...prev,
+      privacy: { ...prev.privacy, [id]: !prev.privacy[id] },
+    }));
   };
 
   const TABS = [
@@ -60,13 +77,21 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
     { id: 'appearance' as const, label: 'Appearance', icon: Palette },
   ];
 
+  const themes = [
+    { id: 'dark-gold' as const, label: 'Dark Gold', active: settings.theme === 'dark-gold', bgClass: 'bg-black-pure border-gold-primary', available: true },
+    { id: 'midnight' as const, label: 'Midnight', active: settings.theme === 'midnight', bgClass: 'bg-gray-900 border-gray-600', available: false },
+    { id: 'light' as const, label: 'Light', active: settings.theme === 'light', bgClass: 'bg-white border-gray-300', available: false },
+  ];
+
+  const accentColors = [
+    { color: '#D4AF37', label: 'Gold' },
+    { color: '#60a5fa', label: 'Blue' },
+    { color: '#a78bfa', label: 'Purple' },
+    { color: '#34d399', label: 'Green' },
+  ];
+
   return (
-    <PageLayout
-      role={role}
-      title="Settings"
-      userName={userName}
-      userPhoto={userPhoto}
-    >
+    <PageLayout role={role} title="Settings" userName={userName} userPhoto={userPhoto}>
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-1">
           <Settings size={24} className="text-gold-primary" />
@@ -106,51 +131,38 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
                 <img src={userPhoto} alt={userName} className="w-full h-full object-cover" />
               </div>
               <div>
-                <p className="text-white font-bold text-lg">{userName}</p>
+                <p className="text-white font-bold text-lg">{settings.name || userName}</p>
                 <p className="text-gray-500 text-sm capitalize">{role}</p>
-                <button className="text-gold-primary text-xs font-medium hover:underline mt-1 cursor-pointer">
-                  Change photo
-                </button>
+                <button className="text-gold-primary text-xs font-medium hover:underline mt-1 cursor-pointer">Change photo</button>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="text-gray-400 text-xs uppercase tracking-wider mb-1.5 block">Full Name</label>
-                <input
-                  type="text"
-                  defaultValue={userName}
-                  className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold-primary transition-all"
-                />
+                <input type="text" value={settings.name} onChange={e => setSettings(p => ({ ...p, name: e.target.value }))}
+                  className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold-primary transition-all" />
               </div>
               <div>
                 <label className="text-gray-400 text-xs uppercase tracking-wider mb-1.5 block">Email</label>
-                <input
-                  type="email"
-                  defaultValue={userEmail}
-                  className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold-primary transition-all"
-                />
+                <input type="email" value={settings.email} onChange={e => setSettings(p => ({ ...p, email: e.target.value }))}
+                  className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold-primary transition-all" />
               </div>
               <div>
                 <label className="text-gray-400 text-xs uppercase tracking-wider mb-1.5 block">Phone</label>
-                <input
-                  type="tel"
-                  defaultValue="(404) 555-0100"
-                  className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold-primary transition-all"
-                />
+                <input type="tel" value={settings.phone} onChange={e => setSettings(p => ({ ...p, phone: e.target.value }))}
+                  className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold-primary transition-all" />
               </div>
               <div>
                 <label className="text-gray-400 text-xs uppercase tracking-wider mb-1.5 block">Location</label>
-                <input
-                  type="text"
-                  defaultValue="Lithonia, GA"
-                  className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold-primary transition-all"
-                />
+                <input type="text" value={settings.location} onChange={e => setSettings(p => ({ ...p, location: e.target.value }))}
+                  className="w-full bg-black-elevated border border-gray-700 rounded-md px-4 py-2.5 text-white text-sm focus:outline-none focus:border-gold-primary transition-all" />
               </div>
             </div>
 
-            <div className="flex justify-end mt-6">
-              <Button size="sm">Save Changes</Button>
+            <div className="flex items-center justify-end gap-3 mt-6">
+              {saved && <span className="flex items-center gap-1 text-green-400 text-xs font-medium"><Check size={14} /> Saved</span>}
+              <Button size="sm" onClick={handleSave}>Save Changes</Button>
             </div>
           </div>
 
@@ -159,12 +171,9 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-red-400 mb-2">Danger Zone</h3>
             <p className="text-gray-500 text-xs mb-4">These actions are irreversible. Proceed with caution.</p>
             <div className="flex flex-wrap gap-3">
-              <button
-                onClick={() => navigate('/')}
-                className="flex items-center gap-2 px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider bg-black-elevated text-gray-400 border border-gray-700 hover:border-red-500/50 hover:text-red-400 transition-all cursor-pointer"
-              >
-                <LogOut size={14} />
-                Sign Out
+              <button onClick={() => { localStorage.removeItem('uchamp_user'); navigate('/'); }}
+                className="flex items-center gap-2 px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider bg-black-elevated text-gray-400 border border-gray-700 hover:border-red-500/50 hover:text-red-400 transition-all cursor-pointer">
+                <LogOut size={14} /> Sign Out
               </button>
               <button className="px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider bg-black-elevated text-gray-500 border border-gray-700 hover:border-red-500/50 hover:text-red-400 transition-all cursor-pointer">
                 Delete Account
@@ -179,17 +188,15 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
         <div className="bg-black-card border border-gray-800 rounded-xl p-6">
           <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Notification Preferences</h3>
           <div className="space-y-4">
-            {notificationSettings.map(setting => (
-              <div key={setting.id} className="flex items-center justify-between py-3 border-b border-gray-800/50 last:border-0">
+            {NOTIFICATION_DEFS.map(def => (
+              <div key={def.id} className="flex items-center justify-between py-3 border-b border-gray-800/50 last:border-0">
                 <div>
-                  <p className="text-gray-200 text-sm font-medium">{setting.label}</p>
-                  <p className="text-gray-600 text-xs mt-0.5">{setting.description}</p>
+                  <p className="text-gray-200 text-sm font-medium">{def.label}</p>
+                  <p className="text-gray-600 text-xs mt-0.5">{def.description}</p>
                 </div>
-                <button
-                  onClick={() => toggleNotification(setting.id)}
-                  className={`w-11 h-6 rounded-full relative transition-colors cursor-pointer ${setting.enabled ? 'bg-gold-primary' : 'bg-gray-700'}`}
-                >
-                  <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${setting.enabled ? 'left-6' : 'left-1'}`} />
+                <button onClick={() => toggleNotification(def.id)}
+                  className={`w-11 h-6 rounded-full relative transition-colors cursor-pointer ${settings.notifications[def.id] ? 'bg-gold-primary' : 'bg-gray-700'}`}>
+                  <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${settings.notifications[def.id] ? 'left-6' : 'left-1'}`} />
                 </button>
               </div>
             ))}
@@ -202,17 +209,15 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
         <div className="bg-black-card border border-gray-800 rounded-xl p-6">
           <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 mb-4">Privacy Settings</h3>
           <div className="space-y-4">
-            {privacySettings.map(setting => (
-              <div key={setting.id} className="flex items-center justify-between py-3 border-b border-gray-800/50 last:border-0">
+            {PRIVACY_DEFS.map(def => (
+              <div key={def.id} className="flex items-center justify-between py-3 border-b border-gray-800/50 last:border-0">
                 <div>
-                  <p className="text-gray-200 text-sm font-medium">{setting.label}</p>
-                  <p className="text-gray-600 text-xs mt-0.5">{setting.description}</p>
+                  <p className="text-gray-200 text-sm font-medium">{def.label}</p>
+                  <p className="text-gray-600 text-xs mt-0.5">{def.description}</p>
                 </div>
-                <button
-                  onClick={() => togglePrivacy(setting.id)}
-                  className={`w-11 h-6 rounded-full relative transition-colors cursor-pointer ${setting.enabled ? 'bg-gold-primary' : 'bg-gray-700'}`}
-                >
-                  <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${setting.enabled ? 'left-6' : 'left-1'}`} />
+                <button onClick={() => togglePrivacy(def.id)}
+                  className={`w-11 h-6 rounded-full relative transition-colors cursor-pointer ${settings.privacy[def.id] ? 'bg-gold-primary' : 'bg-gray-700'}`}>
+                  <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${settings.privacy[def.id] ? 'left-6' : 'left-1'}`} />
                 </button>
               </div>
             ))}
@@ -228,41 +233,31 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
             <div>
               <p className="text-gray-300 text-sm font-medium mb-3">Theme</p>
               <div className="flex gap-3">
-                <button className="flex-1 bg-gold-primary/10 border border-gold-primary text-gold-primary rounded-lg p-4 text-center cursor-pointer">
-                  <div className="w-8 h-8 rounded-full bg-black-pure border border-gold-primary mx-auto mb-2" />
-                  <p className="text-xs font-bold uppercase">Dark Gold</p>
-                  <p className="text-[10px] text-gold-primary/70 mt-0.5">Active</p>
-                </button>
-                <button className="flex-1 bg-black-elevated border border-gray-700 text-gray-500 rounded-lg p-4 text-center cursor-pointer hover:border-gray-600 transition-all">
-                  <div className="w-8 h-8 rounded-full bg-gray-900 border border-gray-600 mx-auto mb-2" />
-                  <p className="text-xs font-bold uppercase">Midnight</p>
-                  <p className="text-[10px] text-gray-600 mt-0.5">Coming Soon</p>
-                </button>
-                <button className="flex-1 bg-black-elevated border border-gray-700 text-gray-500 rounded-lg p-4 text-center cursor-pointer hover:border-gray-600 transition-all">
-                  <div className="w-8 h-8 rounded-full bg-white border border-gray-300 mx-auto mb-2" />
-                  <p className="text-xs font-bold uppercase">Light</p>
-                  <p className="text-[10px] text-gray-600 mt-0.5">Coming Soon</p>
-                </button>
+                {themes.map(t => (
+                  <button key={t.id}
+                    onClick={() => t.available && setSettings(p => ({ ...p, theme: t.id }))}
+                    className={`flex-1 rounded-lg p-4 text-center cursor-pointer transition-all ${
+                      t.active ? 'bg-gold-primary/10 border border-gold-primary text-gold-primary' : 'bg-black-elevated border border-gray-700 text-gray-500 hover:border-gray-600'
+                    }`}>
+                    <div className={`w-8 h-8 rounded-full border mx-auto mb-2 ${t.bgClass}`} />
+                    <p className="text-xs font-bold uppercase">{t.label}</p>
+                    <p className="text-[10px] mt-0.5">{t.active ? 'Active' : t.available ? 'Select' : 'Coming Soon'}</p>
+                  </button>
+                ))}
               </div>
             </div>
 
             <div>
               <p className="text-gray-300 text-sm font-medium mb-3">Accent Color</p>
               <div className="flex gap-3">
-                {[
-                  { color: '#D4AF37', label: 'Gold', active: true },
-                  { color: '#60a5fa', label: 'Blue', active: false },
-                  { color: '#a78bfa', label: 'Purple', active: false },
-                  { color: '#34d399', label: 'Green', active: false },
-                ].map(opt => (
-                  <button
-                    key={opt.label}
+                {accentColors.map(opt => (
+                  <button key={opt.label}
+                    onClick={() => setSettings(p => ({ ...p, accentColor: opt.color }))}
                     className={`w-10 h-10 rounded-full border-2 transition-all cursor-pointer ${
-                      opt.active ? 'border-white scale-110' : 'border-gray-700 hover:border-gray-500'
+                      settings.accentColor === opt.color ? 'border-white scale-110' : 'border-gray-700 hover:border-gray-500'
                     }`}
                     style={{ backgroundColor: opt.color }}
-                    title={opt.label}
-                  />
+                    title={opt.label} />
                 ))}
               </div>
             </div>
@@ -271,9 +266,7 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
       )}
 
       <div className="mt-12 text-center">
-        <p className="text-gray-700 text-sm uppercase tracking-[0.3em]">
-          Your platform. Your rules.
-        </p>
+        <p className="text-gray-700 text-sm uppercase tracking-[0.3em]">Your platform. Your rules.</p>
       </div>
     </PageLayout>
   );

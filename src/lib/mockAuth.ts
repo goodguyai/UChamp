@@ -20,7 +20,11 @@ const ALL_USERS: AuthUser[] = [
 export const DEMO_ACCOUNTS: { label: string; email: string; password: string; role: UserRole }[] = [
   { label: 'Marcus Johnson (Athlete)', email: 'marcus.johnson@uchamp.com', password: 'demo', role: 'athlete' },
   { label: 'Coach Mike Davis (Trainer)', email: 'coach.davis@uchamp.com', password: 'demo', role: 'trainer' },
+  { label: 'Coach Sarah Johnson (Trainer)', email: 'coach.johnson@uchamp.com', password: 'demo', role: 'trainer' },
+  { label: 'Coach Ray Lewis Jr. (Trainer)', email: 'coach.lewis@uchamp.com', password: 'demo', role: 'trainer' },
   { label: 'John Smith (Recruiter)', email: 'jsmith@gatech.edu', password: 'demo', role: 'recruiter' },
+  { label: 'Patricia Washington (Recruiter)', email: 'pwashington@uga.edu', password: 'demo', role: 'recruiter' },
+  { label: 'David Martinez (Recruiter)', email: 'dmartinez@gsu.edu', password: 'demo', role: 'recruiter' },
 ];
 
 export function authenticateUser(email: string, _password: string): AuthUser | null {

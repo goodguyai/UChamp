@@ -6,7 +6,7 @@ import NotificationCenter from '../shared/NotificationCenter';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, Dumbbell, TrendingUp, Bot, Film, Target, Settings, Users,
-  CheckCircle2, Trophy, Search, Star, Bell, FileText, LogOut, X,
+  CheckCircle2, Trophy, Search, Star, Bell, FileText, LogOut, X, MessageSquare, GitCompare,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import GoldShimmerText from '../ui/GoldShimmerText';
@@ -31,6 +31,7 @@ const MOBILE_MENU_ITEMS: Record<Role, { label: string; path: string; icon: typeo
     { label: 'Combine Prep', path: '/athlete/combine-prep', icon: Target },
     { label: 'Progress', path: '/athlete/progress', icon: TrendingUp },
     { label: 'AI Coach', path: '/athlete/ai-coach', icon: Bot },
+    { label: 'Messages', path: '/athlete/messages', icon: MessageSquare },
     { label: 'Settings', path: '/athlete/settings', icon: Settings },
   ],
   trainer: [
@@ -38,11 +39,13 @@ const MOBILE_MENU_ITEMS: Record<Role, { label: string; path: string; icon: typeo
     { label: 'Athletes', path: '/trainer/athletes', icon: Users },
     { label: 'Verification', path: '/trainer/verification', icon: CheckCircle2 },
     { label: 'Portfolio', path: '/trainer/portfolio', icon: Trophy },
+    { label: 'Messages', path: '/trainer/messages', icon: MessageSquare },
     { label: 'Settings', path: '/trainer/settings', icon: Settings },
   ],
   recruiter: [
     { label: 'Dashboard', path: '/recruiter', icon: LayoutDashboard },
     { label: 'Search', path: '/recruiter/search', icon: Search },
+    { label: 'Compare', path: '/recruiter/compare', icon: GitCompare },
     { label: 'Watchlist', path: '/recruiter/watchlist', icon: Star },
     { label: 'Alerts', path: '/recruiter/alerts', icon: Bell },
     { label: 'Reports', path: '/recruiter/reports', icon: FileText },

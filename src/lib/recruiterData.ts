@@ -92,42 +92,93 @@ export const SCOUT_ALERTS: ScoutAlert[] = [
     read: true,
     priority: 'medium',
   },
+  {
+    id: 'sa-7',
+    type: 'breakout',
+    athleteId: 'ath-7',
+    athleteName: 'Isaiah Brooks',
+    title: 'Breakout Performance',
+    message: 'Isaiah Brooks hit a verified 4.58s 40-yard dash and 285 lb bench press. His reliability score climbed to 91.',
+    time: '1 day ago',
+    read: false,
+    priority: 'high',
+  },
+  {
+    id: 'sa-8',
+    type: 'new_verified',
+    athleteId: 'ath-5',
+    athleteName: 'Khalil Robinson',
+    title: 'Workout Verified',
+    message: 'Khalil Robinson completed a verified Speed & Agility session. 3 of 4 recent workouts now verified.',
+    time: '2 days ago',
+    read: false,
+    priority: 'medium',
+  },
+  {
+    id: 'sa-9',
+    type: 'profile_update',
+    athleteId: 'ath-10',
+    athleteName: 'Jordan Phillips',
+    title: 'New Film Uploaded',
+    message: 'Jordan Phillips uploaded 3 new game film clips from the region playoff game. Coverage skills on full display.',
+    time: '3 days ago',
+    read: true,
+    priority: 'medium',
+  },
+  {
+    id: 'sa-10',
+    type: 'combine_ready',
+    athleteId: 'ath-4',
+    athleteName: 'Terrell Green',
+    title: 'Combine Simulation Complete',
+    message: 'Terrell Green completed a full combine simulation scoring in the 95th percentile for WR prospects. All metrics verified.',
+    time: '5 days ago',
+    read: true,
+    priority: 'low',
+  },
 ];
 
 export const WATCHLIST_NOTES: WatchlistNote[] = [
   { athleteId: 'ath-1', note: 'Elite arm talent. Track 40-time improvement. Possible early commit target.', date: 'Feb 5, 2026' },
   { athleteId: 'ath-4', note: 'Fastest WR in the region. Route running needs polish but raw speed is elite.', date: 'Feb 3, 2026' },
+  { athleteId: 'ath-7', note: 'Most complete linebacker in the area. Leadership qualities stand out on film.', date: 'Feb 7, 2026' },
+  { athleteId: 'ath-2', note: 'Ball skills are exceptional. Need to see more press coverage reps.', date: 'Feb 1, 2026' },
+  { athleteId: 'ath-5', note: 'Downhill runner with surprising pass-catching ability. Physical style of play.', date: 'Jan 28, 2026' },
 ];
 
 export const REPORT_METRICS: ReportMetric[] = [
-  { label: 'Athletes Viewed', value: 24, change: 8, changeLabel: 'this week' },
-  { label: 'Profiles Saved', value: 6, change: 2, changeLabel: 'this week' },
-  { label: 'Avg Reliability Score', value: 88, change: 3, changeLabel: 'vs last month' },
-  { label: 'Watchlist Size', value: 2, change: 0, changeLabel: 'no change' },
+  { label: 'Athletes Viewed', value: 42, change: 12, changeLabel: 'this week' },
+  { label: 'Profiles Saved', value: 10, change: 4, changeLabel: 'this week' },
+  { label: 'Avg Reliability Score', value: 85, change: 3, changeLabel: 'vs last month' },
+  { label: 'Watchlist Size', value: 7, change: 2, changeLabel: 'this month' },
 ];
 
 export const PIPELINE_DATA = [
-  { stage: 'Identified', count: 24, color: '#525252' },
-  { stage: 'Watching', count: 6, color: '#CD7F32' },
-  { stage: 'Evaluating', count: 2, color: '#D4AF37' },
-  { stage: 'Priority', count: 1, color: '#FFD700' },
+  { stage: 'Identified', count: 42, color: '#525252' },
+  { stage: 'Watching', count: 10, color: '#CD7F32' },
+  { stage: 'Evaluating', count: 5, color: '#D4AF37' },
+  { stage: 'Priority', count: 3, color: '#FFD700' },
 ];
 
 export const POSITION_BREAKDOWN = [
   { position: 'QB', count: 1, avgScore: 92 },
   { position: 'WR', count: 1, avgScore: 90 },
-  { position: 'DB', count: 1, avgScore: 88 },
+  { position: 'DB', count: 3, avgScore: 85 },
   { position: 'OL', count: 1, avgScore: 85 },
+  { position: 'RB', count: 2, avgScore: 80 },
+  { position: 'LB', count: 1, avgScore: 91 },
+  { position: 'DL', count: 1, avgScore: 79 },
+  { position: 'TE', count: 1, avgScore: 76 },
 ];
 
 export const WEEKLY_ACTIVITY = [
-  { day: 'Mon', views: 5, saves: 1 },
-  { day: 'Tue', views: 8, saves: 2 },
-  { day: 'Wed', views: 3, saves: 0 },
-  { day: 'Thu', views: 12, saves: 3 },
-  { day: 'Fri', views: 6, saves: 1 },
-  { day: 'Sat', views: 2, saves: 0 },
-  { day: 'Sun', views: 1, saves: 0 },
+  { day: 'Mon', views: 8, saves: 2 },
+  { day: 'Tue', views: 12, saves: 3 },
+  { day: 'Wed', views: 6, saves: 1 },
+  { day: 'Thu', views: 15, saves: 4 },
+  { day: 'Fri', views: 10, saves: 2 },
+  { day: 'Sat', views: 4, saves: 1 },
+  { day: 'Sun', views: 2, saves: 0 },
 ];
 
 export const ALERT_TYPE_CONFIG = {

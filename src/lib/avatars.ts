@@ -19,7 +19,6 @@ function createSilhouette(initials: string, variant: 'athlete' | 'trainer' | 're
   const bg = bgColors[variant];
   const accent = accentColors[variant];
 
-  // Generic athletic silhouette with initials overlay
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
     <rect width="200" height="200" fill="${bg}"/>
     <circle cx="100" cy="75" r="35" fill="${accent}"/>
@@ -30,18 +29,26 @@ function createSilhouette(initials: string, variant: 'athlete' | 'trainer' | 're
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
-// Pre-built avatars for all mock data users
 export const AVATARS = {
   // Athletes
   marcus: createSilhouette('MJ', 'athlete'),
   jamal: createSilhouette('JW', 'athlete'),
   deandre: createSilhouette('DT', 'athlete'),
   terrell: createSilhouette('TG', 'athlete'),
+  khalil: createSilhouette('KR', 'athlete'),
+  davonte: createSilhouette('DC', 'athlete'),
+  isaiah: createSilhouette('IB', 'athlete'),
+  trevon: createSilhouette('TH', 'athlete'),
+  malik: createSilhouette('MS', 'athlete'),
+  jordan: createSilhouette('JP', 'athlete'),
   // Trainers
   mike: createSilhouette('MD', 'trainer'),
   sarah: createSilhouette('SJ', 'trainer'),
+  ray: createSilhouette('RL', 'trainer'),
   // Recruiters
   john: createSilhouette('JS', 'recruiter'),
+  patricia: createSilhouette('PW', 'recruiter'),
+  david: createSilhouette('DM', 'recruiter'),
   // Pro comparisons
   mahomes: createSilhouette('PM', 'pro'),
   allen: createSilhouette('JA', 'pro'),

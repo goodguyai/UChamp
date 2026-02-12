@@ -9,6 +9,7 @@ import {
   Search,
   Star,
   Bell,
+  MessageSquare,
 } from 'lucide-react';
 
 type Role = 'athlete' | 'trainer' | 'recruiter';
@@ -23,11 +24,13 @@ const MOBILE_NAV: Record<Role, { label: string; path: string; icon: typeof Layou
     { label: 'Workouts', path: '/athlete/workouts', icon: Dumbbell },
     { label: 'Film', path: '/athlete/film-room', icon: Film },
     { label: 'Progress', path: '/athlete/progress', icon: TrendingUp },
+    { label: 'Messages', path: '/athlete/messages', icon: MessageSquare },
   ],
   trainer: [
     { label: 'Home', path: '/trainer', icon: LayoutDashboard },
     { label: 'Athletes', path: '/trainer/athletes', icon: Users },
     { label: 'Verify', path: '/trainer/verification', icon: CheckCircle2 },
+    { label: 'Messages', path: '/trainer/messages', icon: MessageSquare },
   ],
   recruiter: [
     { label: 'Home', path: '/recruiter', icon: LayoutDashboard },
