@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { CheckCircle2, Clock, XCircle } from 'lucide-react';
 import { ATHLETES, TRAINERS, getReliabilityColor } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
+import { getVerifiedWorkouts, saveVerifiedWorkouts, getFlaggedWorkouts, saveFlaggedWorkouts } from '../../lib/storage';
 import type { Athlete } from '../../lib/mockData';
 import PageLayout from '../../components/layout/PageLayout';
 import VerificationModal from '../../components/trainer/VerificationModal';
@@ -11,10 +13,11 @@ interface PendingItem {
 }
 
 export default function VerificationPage() {
-  const trainer = TRAINERS[0];
+  const user = getStoredUser();
+  const trainer = TRAINERS.find(t => t.id === user?.id) || TRAINERS[0];
   const athletes = ATHLETES.filter(a => trainer.athletes.includes(a.id));
-  const [verifiedSet, setVerifiedSet] = useState<Set<string>>(new Set());
-  const [flaggedSet, setFlaggedSet] = useState<Set<string>>(new Set());
+  const [verifiedSet, setVerifiedSet] = useState<Set<string>>(() => new Set(getVerifiedWorkouts()));
+  const [flaggedSet, setFlaggedSet] = useState<Set<string>>(() => new Set(getFlaggedWorkouts()));
   const [verifyingItem, setVerifyingItem] = useState<PendingItem | null>(null);
 
   // Build pending list from all athletes' unverified workouts
@@ -33,9 +36,17 @@ export default function VerificationPage() {
   const handleVerification = (approved: boolean, _notes: string) => {
     if (!verifyingItem) return;
     if (approved) {
-      setVerifiedSet(prev => new Set([...prev, verifyingItem.workout.id]));
+      setVerifiedSet(prev => {
+        const next = new Set([...prev, verifyingItem.workout.id]);
+        saveVerifiedWorkouts(Array.from(next));
+        return next;
+      });
     } else {
-      setFlaggedSet(prev => new Set([...prev, verifyingItem.workout.id]));
+      setFlaggedSet(prev => {
+        const next = new Set([...prev, verifyingItem.workout.id]);
+        saveFlaggedWorkouts(Array.from(next));
+        return next;
+      });
     }
     setVerifyingItem(null);
   };

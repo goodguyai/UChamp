@@ -5,6 +5,7 @@ import {
   PieChart, Pie, Cell,
 } from 'recharts';
 import { ATHLETES, RECRUITERS } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import { REPORT_METRICS, PIPELINE_DATA, POSITION_BREAKDOWN, WEEKLY_ACTIVITY } from '../../lib/recruiterData';
 import { exportSearchResults } from '../../lib/exportUtils';
 import PageLayout from '../../components/layout/PageLayout';
@@ -13,7 +14,8 @@ import Button from '../../components/ui/Button';
 type TabType = 'overview' | 'pipeline' | 'class';
 
 export default function ReportsPage() {
-  const recruiter = RECRUITERS[0];
+  const user = getStoredUser();
+  const recruiter = RECRUITERS.find(r => r.id === user?.id) || RECRUITERS[0];
   const [activeTab, setActiveTab] = useState<TabType>('overview');
 
   const getChangeIcon = (change: number) => {

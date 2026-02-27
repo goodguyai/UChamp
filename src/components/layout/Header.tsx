@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Bell, Menu, X } from 'lucide-react';
 import GoldShimmerText from '../ui/GoldShimmerText';
+import { getStoredUser } from '../../lib/mockAuth';
 
 interface HeaderProps {
   title: string;
@@ -38,7 +39,7 @@ export default function Header({
           </button>
 
           {/* Mobile logo */}
-          <button onClick={() => navigate('/')} className="lg:hidden cursor-pointer">
+          <button onClick={() => { const u = getStoredUser(); navigate(u ? `/${u.role}` : '/'); }} className="lg:hidden cursor-pointer">
             <GoldShimmerText as="span" className="text-lg font-black tracking-tight">
               UCHAMP
             </GoldShimmerText>

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import PageLayout from '../../components/layout/PageLayout';
 import Button from '../../components/ui/Button';
 import { getSettings, saveSettings, type UserSettings } from '../../lib/storage';
+import { clearStoredUser } from '../../lib/mockAuth';
 
 type Role = 'athlete' | 'trainer' | 'recruiter';
 
@@ -174,7 +175,7 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-red-400 mb-2">Danger Zone</h3>
             <p className="text-gray-500 text-xs mb-4">These actions are irreversible. Proceed with caution.</p>
             <div className="flex flex-wrap gap-3">
-              <button onClick={() => { localStorage.removeItem('uchamp_user'); navigate('/'); }}
+              <button onClick={() => { clearStoredUser(); navigate('/login'); }}
                 className="flex items-center gap-2 px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider bg-black-elevated text-gray-400 border border-gray-700 hover:border-red-500/50 hover:text-red-400 transition-all cursor-pointer">
                 <LogOut size={14} /> Sign Out
               </button>

@@ -94,7 +94,7 @@ export default function Landing() {
           {roles.map((role) => (
             <button
               key={role.path}
-              onClick={() => navigate(role.path)}
+              onClick={() => navigate('/signup')}
               className="group relative overflow-hidden bg-black-card border-2 border-gray-800 rounded-xl p-5 md:p-8 text-left hover:border-gold-primary hover:shadow-gold-strong transition-all duration-300 active:scale-[0.98] cursor-pointer"
             >
               {/* Gold accent line */}

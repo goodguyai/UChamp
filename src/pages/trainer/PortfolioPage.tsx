@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Trophy, Users, CheckCircle2, TrendingUp, Star, Award, Calendar, Shield } from 'lucide-react';
 import { ATHLETES, TRAINERS, getReliabilityColor } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import Badge from '../../components/ui/Badge';
 import PageLayout from '../../components/layout/PageLayout';
 
 export default function PortfolioPage() {
-  const trainer = TRAINERS[0];
+  const user = getStoredUser();
+  const trainer = TRAINERS.find(t => t.id === user?.id) || TRAINERS[0];
   const athletes = ATHLETES.filter(a => trainer.athletes.includes(a.id));
   const avgScore = Math.round(athletes.reduce((sum, a) => sum + a.reliabilityScore, 0) / athletes.length);
   const totalVerified = athletes.reduce((sum, a) => sum + a.recentWorkouts.filter(w => w.verified).length, 0);

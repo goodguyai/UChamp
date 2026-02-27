@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { TrendingUp, Trophy, Flame, Calendar, Award, Target, ChevronUp, ChevronDown, Minus } from 'lucide-react';
 import { ATHLETES, STAT_LABELS, STAT_UNITS } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import PageLayout from '../../components/layout/PageLayout';
 import TrendChart from '../../components/athlete/TrendChart';
 import ShadowMode from '../../components/athlete/ShadowMode';
@@ -8,7 +9,8 @@ import RetentionScore from '../../components/athlete/RetentionScore';
 import StatsGrid from '../../components/athlete/StatsGrid';
 
 export default function ProgressPage() {
-  const athlete = ATHLETES[0];
+  const user = getStoredUser();
+  const athlete = ATHLETES.find(a => a.id === user?.id) || ATHLETES[0];
   const [activeView, setActiveView] = useState<'overview' | 'records' | 'milestones'>('overview');
 
   // Calculate personal records from trend data

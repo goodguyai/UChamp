@@ -494,3 +494,18 @@ export const STAT_UNITS: Record<string, string> = {
   punchPower: '',
   catchRadius: '"',
 };
+
+export function computeReliabilityScore(athlete: Athlete, verifiedWorkoutIds: string[], loggedWorkouts: Athlete['recentWorkouts']): number {
+  const allWorkouts = [...loggedWorkouts, ...athlete.recentWorkouts];
+  const totalWorkouts = allWorkouts.length;
+  if (totalWorkouts === 0) return athlete.reliabilityScore;
+
+  const verifiedCount = allWorkouts.filter(w => w.verified || verifiedWorkoutIds.includes(w.id)).length;
+  const verificationRate = verifiedCount / totalWorkouts;
+
+  // Base score from the athlete's static score, adjusted by verification rate
+  const baseScore = athlete.reliabilityScore;
+  const adjustment = Math.round((verificationRate - 0.5) * 10); // ±5 points based on how far above/below 50% verified
+
+  return Math.max(0, Math.min(100, baseScore + adjustment));
+}

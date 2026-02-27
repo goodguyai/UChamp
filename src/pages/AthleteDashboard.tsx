@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Dumbbell, Bot, Film, Target, Calendar, Eye, TrendingUp, CheckCircle2, XCircle, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ATHLETES } from '../lib/mockData';
+import { ATHLETES, computeReliabilityScore } from '../lib/mockData';
+import { getStoredUser } from '../lib/mockAuth';
+import { getLoggedWorkouts, saveLoggedWorkouts, getVerifiedWorkouts } from '../lib/storage';
 import PageLayout from '../components/layout/PageLayout';
 import ProfileHeader from '../components/athlete/ProfileHeader';
 import ReliabilityHero from '../components/athlete/ReliabilityHero';
@@ -13,11 +15,14 @@ import WorkoutLogModal, { type WorkoutFormData } from '../components/athlete/Wor
 import Button from '../components/ui/Button';
 
 export default function AthleteDashboard() {
-  const athlete = ATHLETES[0]; // Marcus Johnson
+  const user = getStoredUser();
+  const athlete = ATHLETES.find(a => a.id === user?.id) || ATHLETES[0];
   const [showWorkoutLog, setShowWorkoutLog] = useState(false);
   const navigate = useNavigate();
-  const [loggedWorkouts, setLoggedWorkouts] = useState<typeof athlete.recentWorkouts>([]);
-  const athleteWithLoggedWorkouts = { ...athlete, recentWorkouts: [...loggedWorkouts, ...athlete.recentWorkouts] };
+  const [loggedWorkouts, setLoggedWorkouts] = useState<typeof athlete.recentWorkouts>(() => getLoggedWorkouts(athlete.id));
+  const verifiedWorkoutIds = getVerifiedWorkouts();
+  const dynamicScore = computeReliabilityScore(athlete, verifiedWorkoutIds, loggedWorkouts);
+  const athleteWithLoggedWorkouts = { ...athlete, recentWorkouts: [...loggedWorkouts, ...athlete.recentWorkouts], reliabilityScore: dynamicScore };
 
   return (
     <>
@@ -58,7 +63,7 @@ export default function AthleteDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-6">
         {/* Left: Reliability Score */}
         <div className="lg:col-span-2">
-          <ReliabilityHero athlete={athlete} />
+          <ReliabilityHero athlete={athleteWithLoggedWorkouts} />
 
           {/* Quick stats below reliability */}
           <div className="mt-4 md:mt-6 grid grid-cols-3 gap-2 md:gap-3">
@@ -95,8 +100,8 @@ export default function AthleteDashboard() {
 
         {/* Right: Stats & Trends */}
         <div className="lg:col-span-3 space-y-4 md:space-y-6">
-          <StatsGrid athlete={athlete} />
-          <TrendChart athlete={athlete} />
+          <StatsGrid athlete={athleteWithLoggedWorkouts} />
+          <TrendChart athlete={athleteWithLoggedWorkouts} />
         </div>
       </div>
 
@@ -309,13 +314,18 @@ export default function AthleteDashboard() {
       <WorkoutLogModal
         onClose={() => setShowWorkoutLog(false)}
         onSubmit={(data: WorkoutFormData) => {
-          setLoggedWorkouts(prev => [{
+          const newWorkout = {
             id: `w-${Date.now()}`,
             date: new Date().toISOString().split('T')[0],
             type: data.type,
             duration: data.duration,
             verified: false,
-          }, ...prev]);
+          };
+          setLoggedWorkouts(prev => {
+            const next = [newWorkout, ...prev];
+            saveLoggedWorkouts(athlete.id, next);
+            return next;
+          });
           setShowWorkoutLog(false);
         }}
       />

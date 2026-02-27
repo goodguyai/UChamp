@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Users, Search } from 'lucide-react';
 import { ATHLETES, TRAINERS } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
+import { getVerifiedWorkouts, saveVerifiedWorkouts } from '../../lib/storage';
 import type { Athlete } from '../../lib/mockData';
 import PageLayout from '../../components/layout/PageLayout';
 import AthleteCard from '../../components/trainer/AthleteCard';
 import VerificationModal from '../../components/trainer/VerificationModal';
 
 export default function AthletesPage() {
-  const trainer = TRAINERS[0];
+  const user = getStoredUser();
+  const trainer = TRAINERS.find(t => t.id === user?.id) || TRAINERS[0];
   const athletes = ATHLETES.filter(a => trainer.athletes.includes(a.id));
   const [search, setSearch] = useState('');
   const [verifyingAthlete, setVerifyingAthlete] = useState<Athlete | null>(null);
@@ -21,7 +24,13 @@ export default function AthletesPage() {
     if (athlete) setVerifyingAthlete(athlete);
   };
 
-  const handleVerificationComplete = () => {
+  const handleVerificationComplete = (approved: boolean, _notes: string) => {
+    if (verifyingAthlete && approved) {
+      const pendingIds = verifyingAthlete.recentWorkouts.filter(w => !w.verified).map(w => w.id);
+      const existing = getVerifiedWorkouts();
+      const merged = new Set([...existing, ...pendingIds]);
+      saveVerifiedWorkouts(Array.from(merged));
+    }
     setVerifyingAthlete(null);
   };
 
@@ -88,7 +97,7 @@ export default function AthletesPage() {
           duration: verifyingAthlete.recentWorkouts.find(w => !w.verified)?.duration || 60,
         }}
         onClose={() => setVerifyingAthlete(null)}
-        onVerify={() => handleVerificationComplete()}
+        onVerify={handleVerificationComplete}
       />
     )}
     </>

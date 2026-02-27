@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Bell, Eye, Check, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { RECRUITERS } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import { SCOUT_ALERTS, ALERT_TYPE_CONFIG } from '../../lib/recruiterData';
 import type { ScoutAlert } from '../../lib/recruiterData';
 import PageLayout from '../../components/layout/PageLayout';
@@ -19,10 +20,11 @@ const FILTER_OPTIONS: { value: FilterType; label: string }[] = [
 ];
 
 export default function AlertsPage() {
-  const recruiter = RECRUITERS[0];
+  const user = getStoredUser();
+  const recruiter = RECRUITERS.find(r => r.id === user?.id) || RECRUITERS[0];
   const navigate = useNavigate();
   const [alerts, setAlerts] = useState(() => {
-    const readIds = getReadAlerts('rec-1');
+    const readIds = getReadAlerts(recruiter.id);
     return SCOUT_ALERTS.map(a => readIds.includes(a.id) ? { ...a, read: true } : a);
   });
   const [filter, setFilter] = useState<FilterType>('all');
@@ -44,7 +46,7 @@ export default function AlertsPage() {
   const markRead = (id: string) => {
     setAlerts(prev => {
       const updated = prev.map(a => a.id === id ? { ...a, read: true } : a);
-      saveReadAlerts('rec-1', updated.filter(a => a.read).map(a => a.id));
+      saveReadAlerts(recruiter.id, updated.filter(a => a.read).map(a => a.id));
       return updated;
     });
   };
@@ -52,7 +54,7 @@ export default function AlertsPage() {
   const markAllRead = () => {
     setAlerts(prev => {
       const updated = prev.map(a => ({ ...a, read: true }));
-      saveReadAlerts('rec-1', updated.map(a => a.id));
+      saveReadAlerts(recruiter.id, updated.map(a => a.id));
       return updated;
     });
   };

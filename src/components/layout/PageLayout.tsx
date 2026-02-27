@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import GoldShimmerText from '../ui/GoldShimmerText';
+import { clearStoredUser } from '../../lib/mockAuth';
 
 type Role = 'athlete' | 'trainer' | 'recruiter';
 
@@ -120,7 +121,7 @@ export default function PageLayout({
                 </div>
               </div>
               <button
-                onClick={() => { setMobileMenuOpen(false); localStorage.removeItem('uchamp_user'); navigate('/'); }}
+                onClick={() => { setMobileMenuOpen(false); clearStoredUser(); navigate('/login'); }}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-500 hover:text-white hover:bg-black-elevated w-full transition-all cursor-pointer"
               >
                 <LogOut size={18} />

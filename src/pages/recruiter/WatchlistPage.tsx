@@ -2,17 +2,19 @@ import { useState } from 'react';
 import { Star, Eye, Trash2, FileText, TrendingUp, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ATHLETES, RECRUITERS, getReliabilityColor, getReliabilityLabel } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import { WATCHLIST_NOTES } from '../../lib/recruiterData';
-import { getWatchlist, saveWatchlist, getScoutNotes, saveScoutNotes } from '../../lib/storage';
+import { getWatchlist, saveWatchlist, getScoutNotes, saveScoutNotes, hasWatchlist } from '../../lib/storage';
 import PageLayout from '../../components/layout/PageLayout';
 import Badge from '../../components/ui/Badge';
 
 export default function WatchlistPage() {
-  const recruiter = RECRUITERS[0];
+  const user = getStoredUser();
+  const recruiter = RECRUITERS.find(r => r.id === user?.id) || RECRUITERS[0];
   const navigate = useNavigate();
-  const [watchlistIds, setWatchlistIds] = useState<Set<string>>(() => new Set(getWatchlist('rec-1').length ? getWatchlist('rec-1') : ['ath-1', 'ath-4']));
+  const [watchlistIds, setWatchlistIds] = useState<Set<string>>(() => new Set(hasWatchlist(recruiter.id) ? getWatchlist(recruiter.id) : ['ath-1', 'ath-4']));
   const [notes, setNotes] = useState<Record<string, string>>(() => {
-    const stored = getScoutNotes('rec-1');
+    const stored = getScoutNotes(recruiter.id);
     const defaults = Object.fromEntries(WATCHLIST_NOTES.map(n => [n.athleteId, n.note]));
     return Object.keys(stored).length > 0 ? { ...defaults, ...stored } : defaults;
   });
@@ -24,7 +26,7 @@ export default function WatchlistPage() {
     setWatchlistIds(prev => {
       const next = new Set(prev);
       next.delete(id);
-      saveWatchlist('rec-1', Array.from(next));
+      saveWatchlist(recruiter.id, Array.from(next));
       return next;
     });
   };
@@ -32,7 +34,7 @@ export default function WatchlistPage() {
   const updateNote = (athleteId: string, note: string) => {
     const updated = { ...notes, [athleteId]: note };
     setNotes(updated);
-    saveScoutNotes('rec-1', updated);
+    saveScoutNotes(recruiter.id, updated);
     setEditingNote(null);
   };
 

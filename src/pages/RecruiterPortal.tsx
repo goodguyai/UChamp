@@ -3,19 +3,21 @@ import { Search, SlidersHorizontal, Eye, Star, StarOff, Trophy } from 'lucide-re
 import { useNavigate } from 'react-router-dom';
 import { ATHLETES, RECRUITERS } from '../lib/mockData';
 import { getReliabilityColor, getReliabilityLabel } from '../lib/mockData';
+import { getStoredUser } from '../lib/mockAuth';
 import Badge from '../components/ui/Badge';
 import PageLayout from '../components/layout/PageLayout';
-import { getWatchlist, saveWatchlist } from '../lib/storage';
+import { getWatchlist, saveWatchlist, hasWatchlist } from '../lib/storage';
 
 const POSITIONS = ['ALL', 'QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'DB'] as const;
 
 export default function RecruiterPortal() {
-  const recruiter = RECRUITERS[0];
+  const user = getStoredUser();
+  const recruiter = RECRUITERS.find(r => r.id === user?.id) || RECRUITERS[0];
   const [search, setSearch] = useState('');
   const [minScore, setMinScore] = useState(0);
   const [position, setPosition] = useState<string>('ALL');
   const navigate = useNavigate();
-  const [watchlist, setWatchlist] = useState<Set<string>>(() => new Set(getWatchlist('rec-1').length ? getWatchlist('rec-1') : ['ath-1', 'ath-4']));
+  const [watchlist, setWatchlist] = useState<Set<string>>(() => new Set(hasWatchlist(recruiter.id) ? getWatchlist(recruiter.id) : ['ath-1', 'ath-4']));
   const [showFilters, setShowFilters] = useState(false);
 
   const filtered = useMemo(() => {
@@ -32,7 +34,7 @@ export default function RecruiterPortal() {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
-      saveWatchlist('rec-1', Array.from(next));
+      saveWatchlist(recruiter.id, Array.from(next));
       return next;
     });
   };

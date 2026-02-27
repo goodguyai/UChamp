@@ -7,6 +7,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { ATHLETES, getReliabilityColor, getReliabilityLabel, STAT_LABELS, STAT_UNITS } from '../../lib/mockData';
+import { getVerifiedWorkouts, saveVerifiedWorkouts } from '../../lib/storage';
 import Badge from '../../components/ui/Badge';
 import Button from '../../components/ui/Button';
 import VerificationModal from '../../components/trainer/VerificationModal';
@@ -190,7 +191,15 @@ export default function AthleteDetailPage() {
             duration: athlete.recentWorkouts.find(w => !w.verified)?.duration || 60,
           }}
           onClose={() => setVerifying(false)}
-          onVerify={() => setVerifying(false)}
+          onVerify={(approved: boolean, _notes: string) => {
+            if (athlete && approved) {
+              const pendingIds = athlete.recentWorkouts.filter(w => !w.verified).map(w => w.id);
+              const existing = getVerifiedWorkouts();
+              const merged = new Set([...existing, ...pendingIds]);
+              saveVerifiedWorkouts(Array.from(merged));
+            }
+            setVerifying(false);
+          }}
         />
       )}
     </>

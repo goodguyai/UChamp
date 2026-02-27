@@ -1,8 +1,10 @@
 import { RECRUITERS } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import SettingsPage from '../shared/SettingsPage';
 
 export default function RecruiterSettingsPage() {
-  const recruiter = RECRUITERS[0];
+  const user = getStoredUser();
+  const recruiter = RECRUITERS.find(r => r.id === user?.id) || RECRUITERS[0];
   return (
     <SettingsPage
       role="recruiter"

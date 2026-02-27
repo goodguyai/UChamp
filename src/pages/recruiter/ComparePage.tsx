@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { GitCompare, ChevronDown, Trophy, TrendingUp, Shield } from 'lucide-react';
 import { ATHLETES, RECRUITERS, getReliabilityColor, getReliabilityLabel, STAT_LABELS, STAT_UNITS } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import type { Athlete } from '../../lib/mockData';
 import PageLayout from '../../components/layout/PageLayout';
 import Badge from '../../components/ui/Badge';
 
 export default function ComparePage() {
-  const recruiter = RECRUITERS[0];
+  const user = getStoredUser();
+  const recruiter = RECRUITERS.find(r => r.id === user?.id) || RECRUITERS[0];
   const [athleteA, setAthleteA] = useState<Athlete | null>(ATHLETES[0]);
   const [athleteB, setAthleteB] = useState<Athlete | null>(ATHLETES[3]);
   const [dropdownA, setDropdownA] = useState(false);

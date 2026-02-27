@@ -19,6 +19,7 @@ import {
   GitCompare,
 } from 'lucide-react';
 import GoldShimmerText from '../ui/GoldShimmerText';
+import { clearStoredUser } from '../../lib/mockAuth';
 
 type Role = 'athlete' | 'trainer' | 'recruiter';
 
@@ -72,7 +73,7 @@ export default function Sidebar({ role, userName, userPhoto }: SidebarProps) {
     <aside className="hidden lg:flex flex-col w-64 bg-black-card border-r border-gray-800 h-screen sticky top-0">
       {/* Logo */}
       <div className="p-6 border-b border-gray-800">
-        <button onClick={() => navigate('/')} className="cursor-pointer">
+        <button onClick={() => navigate(`/${role}`)} className="cursor-pointer">
           <GoldShimmerText as="h1" className="text-2xl font-black tracking-tight">
             UCHAMP
           </GoldShimmerText>
@@ -112,7 +113,7 @@ export default function Sidebar({ role, userName, userPhoto }: SidebarProps) {
             <p className="text-gray-500 text-xs capitalize">{role}</p>
           </div>
           <button
-            onClick={() => { localStorage.removeItem('uchamp_user'); navigate('/'); }}
+            onClick={() => { clearStoredUser(); navigate('/login'); }}
             className="text-gray-600 hover:text-gold-primary transition-colors cursor-pointer"
             title="Sign out"
           >

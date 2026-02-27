@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Film, Video, Clock, CheckCircle2, Sparkles, Target, TrendingUp, AlertTriangle } from 'lucide-react';
 import { ATHLETES } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import PageLayout from '../../components/layout/PageLayout';
 import VideoUpload from '../../components/athlete/VideoUpload';
 import VideoAnalysisResults from '../../components/athlete/VideoAnalysisResults';
@@ -48,7 +49,8 @@ const PAST_ANALYSES = [
 ];
 
 export default function FilmRoomPage() {
-  const athlete = ATHLETES[0];
+  const user = getStoredUser();
+  const athlete = ATHLETES.find(a => a.id === user?.id) || ATHLETES[0];
   const [selectedCategory, setSelectedCategory] = useState(WORKOUT_CATEGORIES[0]);
   const [analysisResult, setAnalysisResult] = useState<FormAnalysis | null>(null);
   const [_uploadedVideos, setUploadedVideos] = useState<VideoUploadType[]>([]);

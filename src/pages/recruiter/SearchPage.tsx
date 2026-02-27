@@ -3,16 +3,18 @@ import { Search, SlidersHorizontal, Eye, Star, StarOff, ArrowUpDown, Users } fro
 import { useNavigate } from 'react-router-dom';
 import { ATHLETES, RECRUITERS } from '../../lib/mockData';
 import { getReliabilityColor } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import Badge from '../../components/ui/Badge';
 import PageLayout from '../../components/layout/PageLayout';
-import { getWatchlist, saveWatchlist } from '../../lib/storage';
+import { getWatchlist, saveWatchlist, hasWatchlist } from '../../lib/storage';
 
 const POSITIONS = ['ALL', 'QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'DB'] as const;
 const GRAD_YEARS = [2025, 2026, 2027, 2028] as const;
 type SortKey = 'reliability' | 'fortyYardDash' | 'bench' | 'vertical' | 'name';
 
 export default function SearchPage() {
-  const recruiter = RECRUITERS[0];
+  const user = getStoredUser();
+  const recruiter = RECRUITERS.find(r => r.id === user?.id) || RECRUITERS[0];
   const [search, setSearch] = useState('');
   const [minScore, setMinScore] = useState(0);
   const [position, setPosition] = useState<string>('ALL');
@@ -20,7 +22,7 @@ export default function SearchPage() {
   const [sortBy, setSortBy] = useState<SortKey>('reliability');
   const [verifiedOnly, setVerifiedOnly] = useState(false);
   const navigate = useNavigate();
-  const [watchlist, setWatchlist] = useState<Set<string>>(() => new Set(getWatchlist('rec-1').length ? getWatchlist('rec-1') : ['ath-1', 'ath-4']));
+  const [watchlist, setWatchlist] = useState<Set<string>>(() => new Set(hasWatchlist(recruiter.id) ? getWatchlist(recruiter.id) : ['ath-1', 'ath-4']));
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
 
@@ -49,7 +51,7 @@ export default function SearchPage() {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
-      saveWatchlist('rec-1', Array.from(next));
+      saveWatchlist(recruiter.id, Array.from(next));
       return next;
     });
   };

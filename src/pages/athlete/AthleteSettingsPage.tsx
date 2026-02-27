@@ -1,14 +1,16 @@
 import { ATHLETES } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import SettingsPage from '../shared/SettingsPage';
 
 export default function AthleteSettingsPage() {
-  const athlete = ATHLETES[0];
+  const user = getStoredUser();
+  const athlete = ATHLETES.find(a => a.id === user?.id) || ATHLETES[0];
   return (
     <SettingsPage
       role="athlete"
       userName={athlete.name}
       userPhoto={athlete.photoUrl}
-      userEmail="marcus.johnson@uchamp.com"
+      userEmail={user?.email || 'marcus.johnson@uchamp.com'}
     />
   );
 }

@@ -4,6 +4,8 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell,
 } from 'recharts';
 import { ATHLETES } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
+import { getLoggedWorkouts, saveLoggedWorkouts } from '../../lib/storage';
 import PageLayout from '../../components/layout/PageLayout';
 import WorkoutLogModal, { type WorkoutFormData } from '../../components/athlete/WorkoutLogModal';
 import Button from '../../components/ui/Button';
@@ -12,11 +14,12 @@ type FilterType = 'all' | 'verified' | 'pending';
 type ViewType = 'list' | 'analytics';
 
 export default function WorkoutsPage() {
-  const athlete = ATHLETES[0];
+  const user = getStoredUser();
+  const athlete = ATHLETES.find(a => a.id === user?.id) || ATHLETES[0];
   const [showLog, setShowLog] = useState(false);
   const [filter, setFilter] = useState<FilterType>('all');
   const [view, setView] = useState<ViewType>('list');
-  const [loggedWorkouts, setLoggedWorkouts] = useState<typeof athlete.recentWorkouts>([]);
+  const [loggedWorkouts, setLoggedWorkouts] = useState<typeof athlete.recentWorkouts>(() => getLoggedWorkouts(athlete.id));
 
   const allWorkouts = [...loggedWorkouts, ...athlete.recentWorkouts];
   const filtered = filter === 'all'
@@ -286,13 +289,18 @@ export default function WorkoutsPage() {
       <WorkoutLogModal
         onClose={() => setShowLog(false)}
         onSubmit={(data: WorkoutFormData) => {
-          setLoggedWorkouts(prev => [{
+          const newWorkout = {
             id: `w-${Date.now()}`,
             date: new Date().toISOString().split('T')[0],
             type: data.type,
             duration: data.duration,
             verified: false,
-          }, ...prev]);
+          };
+          setLoggedWorkouts(prev => {
+            const next = [newWorkout, ...prev];
+            saveLoggedWorkouts(athlete.id, next);
+            return next;
+          });
           setShowLog(false);
         }}
       />

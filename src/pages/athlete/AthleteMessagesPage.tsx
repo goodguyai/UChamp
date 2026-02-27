@@ -1,8 +1,10 @@
 import { ATHLETES } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import MessagesPage from '../shared/MessagesPage';
 
 export default function AthleteMessagesPage() {
-  const athlete = ATHLETES[0];
+  const user = getStoredUser();
+  const athlete = ATHLETES.find(a => a.id === user?.id) || ATHLETES[0];
   return (
     <MessagesPage
       role="athlete"

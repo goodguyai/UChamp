@@ -5,6 +5,7 @@ import {
   Zap, Trophy, Flag,
 } from 'lucide-react';
 import { ATHLETES } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import PageLayout from '../../components/layout/PageLayout';
 import {
   UPCOMING_EVENTS, COMBINE_BENCHMARKS, TRAINING_PLAN,
@@ -12,7 +13,8 @@ import {
 } from '../../lib/combineData';
 
 export default function CombinePrepPage() {
-  const athlete = ATHLETES[0];
+  const user = getStoredUser();
+  const athlete = ATHLETES.find(a => a.id === user?.id) || ATHLETES[0];
   const [expandedWeek, setExpandedWeek] = useState<string | null>('plan-3');
 
   const totalSessions = TRAINING_PLAN.flatMap(w => w.sessions).length;

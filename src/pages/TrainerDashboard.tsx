@@ -2,21 +2,23 @@ import { useState } from 'react';
 import { Users, CheckCircle2, Clock, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ATHLETES, TRAINERS } from '../lib/mockData';
+import { getStoredUser } from '../lib/mockAuth';
+import { getVerifiedWorkouts, saveVerifiedWorkouts } from '../lib/storage';
 import type { Athlete } from '../lib/mockData';
 import PageLayout from '../components/layout/PageLayout';
 import AthleteCard from '../components/trainer/AthleteCard';
 import VerificationModal from '../components/trainer/VerificationModal';
 
 export default function TrainerDashboard() {
-  const trainer = TRAINERS[0];
+  const user = getStoredUser();
+  const trainer = TRAINERS.find(t => t.id === user?.id) || TRAINERS[0];
   const athletes = ATHLETES.filter(a => trainer.athletes.includes(a.id));
   const navigate = useNavigate();
-  const [verifiedIds, setVerifiedIds] = useState<Set<string>>(new Set());
+  const [verifiedIds, setVerifiedIds] = useState<Set<string>>(() => new Set(getVerifiedWorkouts()));
   const [verifyingAthlete, setVerifyingAthlete] = useState<Athlete | null>(null);
 
   const totalPending = athletes.reduce((sum, a) => {
-    if (verifiedIds.has(a.id)) return sum;
-    return sum + a.recentWorkouts.filter(w => !w.verified).length;
+    return sum + a.recentWorkouts.filter(w => !w.verified && !verifiedIds.has(w.id)).length;
   }, 0);
 
   const avgScore = Math.round(athletes.reduce((sum, a) => sum + a.reliabilityScore, 0) / athletes.length);
@@ -28,7 +30,11 @@ export default function TrainerDashboard() {
 
   const handleVerificationComplete = (approved: boolean, _notes: string) => {
     if (verifyingAthlete && approved) {
-      setVerifiedIds(prev => new Set([...prev, verifyingAthlete.id]));
+      setVerifiedIds(prev => {
+        const next = new Set([...prev, ...verifyingAthlete.recentWorkouts.filter(w => !w.verified).map(w => w.id)]);
+        saveVerifiedWorkouts(Array.from(next));
+        return next;
+      });
     }
     setVerifyingAthlete(null);
   };

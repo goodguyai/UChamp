@@ -8,17 +8,19 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { ATHLETES, RECRUITERS, getReliabilityColor, getReliabilityLabel, getTrainerById, STAT_LABELS, STAT_UNITS } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import Badge from '../../components/ui/Badge';
 import Button from '../../components/ui/Button';
 import { exportAthleteReport } from '../../lib/exportUtils';
-import { getWatchlist, saveWatchlist } from '../../lib/storage';
+import { getWatchlist, saveWatchlist, hasWatchlist } from '../../lib/storage';
 
 export default function AthleteProfilePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const recruiter = RECRUITERS[0];
+  const user = getStoredUser();
+  const recruiter = RECRUITERS.find(r => r.id === user?.id) || RECRUITERS[0];
   const athlete = ATHLETES.find(a => a.id === id);
-  const [watchlist, setWatchlist] = useState<Set<string>>(() => new Set(getWatchlist('rec-1').length ? getWatchlist('rec-1') : recruiter.watchlist));
+  const [watchlist, setWatchlist] = useState<Set<string>>(() => new Set(hasWatchlist(recruiter.id) ? getWatchlist(recruiter.id) : recruiter.watchlist));
   const [activeChart, setActiveChart] = useState<'fortyYardDash' | 'bench' | 'vertical'>('fortyYardDash');
 
   if (!athlete) {
@@ -43,7 +45,7 @@ export default function AthleteProfilePage() {
       const next = new Set(prev);
       if (next.has(athlete.id)) next.delete(athlete.id);
       else next.add(athlete.id);
-      saveWatchlist('rec-1', Array.from(next));
+      saveWatchlist(recruiter.id, Array.from(next));
       return next;
     });
   };

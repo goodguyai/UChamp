@@ -1,12 +1,22 @@
 import { useState } from 'react';
-import { Shield, TrendingUp, CheckCircle2, Calendar, Clock, Eye, Bell, ChevronDown, ChevronUp, Target, MapPin, Flag, MessageCircle, BarChart3, Send, ArrowUpRight } from 'lucide-react';
-import { ATHLETES, getReliabilityColor, getReliabilityLabel, STAT_LABELS, STAT_UNITS } from '../lib/mockData';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { Shield, TrendingUp, CheckCircle2, Calendar, Clock, Eye, Bell, ChevronDown, ChevronUp, Target, MapPin, Flag, MessageCircle, BarChart3, Send, ArrowUpRight, Home, LogOut } from 'lucide-react';
+import { ATHLETES, getReliabilityColor, getReliabilityLabel, STAT_LABELS, STAT_UNITS, getTrainerById } from '../lib/mockData';
 import { UPCOMING_EVENTS, COMBINE_BENCHMARKS, getEventTypeColor, getEventTypeLabel } from '../lib/combineData';
+import { getStoredUser, clearStoredUser } from '../lib/mockAuth';
 import Badge from '../components/ui/Badge';
 import GoldShimmerText from '../components/ui/GoldShimmerText';
 
 export default function ParentPortal() {
+  const navigate = useNavigate();
+  const user = getStoredUser();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   const athlete = ATHLETES[0]; // Marcus Johnson - parent viewing their child
+  const trainer = getTrainerById(athlete.trainerId);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['overview', 'workouts']));
   const [selectedMessage, setSelectedMessage] = useState<string>('');
   const [customMessage, setCustomMessage] = useState<string>('');
@@ -34,11 +44,25 @@ export default function ParentPortal() {
           </GoldShimmerText>
           <div className="flex items-center gap-3">
             <span className="text-gray-400 text-sm hidden sm:block">Parent Portal</span>
+            <button
+              onClick={() => navigate('/')}
+              className="text-gray-400 hover:text-gold-primary transition-colors cursor-pointer"
+              title="Home"
+            >
+              <Home size={20} />
+            </button>
             <button className="relative text-gray-400 hover:text-gold-primary transition-colors cursor-pointer">
               <Bell size={20} />
               <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold-primary text-black-pure text-[10px] font-bold rounded-full flex items-center justify-center">
                 2
               </span>
+            </button>
+            <button
+              onClick={() => { clearStoredUser(); navigate('/login'); }}
+              className="text-gray-400 hover:text-gold-primary transition-colors cursor-pointer"
+              title="Sign out"
+            >
+              <LogOut size={20} />
             </button>
             <div className="w-8 h-8 rounded-full bg-gold-primary/20 flex items-center justify-center">
               <span className="text-gold-primary text-xs font-bold">PG</span>
@@ -326,7 +350,7 @@ export default function ParentPortal() {
                 <MessageCircle size={18} className="text-gold-primary" />
               </div>
               <div>
-                <p className="text-white font-bold text-sm">Coach Mike Thompson</p>
+                <p className="text-white font-bold text-sm">{trainer?.name || 'Coach'}</p>
                 <p className="text-gray-500 text-xs">Head Trainer</p>
               </div>
             </div>
@@ -359,13 +383,16 @@ export default function ParentPortal() {
               <textarea
                 value={customMessage}
                 onChange={e => setCustomMessage(e.target.value)}
-                placeholder="Type your message to Coach Thompson..."
+                placeholder={`Type your message to ${trainer?.name || 'Coach'}...`}
                 rows={3}
                 className="w-full bg-black-elevated border border-gray-800 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-gold-primary/50 resize-none"
               />
             </div>
 
-            <button className="w-full flex items-center justify-center gap-2 bg-gold-primary text-black-pure font-bold text-sm uppercase tracking-wider py-3 rounded-lg hover:bg-gold-bright transition-colors cursor-pointer">
+            <button
+              onClick={() => alert('Messaging will be available in the full version.')}
+              className="w-full flex items-center justify-center gap-2 bg-gold-primary text-black-pure font-bold text-sm uppercase tracking-wider py-3 rounded-lg hover:bg-gold-bright transition-colors cursor-pointer"
+            >
               <Send size={14} />
               Send Message
             </button>

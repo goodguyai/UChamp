@@ -100,3 +100,15 @@ export function getReadAlerts(recruiterId: string): string[] {
 export function saveReadAlerts(recruiterId: string, ids: string[]): void {
   setItem(`read_alerts_${recruiterId}`, ids);
 }
+
+export function hasWatchlist(recruiterId: string): boolean {
+  return localStorage.getItem(`${PREFIX}watchlist_${recruiterId}`) !== null;
+}
+
+export function getLoggedWorkouts(athleteId: string): { id: string; date: string; type: string; duration: number; verified: boolean }[] {
+  return getItem(`logged_workouts_${athleteId}`, []);
+}
+
+export function saveLoggedWorkouts(athleteId: string, workouts: { id: string; date: string; type: string; duration: number; verified: boolean }[]): void {
+  setItem(`logged_workouts_${athleteId}`, workouts);
+}

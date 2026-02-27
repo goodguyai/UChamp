@@ -1,10 +1,12 @@
 import { ATHLETES } from '../../lib/mockData';
+import { getStoredUser } from '../../lib/mockAuth';
 import PageLayout from '../../components/layout/PageLayout';
 import AICoachChat from '../../components/athlete/AICoachChat';
 import CoachInsightsPanel from '../../components/athlete/CoachInsightsPanel';
 
 export default function AICoachPage() {
-  const athlete = ATHLETES[0];
+  const user = getStoredUser();
+  const athlete = ATHLETES.find(a => a.id === user?.id) || ATHLETES[0];
 
   return (
     <PageLayout

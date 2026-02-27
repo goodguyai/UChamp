@@ -49,3 +49,8 @@ export function storeUser(user: AuthUser): void {
 export function clearStoredUser(): void {
   localStorage.removeItem('uchamp_user');
 }
+
+export function getStoredUserId(): string | null {
+  const user = getStoredUser();
+  return user?.id ?? null;
+}
