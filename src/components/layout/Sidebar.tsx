@@ -112,7 +112,7 @@ export default function Sidebar({ role, userName, userPhoto }: SidebarProps) {
             <p className="text-gray-500 text-xs capitalize">{role}</p>
           </div>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => { localStorage.removeItem('uchamp_user'); navigate('/'); }}
             className="text-gray-600 hover:text-gold-primary transition-colors cursor-pointer"
             title="Sign out"
           >

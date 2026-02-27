@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, Shield, Search, Heart, LogIn } from 'lucide-react';
+import { TrendingUp, Shield, Search, Heart, LogIn, UserPlus } from 'lucide-react';
 import GoldShimmerText from '../components/ui/GoldShimmerText';
 
 const roles = [
@@ -44,13 +44,22 @@ export default function Landing() {
       <div className="relative z-10 container mx-auto px-4 py-12 md:px-6 md:py-20">
         {/* Top bar */}
         <div className="flex justify-end mb-8">
-          <button
-            onClick={() => navigate('/login')}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-800 bg-black-card/50 text-gray-400 hover:border-gold-primary/50 hover:text-gold-primary transition-all cursor-pointer backdrop-blur-sm"
-          >
-            <LogIn size={16} />
-            <span className="text-sm font-semibold uppercase tracking-wider">Sign In</span>
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate('/signup')}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gold-primary text-black-pure hover:bg-gold-bright transition-all cursor-pointer"
+            >
+              <UserPlus size={16} />
+              <span className="text-sm font-bold uppercase tracking-wider">Sign Up</span>
+            </button>
+            <button
+              onClick={() => navigate('/login')}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-800 bg-black-card/50 text-gray-400 hover:border-gold-primary/50 hover:text-gold-primary transition-all cursor-pointer backdrop-blur-sm"
+            >
+              <LogIn size={16} />
+              <span className="text-sm font-semibold uppercase tracking-wider">Sign In</span>
+            </button>
+          </div>
         </div>
 
         {/* Logo */}

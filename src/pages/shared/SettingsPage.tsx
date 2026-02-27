@@ -133,7 +133,10 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
               <div>
                 <p className="text-white font-bold text-lg">{settings.name || userName}</p>
                 <p className="text-gray-500 text-sm capitalize">{role}</p>
-                <button className="text-gold-primary text-xs font-medium hover:underline mt-1 cursor-pointer">Change photo</button>
+                <label className="text-gold-primary text-xs font-medium hover:underline mt-1 cursor-pointer">
+                  Change photo
+                  <input type="file" accept="image/*" className="hidden" onChange={() => alert('Photo upload is available in the full version.')} />
+                </label>
               </div>
             </div>
 
@@ -175,7 +178,14 @@ export default function SettingsPage({ role, userName, userPhoto, userEmail = 'u
                 className="flex items-center gap-2 px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider bg-black-elevated text-gray-400 border border-gray-700 hover:border-red-500/50 hover:text-red-400 transition-all cursor-pointer">
                 <LogOut size={14} /> Sign Out
               </button>
-              <button className="px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider bg-black-elevated text-gray-500 border border-gray-700 hover:border-red-500/50 hover:text-red-400 transition-all cursor-pointer">
+              <button
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                    localStorage.clear();
+                    navigate('/');
+                  }
+                }}
+                className="px-4 py-2 rounded-md text-xs font-bold uppercase tracking-wider bg-black-elevated text-gray-500 border border-gray-700 hover:border-red-500/50 hover:text-red-400 transition-all cursor-pointer">
                 Delete Account
               </button>
             </div>

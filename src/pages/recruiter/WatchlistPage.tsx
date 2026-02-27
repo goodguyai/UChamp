@@ -3,16 +3,19 @@ import { Star, Eye, Trash2, FileText, TrendingUp, AlertCircle } from 'lucide-rea
 import { useNavigate } from 'react-router-dom';
 import { ATHLETES, RECRUITERS, getReliabilityColor, getReliabilityLabel } from '../../lib/mockData';
 import { WATCHLIST_NOTES } from '../../lib/recruiterData';
+import { getWatchlist, saveWatchlist, getScoutNotes, saveScoutNotes } from '../../lib/storage';
 import PageLayout from '../../components/layout/PageLayout';
 import Badge from '../../components/ui/Badge';
 
 export default function WatchlistPage() {
   const recruiter = RECRUITERS[0];
   const navigate = useNavigate();
-  const [watchlistIds, setWatchlistIds] = useState<Set<string>>(new Set(['ath-1', 'ath-4']));
-  const [notes, setNotes] = useState<Record<string, string>>(
-    Object.fromEntries(WATCHLIST_NOTES.map(n => [n.athleteId, n.note]))
-  );
+  const [watchlistIds, setWatchlistIds] = useState<Set<string>>(() => new Set(getWatchlist('rec-1').length ? getWatchlist('rec-1') : ['ath-1', 'ath-4']));
+  const [notes, setNotes] = useState<Record<string, string>>(() => {
+    const stored = getScoutNotes('rec-1');
+    const defaults = Object.fromEntries(WATCHLIST_NOTES.map(n => [n.athleteId, n.note]));
+    return Object.keys(stored).length > 0 ? { ...defaults, ...stored } : defaults;
+  });
   const [editingNote, setEditingNote] = useState<string | null>(null);
 
   const watchedAthletes = ATHLETES.filter(a => watchlistIds.has(a.id));
@@ -21,12 +24,15 @@ export default function WatchlistPage() {
     setWatchlistIds(prev => {
       const next = new Set(prev);
       next.delete(id);
+      saveWatchlist('rec-1', Array.from(next));
       return next;
     });
   };
 
   const updateNote = (athleteId: string, note: string) => {
-    setNotes(prev => ({ ...prev, [athleteId]: note }));
+    const updated = { ...notes, [athleteId]: note };
+    setNotes(updated);
+    saveScoutNotes('rec-1', updated);
     setEditingNote(null);
   };
 

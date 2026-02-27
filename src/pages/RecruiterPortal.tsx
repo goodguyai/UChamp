@@ -5,6 +5,7 @@ import { ATHLETES, RECRUITERS } from '../lib/mockData';
 import { getReliabilityColor, getReliabilityLabel } from '../lib/mockData';
 import Badge from '../components/ui/Badge';
 import PageLayout from '../components/layout/PageLayout';
+import { getWatchlist, saveWatchlist } from '../lib/storage';
 
 const POSITIONS = ['ALL', 'QB', 'RB', 'WR', 'TE', 'OL', 'DL', 'LB', 'DB'] as const;
 
@@ -14,7 +15,7 @@ export default function RecruiterPortal() {
   const [minScore, setMinScore] = useState(0);
   const [position, setPosition] = useState<string>('ALL');
   const navigate = useNavigate();
-  const [watchlist, setWatchlist] = useState<Set<string>>(new Set(['ath-1', 'ath-4']));
+  const [watchlist, setWatchlist] = useState<Set<string>>(() => new Set(getWatchlist('rec-1').length ? getWatchlist('rec-1') : ['ath-1', 'ath-4']));
   const [showFilters, setShowFilters] = useState(false);
 
   const filtered = useMemo(() => {
@@ -31,6 +32,7 @@ export default function RecruiterPortal() {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
+      saveWatchlist('rec-1', Array.from(next));
       return next;
     });
   };

@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import { ATHLETES } from '../../lib/mockData';
 import PageLayout from '../../components/layout/PageLayout';
-import WorkoutLogModal from '../../components/athlete/WorkoutLogModal';
+import WorkoutLogModal, { type WorkoutFormData } from '../../components/athlete/WorkoutLogModal';
 import Button from '../../components/ui/Button';
 
 type FilterType = 'all' | 'verified' | 'pending';
@@ -16,8 +16,9 @@ export default function WorkoutsPage() {
   const [showLog, setShowLog] = useState(false);
   const [filter, setFilter] = useState<FilterType>('all');
   const [view, setView] = useState<ViewType>('list');
+  const [loggedWorkouts, setLoggedWorkouts] = useState<typeof athlete.recentWorkouts>([]);
 
-  const allWorkouts = athlete.recentWorkouts;
+  const allWorkouts = [...loggedWorkouts, ...athlete.recentWorkouts];
   const filtered = filter === 'all'
     ? allWorkouts
     : filter === 'verified'
@@ -284,7 +285,16 @@ export default function WorkoutsPage() {
     {showLog && (
       <WorkoutLogModal
         onClose={() => setShowLog(false)}
-        onSubmit={() => setShowLog(false)}
+        onSubmit={(data: WorkoutFormData) => {
+          setLoggedWorkouts(prev => [{
+            id: `w-${Date.now()}`,
+            date: new Date().toISOString().split('T')[0],
+            type: data.type,
+            duration: data.duration,
+            verified: false,
+          }, ...prev]);
+          setShowLog(false);
+        }}
       />
     )}
     </>

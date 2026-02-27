@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, Bell, Eye, Trophy, TrendingUp, AlertTriangle, MessageSquare, Film, Target } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Notification {
   id: string;
@@ -12,6 +13,7 @@ interface Notification {
 
 interface NotificationCenterProps {
   onClose: () => void;
+  role?: 'athlete' | 'trainer' | 'recruiter';
 }
 
 const MOCK_NOTIFICATIONS: Notification[] = [
@@ -93,11 +95,25 @@ const TYPE_COLORS = {
   combine: 'text-gold-bronze bg-gold-bronze/10',
 };
 
-export default function NotificationCenter({ onClose }: NotificationCenterProps) {
+export default function NotificationCenter({ onClose, role = 'athlete' }: NotificationCenterProps) {
   const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
+  const navigate = useNavigate();
+
+  const markRead = (id: string) => {
+    setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
+  };
 
   const markAllRead = () => {
     setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  };
+
+  const getRoute = (type: string): string => {
+    const routes: Record<string, Record<string, string>> = {
+      athlete: { scout_alert: '/athlete/progress', verification: '/athlete/workouts', plateau: '/athlete/ai-coach', achievement: '/athlete/progress', message: '/athlete/messages', video: '/athlete/film-room', combine: '/athlete/combine-prep' },
+      trainer: { verification: '/trainer/verification', message: '/trainer/messages', scout_alert: '/trainer', plateau: '/trainer', achievement: '/trainer', video: '/trainer', combine: '/trainer' },
+      recruiter: { scout_alert: '/recruiter/alerts', verification: '/recruiter/alerts', message: '/recruiter', plateau: '/recruiter', achievement: '/recruiter', video: '/recruiter', combine: '/recruiter' },
+    };
+    return routes[role]?.[type] || `/${role}`;
   };
 
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -139,6 +155,7 @@ export default function NotificationCenter({ onClose }: NotificationCenterProps)
             return (
               <div
                 key={notif.id}
+                onClick={() => { markRead(notif.id); onClose(); navigate(getRoute(notif.type)); }}
                 className={`flex items-start gap-3 p-4 border-b border-gray-800/50 hover:bg-black-elevated/50 transition-colors cursor-pointer ${
                   !notif.read ? 'bg-gold-primary/[0.02]' : ''
                 }`}
@@ -165,7 +182,7 @@ export default function NotificationCenter({ onClose }: NotificationCenterProps)
 
         {/* Footer */}
         <div className="p-3 border-t border-gray-800 text-center">
-          <button className="text-gold-primary text-xs font-medium hover:underline cursor-pointer">
+          <button onClick={onClose} className="text-gold-primary text-xs font-medium hover:underline cursor-pointer">
             View All Notifications
           </button>
         </div>

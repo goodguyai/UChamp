@@ -120,7 +120,7 @@ export default function PageLayout({
                 </div>
               </div>
               <button
-                onClick={() => { setMobileMenuOpen(false); navigate('/'); }}
+                onClick={() => { setMobileMenuOpen(false); localStorage.removeItem('uchamp_user'); navigate('/'); }}
                 className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-gray-500 hover:text-white hover:bg-black-elevated w-full transition-all cursor-pointer"
               >
                 <LogOut size={18} />
@@ -157,7 +157,7 @@ export default function PageLayout({
 
       {/* Notification center */}
       {notificationsOpen && (
-        <NotificationCenter onClose={() => setNotificationsOpen(false)} />
+        <NotificationCenter onClose={() => setNotificationsOpen(false)} role={role} />
       )}
     </div>
   );

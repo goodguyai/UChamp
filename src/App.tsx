@@ -3,6 +3,8 @@ import { AppProvider } from './context/AppContext';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
+import RouteGuard from './components/auth/RouteGuard';
 // Athlete
 import AthleteDashboard from './pages/AthleteDashboard';
 import AICoachPage from './pages/athlete/AICoachPage';
@@ -42,35 +44,36 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             {/* Athlete routes */}
-            <Route path="/athlete" element={<AthleteDashboard />} />
-            <Route path="/athlete/workouts" element={<WorkoutsPage />} />
-            <Route path="/athlete/progress" element={<ProgressPage />} />
-            <Route path="/athlete/ai-coach" element={<AICoachPage />} />
-            <Route path="/athlete/film-room" element={<FilmRoomPage />} />
-            <Route path="/athlete/combine-prep" element={<CombinePrepPage />} />
-            <Route path="/athlete/messages" element={<AthleteMessagesPage />} />
-            <Route path="/athlete/settings" element={<AthleteSettingsPage />} />
-            <Route path="/athlete/*" element={<AthleteDashboard />} />
+            <Route path="/athlete" element={<RouteGuard role="athlete"><AthleteDashboard /></RouteGuard>} />
+            <Route path="/athlete/workouts" element={<RouteGuard role="athlete"><WorkoutsPage /></RouteGuard>} />
+            <Route path="/athlete/progress" element={<RouteGuard role="athlete"><ProgressPage /></RouteGuard>} />
+            <Route path="/athlete/ai-coach" element={<RouteGuard role="athlete"><AICoachPage /></RouteGuard>} />
+            <Route path="/athlete/film-room" element={<RouteGuard role="athlete"><FilmRoomPage /></RouteGuard>} />
+            <Route path="/athlete/combine-prep" element={<RouteGuard role="athlete"><CombinePrepPage /></RouteGuard>} />
+            <Route path="/athlete/messages" element={<RouteGuard role="athlete"><AthleteMessagesPage /></RouteGuard>} />
+            <Route path="/athlete/settings" element={<RouteGuard role="athlete"><AthleteSettingsPage /></RouteGuard>} />
+            <Route path="/athlete/*" element={<RouteGuard role="athlete"><AthleteDashboard /></RouteGuard>} />
             {/* Trainer routes */}
-            <Route path="/trainer" element={<TrainerDashboard />} />
-            <Route path="/trainer/athletes" element={<AthletesPage />} />
-            <Route path="/trainer/verification" element={<VerificationPage />} />
-            <Route path="/trainer/portfolio" element={<PortfolioPage />} />
-            <Route path="/trainer/messages" element={<TrainerMessagesPage />} />
-            <Route path="/trainer/athlete/:id" element={<AthleteDetailPage />} />
-            <Route path="/trainer/settings" element={<TrainerSettingsPage />} />
-            <Route path="/trainer/*" element={<TrainerDashboard />} />
+            <Route path="/trainer" element={<RouteGuard role="trainer"><TrainerDashboard /></RouteGuard>} />
+            <Route path="/trainer/athletes" element={<RouteGuard role="trainer"><AthletesPage /></RouteGuard>} />
+            <Route path="/trainer/verification" element={<RouteGuard role="trainer"><VerificationPage /></RouteGuard>} />
+            <Route path="/trainer/portfolio" element={<RouteGuard role="trainer"><PortfolioPage /></RouteGuard>} />
+            <Route path="/trainer/messages" element={<RouteGuard role="trainer"><TrainerMessagesPage /></RouteGuard>} />
+            <Route path="/trainer/athlete/:id" element={<RouteGuard role="trainer"><AthleteDetailPage /></RouteGuard>} />
+            <Route path="/trainer/settings" element={<RouteGuard role="trainer"><TrainerSettingsPage /></RouteGuard>} />
+            <Route path="/trainer/*" element={<RouteGuard role="trainer"><TrainerDashboard /></RouteGuard>} />
             {/* Recruiter routes */}
-            <Route path="/recruiter" element={<RecruiterPortal />} />
-            <Route path="/recruiter/search" element={<SearchPage />} />
-            <Route path="/recruiter/compare" element={<ComparePage />} />
-            <Route path="/recruiter/athlete/:id" element={<AthleteProfilePage />} />
-            <Route path="/recruiter/watchlist" element={<WatchlistPage />} />
-            <Route path="/recruiter/alerts" element={<AlertsPage />} />
-            <Route path="/recruiter/reports" element={<ReportsPage />} />
-            <Route path="/recruiter/settings" element={<RecruiterSettingsPage />} />
-            <Route path="/recruiter/*" element={<RecruiterPortal />} />
+            <Route path="/recruiter" element={<RouteGuard role="recruiter"><RecruiterPortal /></RouteGuard>} />
+            <Route path="/recruiter/search" element={<RouteGuard role="recruiter"><SearchPage /></RouteGuard>} />
+            <Route path="/recruiter/compare" element={<RouteGuard role="recruiter"><ComparePage /></RouteGuard>} />
+            <Route path="/recruiter/athlete/:id" element={<RouteGuard role="recruiter"><AthleteProfilePage /></RouteGuard>} />
+            <Route path="/recruiter/watchlist" element={<RouteGuard role="recruiter"><WatchlistPage /></RouteGuard>} />
+            <Route path="/recruiter/alerts" element={<RouteGuard role="recruiter"><AlertsPage /></RouteGuard>} />
+            <Route path="/recruiter/reports" element={<RouteGuard role="recruiter"><ReportsPage /></RouteGuard>} />
+            <Route path="/recruiter/settings" element={<RouteGuard role="recruiter"><RecruiterSettingsPage /></RouteGuard>} />
+            <Route path="/recruiter/*" element={<RouteGuard role="recruiter"><RecruiterPortal /></RouteGuard>} />
             {/* Parent portal */}
             <Route path="/parent" element={<ParentPortal />} />
             {/* 404 */}

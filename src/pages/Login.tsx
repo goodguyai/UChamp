@@ -113,6 +113,12 @@ export default function Login() {
           </div>
         </div>
 
+        {/* Sign up link */}
+        <p className="text-center text-gray-500 text-sm mt-6">
+          Don't have an account?{' '}
+          <Link to="/signup" className="text-gold-primary font-medium hover:underline">Create one</Link>
+        </p>
+
         {/* Bottom */}
         <p className="text-center text-gray-600 text-xs mt-8 uppercase tracking-wider">
           Pilot Program · Lithonia, GA

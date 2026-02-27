@@ -9,13 +9,15 @@ import RetentionScore from '../components/athlete/RetentionScore';
 import StatsGrid from '../components/athlete/StatsGrid';
 import TrendChart from '../components/athlete/TrendChart';
 import WorkoutList from '../components/athlete/WorkoutList';
-import WorkoutLogModal from '../components/athlete/WorkoutLogModal';
+import WorkoutLogModal, { type WorkoutFormData } from '../components/athlete/WorkoutLogModal';
 import Button from '../components/ui/Button';
 
 export default function AthleteDashboard() {
   const athlete = ATHLETES[0]; // Marcus Johnson
   const [showWorkoutLog, setShowWorkoutLog] = useState(false);
   const navigate = useNavigate();
+  const [loggedWorkouts, setLoggedWorkouts] = useState<typeof athlete.recentWorkouts>([]);
+  const athleteWithLoggedWorkouts = { ...athlete, recentWorkouts: [...loggedWorkouts, ...athlete.recentWorkouts] };
 
   return (
     <>
@@ -291,7 +293,7 @@ export default function AthleteDashboard() {
 
       {/* Workouts section */}
       <div className="mt-6 md:mt-8">
-        <WorkoutList athlete={athlete} />
+        <WorkoutList athlete={athleteWithLoggedWorkouts} />
       </div>
 
       {/* Bottom motivational */}
@@ -306,7 +308,16 @@ export default function AthleteDashboard() {
     {showWorkoutLog && (
       <WorkoutLogModal
         onClose={() => setShowWorkoutLog(false)}
-        onSubmit={() => setShowWorkoutLog(false)}
+        onSubmit={(data: WorkoutFormData) => {
+          setLoggedWorkouts(prev => [{
+            id: `w-${Date.now()}`,
+            date: new Date().toISOString().split('T')[0],
+            type: data.type,
+            duration: data.duration,
+            verified: false,
+          }, ...prev]);
+          setShowWorkoutLog(false);
+        }}
       />
     )}
     </>

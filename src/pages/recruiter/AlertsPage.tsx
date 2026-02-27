@@ -5,6 +5,7 @@ import { RECRUITERS } from '../../lib/mockData';
 import { SCOUT_ALERTS, ALERT_TYPE_CONFIG } from '../../lib/recruiterData';
 import type { ScoutAlert } from '../../lib/recruiterData';
 import PageLayout from '../../components/layout/PageLayout';
+import { getReadAlerts, saveReadAlerts } from '../../lib/storage';
 
 type FilterType = 'all' | ScoutAlert['type'];
 
@@ -20,7 +21,10 @@ const FILTER_OPTIONS: { value: FilterType; label: string }[] = [
 export default function AlertsPage() {
   const recruiter = RECRUITERS[0];
   const navigate = useNavigate();
-  const [alerts, setAlerts] = useState(SCOUT_ALERTS);
+  const [alerts, setAlerts] = useState(() => {
+    const readIds = getReadAlerts('rec-1');
+    return SCOUT_ALERTS.map(a => readIds.includes(a.id) ? { ...a, read: true } : a);
+  });
   const [filter, setFilter] = useState<FilterType>('all');
   const [showFilterBar, setShowFilterBar] = useState(false);
   const [alertPrefs, setAlertPrefs] = useState<Record<string, boolean>>({
@@ -38,11 +42,19 @@ export default function AlertsPage() {
     : alerts.filter(a => a.type === filter);
 
   const markRead = (id: string) => {
-    setAlerts(prev => prev.map(a => a.id === id ? { ...a, read: true } : a));
+    setAlerts(prev => {
+      const updated = prev.map(a => a.id === id ? { ...a, read: true } : a);
+      saveReadAlerts('rec-1', updated.filter(a => a.read).map(a => a.id));
+      return updated;
+    });
   };
 
   const markAllRead = () => {
-    setAlerts(prev => prev.map(a => ({ ...a, read: true })));
+    setAlerts(prev => {
+      const updated = prev.map(a => ({ ...a, read: true }));
+      saveReadAlerts('rec-1', updated.map(a => a.id));
+      return updated;
+    });
   };
 
   const getPriorityBorder = (priority: ScoutAlert['priority']) => {
